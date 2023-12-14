@@ -5,8 +5,8 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from 'react-router-dom'
-import SignIn from './pages/Signin.jsx'
-import SignUp from './pages/Signup.jsx'
+import SignIn from './pages/SignIn.jsx'
+import SignUp from './pages/SignUp.jsx'
 import Home from './pages/Home.jsx'
 
 export const URL = 'http://localhost:3333/'

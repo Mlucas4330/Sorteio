@@ -1,6 +1,6 @@
 import React from 'react'
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
-import { InputGroup, Input, Grid, GridItem, InputRightElement, Text, IconButton, useToast, Center, Box } from '@chakra-ui/react'
+import { InputGroup, Input, Grid, GridItem, InputRightElement, IconButton, useToast, Center, Box } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 import { URL } from '../main'
@@ -25,9 +25,7 @@ function Chat() {
             setMessages([...messages, msg])
             setScroll(true)
         })
-
-        chatRef.current.scrollTop = chatRef.current.scrollHeight
-                    
+    
         setSocket(socket)
 
         return () => {
@@ -79,11 +77,11 @@ function Chat() {
                     {scroll && <IconButton onClick={handleScroll} position={'absolute'} width={'10px'} borderRadius={'md'} top={'70%'} left={'48%'} icon={<ArrowDownIcon />} />}
                     {messages.map((msg, i) => (
                         <Box key={i} px={3}>
-                            <Text mb={3}>
-                                <Text fontSize='xl' fontWeight={'bold'}>{isAuthenticated === msg.token ? 'Você' : msg.user.username}</Text>
-                                <Text fontSize='md'>{msg.text}</Text>
-                                <Text fontSize='sm'>{formatTimestamp(msg.createdAt)}</Text>
-                            </Text>
+                            <div>                      
+                                <span style={{ fontSize: 'xl', fontWeight: 'bold' }}>{isAuthenticated === msg.token ? 'Você' : msg.user.username}</span>
+                                <p style={{ fontSize: 'md' }}>{msg.text}</p>
+                                <div style={{ fontSize: 'sm' }}>{formatTimestamp(msg.createdAt)}</div>
+                            </div>
                         </Box>
                     ))}
                 </GridItem>

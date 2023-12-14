@@ -2,6 +2,7 @@ import { currentPrizedraw, startPrizedraw } from '../services/prizedrawService.j
 import { pixSend }  from '../services/pixService.js'
 import Deposit from '../models/depositModel.js'
 import User from '../models/userModel.js'
+import { deleteAllMessages } from '../services/messageService.js'
 
 const resetPrizedraw = async () => {
   try {
@@ -26,6 +27,9 @@ const resetPrizedraw = async () => {
     await prizedraw.save()
 
     await startPrizedraw()
+
+    await deleteAllMessages()
+
   } catch (error) {
     console.log(error)
   }

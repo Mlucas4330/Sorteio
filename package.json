@@ -2,16 +2,18 @@
   "name": "sorteio",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "server-install": "npm install --prefix server",
-    "install": "npm run client-install && npm run server-install",
-    "client": "npm run dev --prefix client",
-    "server": "npm run dev --prefix server",
-    "dev": "npm run client & npm run server"
+    "client-install": "cd client && npm install",
+    "server-install": "cd server && npm install",
+    "install": "npm run server-install && npm run client-install",
+    "client": "cd client && npm run dev",
+    "server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
