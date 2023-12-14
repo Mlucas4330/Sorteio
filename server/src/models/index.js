@@ -1,9 +1,9 @@
-const User = require('./userModel')
-const Deposit = require('./depositModel')
-const Prizedraw = require('./prizedrawModel')
-const Message = require('./messageModel')
+import User from './userModel.js'
+import Deposit from './depositModel.js'
+import Prizedraw from './prizedrawModel.js'
+import Message from './messageModel.js'
 
-module.exports = () => {
+const associations = () => {
   Prizedraw.belongsTo(User)
   Prizedraw.hasMany(Deposit)
   Deposit.belongsTo(User)
@@ -12,3 +12,5 @@ module.exports = () => {
   User.hasMany(Message)
   Message.belongsTo(User)
 }
+
+export default associations

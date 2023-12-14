@@ -1,8 +1,8 @@
-const express = require('express')
-const { index } = require('../controllers/prizedrawController')
+import { Router } from 'express'
+import { index }  from '../controllers/prizedrawController.js'
 
-const prizedrawRouter = express.Router()
+const prizedrawRouter = Router()
 
 prizedrawRouter.get('/amount', index)
 
-module.exports = prizedrawRouter
+export default prizedrawRouter

@@ -1,18 +1,18 @@
 {
-  "name": "sorteio",
+  "name": "sorteio-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon ./src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": ""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.31.2",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -27,11 +27,7 @@
     "socket.io": "^4.7.2"
   },
   "devDependencies": {
-    "eslint": "^8.52.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-n": "^16.2.0",
-    "eslint-plugin-promise": "^6.1.1",
+    "eslint": "^8.55.0",
     "nodemon": "^3.0.1"
   }
 }

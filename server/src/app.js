@@ -1,22 +1,24 @@
-const express = require('express')
-const cors = require('cors')
-require('dotenv').config()
-const db = require('./config/databaseConfig')
-const userRouter = require('./routes/userRoutes')
-const prizedrawRouter = require('./routes/prizedrawRouter')
-const depositRouter = require('./routes/depositRouter')
-const associateModels = require('./models/index')
-const { createServer } = require('http')
-const socket = require('./socket/socket')
-const cron = require('node-cron')
-const { resetPrizedraw } = require('./jobs/prizedrawJob')
+import express, { json } from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import db from './config/databaseConfig.js'
+import userRouter from './routes/userRoutes.js'
+import prizedrawRouter from './routes/prizedrawRouter.js'
+import depositRouter from './routes/depositRouter.js'
+import associations from './models/index.js'
+import { createServer } from 'http'
+import socket from './socket/socket.js'
+import { schedule } from 'node-cron'
+import { resetPrizedraw } from './jobs/prizedrawJob.js'
 
 const main = async () => {
   const app = express()
   const server = createServer(app)
 
+  dotenv.config()
+
   app.use(cors())
-  app.use(express.json())
+  app.use(json())
 
   app.use(userRouter)
   app.use(prizedrawRouter)
@@ -25,13 +27,13 @@ const main = async () => {
   const port = process.env.PORT || 3000
 
   try {
-    associateModels()
+    associations()
 
     socket(server)
 
     await db.sync({ alter: true })
 
-    cron.schedule('0 0 0 * * *', resetPrizedraw, {
+    schedule('0 0 0 * * *', resetPrizedraw, {
       scheduled: true,
       timezone: 'America/Sao_Paulo'
     })

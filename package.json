@@ -1,0 +1,17 @@
+{
+  "name": "sorteio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "server-install": "npm install --prefix server",
+    "install": "npm run client-install && npm run server-install",
+    "client": "npm run dev --prefix client",
+    "server": "npm run dev --prefix server",
+    "dev": "npm run client & npm run server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/userModel')
-const argon2 = require('argon2')
+import sign from 'jsonwebtoken'
+import User from '../models/userModel.js'
+import { verify, hash } from 'argon2'
 
 const signin = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ const signin = async (req, res) => {
       })
     }
 
-    const result = await argon2.verify(user.password, password)
+    const result = await verify(user.password, password)
 
     if (!result) {
       return res.status(401).json({
@@ -26,7 +26,7 @@ const signin = async (req, res) => {
       })
     }
 
-    const token = jwt.sign({ user }, process.env.SECRET)
+    const token = sign({ user }, process.env.SECRET)
 
     res.json({
       data: { user, token },
@@ -47,7 +47,7 @@ const signup = async (req, res) => {
   const { username, email, password, pix } = req.body
 
   try {
-    const hashedPass = await argon2.hash(password)
+    const hashedPass = await hash(password)
 
     await User.create({ username, email, password: hashedPass, pix })
 
@@ -61,4 +61,4 @@ const currentUser = async (req, res) => {
   res.json({ data: { user: req.user } })
 }
 
-module.exports = { signin, signup, currentUser }
+export { signin, signup, currentUser }

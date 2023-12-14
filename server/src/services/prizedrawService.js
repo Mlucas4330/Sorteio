@@ -1,5 +1,5 @@
-const Deposit = require('../models/depositModel')
-const Prizedraw = require('../models/prizedrawModel')
+import Deposit from '../models/depositModel.js'
+import Prizedraw from '../models/prizedrawModel.js'
 
 const currentPrizedraw = async () => {
   const prizedraw = await Prizedraw.findOne({
@@ -16,4 +16,4 @@ const startPrizedraw = async () => {
   return await Prizedraw.create({})
 }
 
-module.exports = { currentPrizedraw, startPrizedraw }
+export { currentPrizedraw, startPrizedraw }

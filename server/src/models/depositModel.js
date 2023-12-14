@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize')
-const db = require('../config/databaseConfig')
+import { DataTypes } from 'sequelize'
+import db from '../config/databaseConfig.js'
 
 const Deposit = db.define('deposit', {
   amount: {
@@ -14,4 +14,4 @@ const Deposit = db.define('deposit', {
   }
 })
 
-module.exports = Deposit
+export default Deposit

@@ -1,5 +1,5 @@
-const EfiPay = require('sdk-node-apis-efi')
-const options = require('../config/efipayConfig')
+import EfiPay from 'sdk-node-apis-efi'
+import options from '../config/efipayConfig.js'
 
 const pixCharge = async (amount) => {
   const efipay = new EfiPay(options)
@@ -50,7 +50,7 @@ const getTaxedValue = (amount) => {
 const webhook = async (req, res) => {
   const efipay = new EfiPay(options)
 
-  options.validateMtls = false
+  validateMtls = false
 
   const body = {
     webhookUrl: 'http://localhost:3333/webhook'
@@ -67,4 +67,4 @@ const webhook = async (req, res) => {
   }
 }
 
-module.exports = { pixCharge, pixSend, webhook }
+export { pixCharge, pixSend, webhook }

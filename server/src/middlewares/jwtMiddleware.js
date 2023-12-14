@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+import verify from 'jsonwebtoken'
 
 const verifyJWT = (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ const verifyJWT = (req, res, next) => {
       return next(new Error('Não há token'))
     }
 
-    const payload = jwt.verify(token, process.env.SECRET)
+    const payload = verify(token, process.env.SECRET)
 
     req.user = payload.user
 
@@ -24,4 +24,4 @@ const verifyJWT = (req, res, next) => {
   }
 }
 
-module.exports = { verifyJWT }
+export { verifyJWT }

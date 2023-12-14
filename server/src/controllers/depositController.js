@@ -1,4 +1,4 @@
-const { pixCharge } = require('../services/pixService')
+import { pixCharge } from '../services/pixService.js'
 
 const deposit = async (req, res) => {
   const { amount } = req.body
@@ -12,4 +12,4 @@ const deposit = async (req, res) => {
   }
 }
 
-module.exports = { deposit }
+export { deposit }

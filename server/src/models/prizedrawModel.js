@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize')
-const db = require('../config/databaseConfig')
+import { DataTypes } from 'sequelize'
+import db from '../config/databaseConfig.js'
 
 const Prizedraw = db.define('prizedraw', {
   finished: {
@@ -8,4 +8,4 @@ const Prizedraw = db.define('prizedraw', {
   }
 })
 
-module.exports = Prizedraw
+export default Prizedraw

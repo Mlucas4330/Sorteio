@@ -1,9 +1,9 @@
-const express = require('express')
-const { deposit } = require('../controllers/depositController')
-const { verifyJWT } = require('../middlewares/jwtMiddleware')
+import { Router } from 'express'
+import { deposit } from '../controllers/depositController.js'
+import { verifyJWT } from '../middlewares/jwtMiddleware.js'
 
-const depositRouter = express.Router()
+const depositRouter = Router()
 
 depositRouter.post('/deposit', verifyJWT, deposit)
 
-module.exports = depositRouter
+export default depositRouter

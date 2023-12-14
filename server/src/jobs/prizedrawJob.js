@@ -1,7 +1,7 @@
-const { currentPrizedraw, startPrizedraw } = require('../services/prizedrawService')
-const { pixSend } = require('../services/pixService')
-const Deposit = require('../models/depositModel')
-const User = require('../models/userModel')
+import { currentPrizedraw, startPrizedraw } from '../services/prizedrawService.js'
+import { pixSend }  from '../services/pixService.js'
+import Deposit from '../models/depositModel.js'
+import User from '../models/userModel.js'
 
 const resetPrizedraw = async () => {
   try {
@@ -31,4 +31,4 @@ const resetPrizedraw = async () => {
   }
 }
 
-module.exports = { resetPrizedraw }
+export { resetPrizedraw }

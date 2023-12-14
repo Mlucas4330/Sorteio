@@ -1,7 +1,7 @@
-const { Server } = require('socket.io')
-const jwt = require('jsonwebtoken')
-const Message = require('../models/messageModel')
-const User = require('../models/userModel')
+import { Server } from 'socket.io'
+import verify from 'jsonwebtoken'
+import Message from '../models/messageModel.js'
+import User from '../models/userModel.js'
 
 const socket = server => {
   const io = new Server(server, {
@@ -19,7 +19,7 @@ const socket = server => {
 
     socket.on('chat message', async payload => {
       try {
-        const decodedUser = jwt.verify(payload.token, process.env.SECRET)
+        const decodedUser = verify(payload.token, process.env.SECRET)
 
         const message = await Message.create({
           userId: decodedUser.user.id,
@@ -39,4 +39,4 @@ const socket = server => {
   })
 }
 
-module.exports = socket
+export default socket

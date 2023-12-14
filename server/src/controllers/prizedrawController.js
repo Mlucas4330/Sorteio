@@ -1,4 +1,4 @@
-const { currentPrizedraw } = require('../services/prizedrawService')
+import { currentPrizedraw } from '../services/prizedrawService.js'
 
 const index = async (_req, res) => {
   try {
@@ -12,4 +12,4 @@ const index = async (_req, res) => {
   }
 }
 
-module.exports = { index }
+export { index }
