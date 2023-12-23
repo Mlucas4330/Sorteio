@@ -1,15 +1,15 @@
 import express, { json } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import db from './config/databaseConfig.js'
-import userRouter from './routes/userRoutes.js'
-import prizedrawRouter from './routes/prizedrawRouter.js'
-import depositRouter from './routes/depositRouter.js'
-import associations from './models/index.js'
+import db from './src/config/databaseConfig.js'
+import userRouter from './src/routes/userRoutes.js'
+import prizedrawRouter from './src/routes/prizedrawRouter.js'
+import depositRouter from './src/routes/depositRouter.js'
+import associations from './src/models/index.js'
 import { createServer } from 'http'
-import socket from './socket/socket.js'
+import socket from './src/socket/socket.js'
 import { schedule } from 'node-cron'
-import { resetPrizedraw } from './jobs/prizedrawJob.js'
+import { resetPrizedraw } from './src/jobs/prizedrawJob.js'
 
 const main = async () => {
   const app = express()

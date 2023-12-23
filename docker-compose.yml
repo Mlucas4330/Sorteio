@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - DB_USER: ${DB_USER}
+      - DB_PASS: ${DB_PASS}
+  api:
+    build: ./server/Dockerfile
+    depends_on:
+      - db
+  client:
+    build: ./client/Dockerfile
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

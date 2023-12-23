@@ -9,7 +9,7 @@ import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Home from './pages/Home.jsx'
 
-export const URL = 'http://localhost:3333/'
+export const URL = import.meta.env.URL
 
 const router = createBrowserRouter([
     {

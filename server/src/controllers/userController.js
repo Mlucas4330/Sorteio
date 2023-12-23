@@ -1,6 +1,6 @@
 import sign from 'jsonwebtoken'
 import User from '../models/userModel.js'
-import { verify, hash } from 'argon2'
+import bcrypt from 'bcrypt'
 
 const signin = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ const signin = async (req, res) => {
       })
     }
 
-    const result = await verify(user.password, password)
+    const result = await bcrypt.compare(user.password, password)
 
     if (!result) {
       return res.status(401).json({
@@ -47,7 +47,7 @@ const signup = async (req, res) => {
   const { username, email, password, pix } = req.body
 
   try {
-    const hashedPass = await hash(password)
+    const hashedPass = await bcrypt.hash(password, 10)
 
     await User.create({ username, email, password: hashedPass, pix })
 

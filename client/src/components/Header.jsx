@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { ArrowBackIcon, ChevronRightIcon, HamburgerIcon, SettingsIcon } from '@chakra-ui/icons'
 import { Flex, Button, Menu, MenuButton, MenuItem, MenuList, useDisclosure, Box } from '@chakra-ui/react'
 import UserModal from './UserModal'

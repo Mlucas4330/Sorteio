@@ -1,4 +1,3 @@
-import React from 'react'
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { InputGroup, Input, Grid, GridItem, InputRightElement, IconButton, useToast, Center, Box } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
