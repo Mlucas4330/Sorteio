@@ -15,7 +15,9 @@ const main = async () => {
   const app = express()
   const server = createServer(app)
 
-  dotenv.config()
+  dotenv.config({
+    path: '../.env'
+  })
 
   app.use(cors())
   app.use(json())

@@ -1,18 +1,25 @@
 import { Sequelize } from 'sequelize'
 import dotenv from 'dotenv'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-dotenv.config()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-const DB_NAME = process.env.NODE_ENV === 'development' ? process.env.DEV_DB_NAME : process.env.PROD_DB_NAME
+dotenv.config({
+  path: path.resolve(__dirname, '../../../.env')
+})
 
-const db = new Sequelize({
-  host: process.env.DB_HOST,
-  dialect: 'postgres',
-  port: 5432,
-  logging: process.env.DB_LOG === 'true',
-  password: process.env.DB_PASS,
-  username: process.env.DB_USER,
-  database: DB_NAME
+const uri = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:5432/${process.env.POSTGRES_DB}`
+
+const db = new Sequelize(uri, {
+  logging: process.env.POSTGRES_LOG === 'true',
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
 })
 
 export default db
