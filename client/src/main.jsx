@@ -8,8 +8,12 @@ import {
 import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Home from './pages/Home.jsx'
+import dotenv from 'dotenv'
 
-export const URL = import.meta.env.URL
+dotenv.config({
+    path: '../../../.env'
+})
+export const URL = process.env.URL
 
 const router = createBrowserRouter([
     {

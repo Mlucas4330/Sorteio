@@ -142,7 +142,7 @@ function SignUp() {
                             {errors.pix && <FormErrorMessage>{errors.pix.message}</FormErrorMessage>}
                         </FormControl>
 
-                        <Button colorScheme='green'>Cadastrar</Button>
+                        <Button type='submit' colorScheme='green'>Cadastrar</Button>
                     </form>
 
                     <Text mt={3}>

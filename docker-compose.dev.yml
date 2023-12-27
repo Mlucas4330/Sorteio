@@ -5,6 +5,7 @@ services:
     image: postgres:latest
     ports:
       - 5432:5432
+    restart: always
     environment:
       - POSTGRES_DB=dev_sorteio
       - POSTGRES_USER=${POSTGRES_USER}
@@ -14,7 +15,8 @@ services:
   api:
     build: ./server
     ports:
-      - 8080:8080
+      - 3000:3000
+    restart: always
     environment:
       - POSTGRES_HOST=database
       - POSTGRES_DB=dev_sorteio
@@ -26,6 +28,7 @@ services:
     build: ./client
     ports:
       - 5173:5173
+    restart: always
     environment:
       - VITE_URL=${VITE_URL}
     depends_on:
