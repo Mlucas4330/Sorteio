@@ -12,23 +12,19 @@ import { schedule } from 'node-cron'
 import { resetPrizedraw } from './src/jobs/prizedrawJob.js'
 
 const main = async () => {
-  const app = express()
-  const server = createServer(app)
-
-  dotenv.config({
-    path: '../.env'
-  })
-
-  app.use(cors())
-  app.use(json())
-
-  app.use(userRouter)
-  app.use(prizedrawRouter)
-  app.use(depositRouter)
-
-  const port = process.env.PORT || 3000
-
   try {
+    const app = express()
+    const server = createServer(app)
+  
+    dotenv.config()
+  
+    app.use(cors())
+    app.use(json())
+  
+    app.use(userRouter)
+    app.use(prizedrawRouter)
+    app.use(depositRouter)
+
     associations()
 
     socket(server)
@@ -40,9 +36,7 @@ const main = async () => {
       timezone: 'America/Sao_Paulo'
     })
 
-    server.listen(port, () => {
-      console.log('Server running on port: ' + port)
-    })
+    server.listen(process.env.PORT)
   } catch (err) {
     console.log(err)
   }

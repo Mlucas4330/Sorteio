@@ -22,7 +22,7 @@ import {
     Text
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { URL } from '../main'
+import { URL } from '../index'
 
 function DepositModal() {
     const { onOpen, isOpen, onClose } = useDisclosure()
@@ -88,7 +88,7 @@ function DepositModal() {
     return (
         <>
             <Button colorScheme="green" position={'fixed'} bottom={10} left={10} onClick={onOpen}>
-            Depositar
+                Depositar
             </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -100,7 +100,7 @@ function DepositModal() {
                     <ModalBody>
                         <InputGroup>
                             <InputLeftAddon>
-                            R$
+                                R$
                             </InputLeftAddon>
                             <NumberInput w={'100%'} min={1.00} defaultValue={1.00} precision={2} step={0.01}>
                                 <NumberInputField value={amount} onChange={e => setAmount(e.target.value)} borderRadius={0} />
@@ -112,19 +112,19 @@ function DepositModal() {
                         </InputGroup>
 
                         {qrCode &&
-              <Grid textAlign={'center'}>
-                  <Grid justifyContent={'center'}>
-                      <Image src={qrCode} alt="qrcode" />
-                  </Grid>
-                  <Text>Escaneie o QrCode acima para finalizar o depósito!</Text>
-              </Grid>
+                            <Grid textAlign={'center'}>
+                                <Grid justifyContent={'center'}>
+                                    <Image src={qrCode} alt="qrcode" />
+                                </Grid>
+                                <Text>Escaneie o QrCode acima para finalizar o depósito!</Text>
+                            </Grid>
                         }
 
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap={2}>
                             <Button colorScheme='red' onClick={onClose}>
-                            Fechar
+                                Fechar
                             </Button>
                             <Button isLoading={loading} loadingText='Gerando' spinnerPlacement='end' onClick={handleDeposit} colorScheme='green'>Depositar</Button>
                         </Flex>

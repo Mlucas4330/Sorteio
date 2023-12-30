@@ -12,27 +12,39 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data 
-  api:
-    build: ./server
+  server:
+    image: node:lts-alpine
     ports:
-      - 3000:3000
-    restart: always
+      - ${PORT}:${PORT}
+    restart: unless-stopped
+    working_dir: /app
+    env_file:
+      - ./server/.env
     environment:
       - POSTGRES_HOST=database
       - POSTGRES_DB=dev_sorteio
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./server:/app
+    command: 'npm run dev'
     depends_on:
       - database
   client:
-    build: ./client
+    image: node:lts-alpine
     ports:
-      - 5173:5173
-    restart: always
-    environment:
-      - VITE_URL=${VITE_URL}
+      - 3000:3000
+    restart: unless-stopped
+    working_dir: /app
+    env_file:
+      - ./client/.env
+    volumes:
+      - ./client:/app
+    command: 'npm run dev'
     depends_on:
-      - api                                                                       
+      - server                                                                       
 
 volumes:
   postgres_data:
+  server:
+  client:

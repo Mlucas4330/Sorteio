@@ -5,7 +5,7 @@ import DepositModal from '../components/DepositModal'
 import Header from '../components/Header'
 import Timer from '../components/Timer'
 import { Highlight, Heading } from '@chakra-ui/react'
-import { URL } from '../main'
+import { URL } from '../index'
 
 function Home(){
     const [amount, setAmount] = useState('')

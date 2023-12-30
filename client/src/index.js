@@ -8,12 +8,8 @@ import {
 import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Home from './pages/Home.jsx'
-import dotenv from 'dotenv'
 
-dotenv.config({
-    path: '../../../.env'
-})
-export const URL = process.env.URL
+export const URL = process.env.REACT_APP_URL
 
 const router = createBrowserRouter([
     {

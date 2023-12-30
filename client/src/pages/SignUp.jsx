@@ -13,7 +13,7 @@ import {
     FormErrorMessage
 } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { URL } from '../main'
+import { URL } from '../index'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -116,7 +116,7 @@ function SignUp() {
             </header>
 
             <Center h={'100vh'}>
-                <Box w={'50%'}>
+                <Box w={{ sm: '70%', md: '50%' }}>
                     <form onSubmit={handleSubmit(handleUser)}>
                         <FormControl mb={3} isRequired>
                             <FormLabel>Usuário</FormLabel>
@@ -126,13 +126,13 @@ function SignUp() {
 
                         <FormControl mb={3} isRequired>
                             <FormLabel>Email</FormLabel>
-                            <Input {...register('email')} />
+                            <Input type='email' {...register('email')} />
                             {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
                         </FormControl>
 
                         <FormControl mb={3} isRequired>
                             <FormLabel>Senha</FormLabel>
-                            <Input {...register('passowrd')} />
+                            <Input type='password' {...register('passowrd')} />
                             {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
                         </FormControl>
 

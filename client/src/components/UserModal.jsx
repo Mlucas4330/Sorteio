@@ -9,7 +9,7 @@ import {
     Text,
     Box,
 } from '@chakra-ui/react'
-import { URL } from '../main'
+import { URL } from '../index'
 
 function UserModal({ isOpen, onClose }) {
     const isAuthenticated = localStorage.getItem('token')
@@ -27,11 +27,11 @@ function UserModal({ isOpen, onClose }) {
         setUser(data.user)
     }
 
-    if(isAuthenticated){
-        useEffect(() => {
+    useEffect(() => {
+        if (isAuthenticated) {
             findUser()
-        }, [])
-    }
+        }
+    })
 
     return (
         <>
