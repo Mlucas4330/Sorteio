@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { ChakraProvider } from '@chakra-ui/react'
 import {
@@ -9,7 +9,7 @@ import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Home from './pages/Home.jsx'
 
-export const URL = process.env.REACT_APP_URL
+export const URL = import.meta.env.VITE_API_URL
 
 const router = createBrowserRouter([
     {
@@ -27,7 +27,9 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <ChakraProvider>
-        <RouterProvider router={router} />
-    </ChakraProvider>
+    <StrictMode>
+        <ChakraProvider>
+            <RouterProvider router={router} />
+        </ChakraProvider>
+    </StrictMode>
 )

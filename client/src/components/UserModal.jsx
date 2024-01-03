@@ -9,7 +9,7 @@ import {
     Text,
     Box,
 } from '@chakra-ui/react'
-import { URL } from '../index'
+import { URL } from '../main'
 
 function UserModal({ isOpen, onClose }) {
     const isAuthenticated = localStorage.getItem('token')

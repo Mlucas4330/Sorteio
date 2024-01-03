@@ -1,5 +1,4 @@
 import {
-    useDisclosure,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -22,10 +21,9 @@ import {
     Text
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { URL } from '../index'
+import { URL } from '../main'
 
-function DepositModal() {
-    const { onOpen, isOpen, onClose } = useDisclosure()
+function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false)
     const [qrCode, setQrCode] = useState('')
     const [amount, setAmount] = useState(10.00)
@@ -87,10 +85,6 @@ function DepositModal() {
 
     return (
         <>
-            <Button colorScheme="green" position={'fixed'} bottom={10} left={10} onClick={onOpen}>
-                Depositar
-            </Button>
-
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>

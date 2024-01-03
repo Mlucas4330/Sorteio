@@ -2,7 +2,7 @@ import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { InputGroup, Input, Grid, GridItem, InputRightElement, IconButton, useToast, Center, Box } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
-import { URL } from '../index'
+import { URL } from '../main'
 
 function Chat() {
     const [msg, setMsg] = useState('')
@@ -71,7 +71,15 @@ function Chat() {
 
     return (
         <Center mt={3}>
-            <Grid position={'relative'} templateRows={'repeat(5, 1fr)'} w={'50%'} h={'60vh'} p={3} border={'1px'} borderColor={'gray.200'} borderRadius={'md'}>
+            <Grid position={'relative'} templateRows={'repeat(5, 1fr)'} w={{
+                base: '90%',
+                sm: '40%',
+                md: '90%',
+                lg: '50%'
+            }} h={{
+                base: '55vh',
+                lg: '60vh'
+            }} p={3} border={'1px'} borderColor={'gray.200'} borderRadius={'md'}>
                 <GridItem ref={chatRef} overflowY={'auto'} rowStart={1} rowEnd={5}>
                     {scroll && <IconButton onClick={handleScroll} position={'absolute'} width={'10px'} borderRadius={'md'} top={'70%'} left={'48%'} icon={<ArrowDownIcon />} />}
                     {messages.map((msg, i) => (

@@ -1,12 +1,12 @@
 import sign from 'jsonwebtoken'
 import User from '../models/userModel.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    const user = await User.findOne({ where: { email } })
+    const user = await User.findOne({ where: { email: email } })
 
     if (!user) {
       return res.status(404).json({

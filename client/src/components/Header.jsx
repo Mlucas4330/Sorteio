@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
 function Header() {
-    const [token , setToken] = useState()
+    const [token, setToken] = useState()
     const { onOpen, isOpen, onClose } = useDisclosure()
 
     useEffect(() => {
@@ -24,31 +24,40 @@ function Header() {
             {token && <UserModal isOpen={isOpen} onClose={onClose} />}
             <header>
                 <Flex justify={'end'}>
-                    <Box mt={10} mr={10}>
+                    <Box mt={
+                        {
+                            base: 5,
+                            sm: 10,
+                            md: 10
+                        }} mr={{
+                            base: 5,
+                            sm: 5,
+                            md: 10
+                        }}>
                         <Menu>
                             <MenuButton as={Button} leftIcon={<HamburgerIcon />}>
-                            Ações
+                                Ações
                             </MenuButton>
                             <MenuList>
                                 {
                                     token ?
-                                        <>   
+                                        <>
                                             <MenuItem onClick={onOpen} icon={<SettingsIcon />}>
-                                            Configurações
+                                                Configurações
                                             </MenuItem>
                                             <MenuItem onClick={signout} icon={<ArrowBackIcon />}>
-                                            Sair
+                                                Sair
                                             </MenuItem>
                                         </>
                                         :
                                         <Link to="/signin">
                                             <MenuItem icon={<ChevronRightIcon />}>
-                                            Entrar
+                                                Entrar
                                             </MenuItem>
                                         </Link>
                                 }
                             </MenuList>
-                        </Menu>   
+                        </Menu>
                     </Box>
                 </Flex>
             </header>

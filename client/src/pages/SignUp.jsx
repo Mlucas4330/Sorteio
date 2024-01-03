@@ -13,7 +13,7 @@ import {
     FormErrorMessage
 } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { URL } from '../index'
+import { URL } from '../main'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -29,10 +29,13 @@ function SignUp() {
                 {
                     required_error: 'Usuário é obrigatório'
                 }
-            ).min(3)
-                .max(50)
-                .trim(),
-
+            ).min(3, {
+                message: 'Usuário deve conter pelo menos 3 caracteres'
+            })
+            .max(50, {
+                message: 'Usuário deve conter no máximo 50 caracteres'
+            })
+            .trim(),
             email: z.string(
                 {
                     required_error: 'Email é obrigatório'
@@ -42,15 +45,14 @@ function SignUp() {
                     message: 'Email inválido'
                 }
             ).trim(),
-
             password: z.string(
                 {
                     required_error: 'Senha é obrigatória'
                 }
             ).min(5, {
-                message: 'Senha deve ter pelo menos 5 caracteres'
+                message: 'Senha deve conter pelo menos 5 caracteres'
             }).max(80, {
-                message: 'Senha deve ter no máximo 80 caracteres'
+                message: 'Senha deve conter no máximo 80 caracteres'
             }).trim(),
 
             pix: z.string(
@@ -108,44 +110,53 @@ function SignUp() {
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
-
-            <header>
-                <Button colorScheme="yellow" position={'fixed'} top={10} left={10}>
-                    <Link to={'/'}>Voltar</Link>
-                </Button>
-            </header>
-
-            <Center h={'100vh'}>
-                <Box w={{ sm: '70%', md: '50%' }}>
+            <Button m={5} colorScheme="yellow">
+                <Link to={'/'}>Voltar</Link>
+            </Button>
+            <Center h={'90vh'}>
+                <Box w={{
+                    base: '80%',
+                    sm: '50%',
+                    md: '70%',
+                    lg: '50%'
+                }}>
                     <form onSubmit={handleSubmit(handleUser)}>
-                        <FormControl mb={3} isRequired>
+                        <FormControl mb={3} isInvalid={errors.username}>
                             <FormLabel>Usuário</FormLabel>
                             <Input {...register('username')} />
                             {errors.username && <FormErrorMessage>{errors.username.message}</FormErrorMessage>}
                         </FormControl>
 
-                        <FormControl mb={3} isRequired>
+                        <FormControl mb={3} isInvalid={errors.email}>
                             <FormLabel>Email</FormLabel>
                             <Input type='email' {...register('email')} />
                             {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
                         </FormControl>
 
-                        <FormControl mb={3} isRequired>
+                        <FormControl mb={3} isInvalid={errors.password}>
                             <FormLabel>Senha</FormLabel>
                             <Input type='password' {...register('passowrd')} />
                             {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
                         </FormControl>
 
-                        <FormControl mb={3} isRequired>
+                        <FormControl mb={3} isInvalid={errors.pix}>
                             <FormLabel>Chave PIX</FormLabel>
                             <Input {...register('pix')} />
                             {errors.pix && <FormErrorMessage>{errors.pix.message}</FormErrorMessage>}
                         </FormControl>
 
-                        <Button type='submit' colorScheme='green'>Cadastrar</Button>
+                        <Button w={'100%'} type='submit' colorScheme='green'>Cadastrar</Button>
                     </form>
 
-                    <Text mt={3}>
+                    <Text textAlign={{
+                        base: 'center',
+                        sm: 'left'
+                    }} mt={{
+                        base: 5,
+                        sm: 3,
+                        md: 3,
+                        lg: 3
+                    }}>
                         Já tem conta?
                         <Link to={'/signin'}>
                             <Highlight query='Clique aqui para entrar' styles={{ px: '1', py: '1', bg: 'orange.100' }}>
