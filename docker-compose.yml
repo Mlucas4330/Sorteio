@@ -22,21 +22,18 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - NODE_ENV=production
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - postgres
   client:
     build: ./client
+    restart: always
     environment:
       - NODE_ENV=production
+    ports:
+      - 80:80
     depends_on:
       - server
-  nginx:
-    image: nginx:alpine
-    restart: always
-    volumes:
-      - ./client/dist:/usr/share/nginx/html
-    ports:
-      - "80:80"
+      
 volumes:
   postgres_data:
