@@ -21,7 +21,7 @@ import {
     Text
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { URL } from '../main'
+import { baseUrl } from '../main'
 
 function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false)
@@ -43,7 +43,7 @@ function DepositModal({ isOpen, onClose }) {
 
         try {
             setLoading(true)
-            const response = await fetch(URL + 'deposit', {
+            const response = await fetch(baseUrl + 'deposit', {
                 method: 'POST',
                 body: JSON.stringify({
                     amount: amount.toFixed(2)

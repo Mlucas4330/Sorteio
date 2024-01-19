@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: "postgres:latest"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_DB=production_sorteio
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./client/dist:/usr/share/nginx/html
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+      - client
+  server:
+    build: ./server
+    restart: always
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=production_sorteio
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+  client:
+    build: ./client
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+volumes:
+  postgres_data:

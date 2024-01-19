@@ -5,7 +5,7 @@ import DepositModal from '../components/DepositModal'
 import Header from '../components/Header'
 import Timer from '../components/Timer'
 import { Highlight, Heading, Button, useDisclosure, Flex } from '@chakra-ui/react'
-import { URL } from '../main'
+import { baseUrl } from '../main'
 
 function Home() {
     const [amount, setAmount] = useState('')
@@ -13,7 +13,7 @@ function Home() {
 
     const handlePrizedraw = async () => {
         try {
-            const { data } = await fetch(URL + 'amount')
+            const { data } = await fetch(baseUrl + 'amount')
 
             setAmount(data.amount)
         } catch (err) {

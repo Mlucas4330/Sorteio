@@ -2,7 +2,7 @@ import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { InputGroup, Input, Grid, GridItem, InputRightElement, IconButton, useToast, Center, Box } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
-import { URL } from '../main'
+import { baseUrl } from '../main'
 
 function Chat() {
     const [msg, setMsg] = useState('')
@@ -14,7 +14,7 @@ function Chat() {
     const [scroll, setScroll] = useState(false)
 
     useEffect(() => {
-        const socket = io(URL)
+        const socket = io(baseUrl)
 
         // Pega mensagens
         socket.on('messages', msg => setMessages(msg))

@@ -9,14 +9,14 @@ import {
     Text,
     Box,
 } from '@chakra-ui/react'
-import { URL } from '../main'
+import { baseUrl } from '../main'
 
 function UserModal({ isOpen, onClose }) {
     const isAuthenticated = localStorage.getItem('token')
     const [user, setUser] = useState()
 
     const findUser = async () => {
-        const response = await fetch(URL + 'current-user', {
+        const response = await fetch(baseUrl + 'current-user', {
             headers: {
                 'Authorization': 'Bearer ' + isAuthenticated
             }
