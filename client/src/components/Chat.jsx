@@ -2,7 +2,6 @@ import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import { InputGroup, Input, Grid, GridItem, InputRightElement, IconButton, useToast, Center, Box } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
-import { baseUrl } from '../main'
 
 function Chat() {
     const [msg, setMsg] = useState('')
@@ -14,12 +13,10 @@ function Chat() {
     const [scroll, setScroll] = useState(false)
 
     useEffect(() => {
-        const socket = io(baseUrl)
+        const socket = io(process.env.VITE_SOCKET_URL)
 
-        // Pega mensagens
         socket.on('messages', msg => setMessages(msg))
 
-        // Pega mensagem enviada
         socket.on('chat message', msg => {
             setMessages([...messages, msg])
             setScroll(true)
@@ -53,7 +50,6 @@ function Chat() {
         }
 
         if (msg !== '') {
-            // Envia mensagem
             socket.emit('chat message', { token: isAuthenticated, msg })
             setMsg('')
         }
