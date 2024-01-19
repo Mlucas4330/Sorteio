@@ -12,16 +12,6 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 5432:5432
-  nginx:
-    image: nginx:alpine
-    volumes:
-      - ./client/dist:/usr/share/nginx/html
-    restart: always
-    ports:
-      - "8080:80"
-    depends_on:
-      - server
-      - client
   server:
     build: ./server
     restart: always
@@ -37,12 +27,16 @@ services:
       - postgres
   client:
     build: ./client
-    restart: always
     environment:
       - NODE_ENV=production
-    ports:
-      - "80:80"
     depends_on:
       - server
+  nginx:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./client/dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
 volumes:
   postgres_data:
