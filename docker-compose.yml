@@ -6,20 +6,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    env_file:
+      - ./server/.env
     environment:
       - POSTGRES_DB=production_sorteio
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 5432:5432
   server:
     build: ./server
     restart: always
+    env_file:
+      - ./server/.env
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=production_sorteio
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - NODE_ENV=production
     ports:
       - 3000:3000
@@ -28,12 +28,10 @@ services:
   client:
     build: ./client
     restart: always
-    environment:
-      - NODE_ENV=production
     ports:
       - 80:80
     depends_on:
       - server
-      
+
 volumes:
   postgres_data:

@@ -46,7 +46,7 @@ function DepositModal({ isOpen, onClose }) {
             const response = await fetch(baseUrl + 'deposit', {
                 method: 'POST',
                 body: JSON.stringify({
-                    amount: amount.toFixed(2)
+                    amount: amount ? amount.toFixed(2) : ''
                 }),
                 headers: {
                     'Content-Type': 'application/json',

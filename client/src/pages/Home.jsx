@@ -15,7 +15,9 @@ function Home() {
         try {
             const { data } = await fetch(baseUrl + 'amount')
 
-            setAmount(data.amount)
+            if(data){
+                setAmount(data.amount)
+            }
         } catch (err) {
             console.log(err)
         }

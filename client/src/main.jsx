@@ -9,7 +9,15 @@ import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Home from './pages/Home.jsx'
 
-export const baseUrl = import.meta.env.NODE_ENV === 'production' ? 'api/v1/' : import.meta.env.VITE_API_URL
+let baseUrl = import.meta.env.VITE_API_URL
+let socketUrl = import.meta.env.VITE_SOCKET_URL
+
+if(import.meta.env.VITE_NODE_ENV === 'production' ){
+    baseUrl = '/api/v1/'
+    socketUrl = '/'
+} 
+
+export { baseUrl, socketUrl }
 
 const router = createBrowserRouter([
     {
