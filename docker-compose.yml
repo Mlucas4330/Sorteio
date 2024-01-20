@@ -25,7 +25,7 @@ services:
       - 3000:3000
     depends_on:
       - postgres
-  client:
+  nginx:
     build: ./client
     restart: always
     ports:

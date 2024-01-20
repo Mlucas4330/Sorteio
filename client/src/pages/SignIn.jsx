@@ -45,7 +45,7 @@ function SignIn() {
     const handleUser = async d => {
         try {
             setLoading(true)
-            console.log(register)
+            
             const response = await fetch(baseUrl + 'signin', {
                 method: 'POST',
                 body: JSON.stringify(d),
