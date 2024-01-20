@@ -21,7 +21,7 @@ const main = async () => {
     app.use(cors())
     app.use(json())
 
-    app.use('/api/v1', [userRouter, prizedrawRouter, depositRouter])
+    app.use('/api', [userRouter, prizedrawRouter, depositRouter])
 
     associations()
 
