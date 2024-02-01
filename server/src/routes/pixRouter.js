@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { webhook } from '../controllers/pixController.js'
+import { configWebhook, webhook } from '../controllers/pixController.js'
 
 const pixRouter = Router()
 
+pixRouter.post('/config-webhook', configWebhook)
 pixRouter.post('/webhook', webhook)
 
 export default pixRouter
