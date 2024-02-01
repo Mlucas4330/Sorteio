@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
     Button,
     Input,
@@ -10,17 +10,22 @@ import {
     Box,
     Text,
     Highlight,
-    FormErrorMessage
+    FormErrorMessage,
+    InputGroup,
+    InputRightElement,
+    IconButton
 } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { baseUrl } from '../main'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 
 function SignIn() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
+    const [view, setView] = useState(false)
     const toast = useToast()
 
     const User = z.object({
@@ -45,8 +50,8 @@ function SignIn() {
     const handleUser = async d => {
         try {
             setLoading(true)
-            
-            const response = await fetch(baseUrl + 'signin', {
+
+            const response = await fetch(baseUrl + 'api/signin', {
                 method: 'POST',
                 body: JSON.stringify(d),
                 headers: {
@@ -99,7 +104,7 @@ function SignIn() {
                 <Link to={'/'}>Voltar</Link>
             </Button>
 
-            <Center h={'90vh'}>
+            <Center h={'80vh'}>
                 <Box w={{
                     base: '80%',
                     sm: '50%',
@@ -119,7 +124,12 @@ function SignIn() {
                             lg: 3
                         }} isInvalid={errors.password}>
                             <FormLabel>Senha</FormLabel>
-                            <Input onKeyDown={handleKeyDown} type='password' {...register('password')} />
+                            <InputGroup>
+                                <Input onKeyDown={handleKeyDown} type={view ? 'text' : 'password'} {...register('password')} />
+                                <InputRightElement>
+                                    <IconButton onClick={() => setView((prev) => !prev)} icon={view ? <ViewOffIcon /> : <ViewIcon />} />
+                                </InputRightElement>
+                            </InputGroup>
                             {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
                         </FormControl>
 

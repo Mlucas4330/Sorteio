@@ -1,4 +1,4 @@
-import sign from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import User from '../models/userModel.js'
 import bcrypt from 'bcryptjs'
 
@@ -6,7 +6,7 @@ const signin = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    const user = await User.findOne({ where: { email: email } })
+    const user = await User.findOne({ where: { email } })
 
     if (!user) {
       return res.status(404).json({
@@ -16,7 +16,7 @@ const signin = async (req, res) => {
       })
     }
 
-    const result = await bcrypt.compare(user.password, password)
+    const result = await bcrypt.compare(password, user.password)
 
     if (!result) {
       return res.status(401).json({
@@ -26,7 +26,7 @@ const signin = async (req, res) => {
       })
     }
 
-    const token = sign({ user }, process.env.SECRET)
+    const token = jwt.sign({ user }, process.env.SECRET)
 
     res.json({
       data: { user, token },
@@ -34,7 +34,6 @@ const signin = async (req, res) => {
       message: 'Usuário logado com sucesso!'
     })
   } catch (err) {
-    console.log(err)
     return res.status(500).json({
       data: null,
       code: 500,

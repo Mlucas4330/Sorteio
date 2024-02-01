@@ -8,15 +8,17 @@ import { Highlight, Heading, Button, useDisclosure, Flex } from '@chakra-ui/reac
 import { baseUrl } from '../main'
 
 function Home() {
-    const [amount, setAmount] = useState('')
+    const [amount, setAmount] = useState(0)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handlePrizedraw = async () => {
         try {
-            const { data } = await fetch(baseUrl + 'amount')
+            const response = await fetch(baseUrl + 'api/amount')
+
+            const { data } = await response.json()
 
             if(data){
-                setAmount(data.amount)
+                setAmount(parseFloat(data.totalAmount).toFixed(2))
             }
         } catch (err) {
             console.log(err)

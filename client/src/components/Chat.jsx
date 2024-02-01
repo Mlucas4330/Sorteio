@@ -7,29 +7,22 @@ import { baseUrl } from '../main'
 function Chat() {
     const [msg, setMsg] = useState('')
     const [messages, setMessages] = useState([])
-    const [socket, setSocket] = useState({})
     const toast = useToast()
     const chatRef = useRef(null)
     const isAuthenticated = localStorage.getItem('token')
     const [scroll, setScroll] = useState(false)
-
+    const socket = io(baseUrl)
+    
     useEffect(() => {
-        const socket = io(baseUrl)
-
+        socket.emit('messages', {})
         socket.on('messages', msg => setMessages(msg))
 
-        socket.on('chat message', msg => {
-            setMessages([...messages, msg])
-            setScroll(true)
-        })
+    }, [])
 
-        setSocket(socket)
-
-        return () => {
-            socket.off('messages')
-            socket.off('chat message')
-        }
-    }, [messages])
+    socket.on('chat message', msg => {
+        setMessages([...messages, msg])
+        setScroll(true)
+    })
 
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp)
@@ -64,6 +57,7 @@ function Chat() {
 
     const handleScroll = () => {
         chatRef.current.scrollTop = chatRef.current.scrollHeight
+        setScroll(false)
     }
 
     return (

@@ -20,13 +20,14 @@ import {
     useToast,
     Text
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { baseUrl } from '../main'
 
 function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false)
     const [qrCode, setQrCode] = useState('')
-    const [amount, setAmount] = useState(10.00)
+    const amountRef = useRef(null)
+    const [amount, setAmount] = useState(1.00)
     const toast = useToast()
     const isAuthenticated = localStorage.getItem('token')
 
@@ -43,10 +44,10 @@ function DepositModal({ isOpen, onClose }) {
 
         try {
             setLoading(true)
-            const response = await fetch(baseUrl + 'deposit', {
+            const response = await fetch(baseUrl + 'api/deposit', {
                 method: 'POST',
                 body: JSON.stringify({
-                    amount: amount ? amount.toFixed(2) : ''
+                    amount: amountRef.current.value
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ function DepositModal({ isOpen, onClose }) {
                                 R$
                             </InputLeftAddon>
                             <NumberInput w={'100%'} min={1.00} defaultValue={1.00} precision={2} step={0.01}>
-                                <NumberInputField value={amount} onChange={e => setAmount(e.target.value)} borderRadius={0} />
+                                <NumberInputField ref={amountRef} borderRadius={0} />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
                                     <NumberDecrementStepper />

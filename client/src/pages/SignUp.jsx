@@ -70,7 +70,7 @@ function SignUp() {
         try {
             setLoading(true)
 
-            const response = await fetch(baseUrl + 'signup', {
+            const response = await fetch(baseUrl + 'api/signup', {
                 method: 'POST',
                 body: JSON.stringify(d),
                 headers: {
@@ -113,7 +113,7 @@ function SignUp() {
             <Button m={5} colorScheme="yellow">
                 <Link to={'/'}>Voltar</Link>
             </Button>
-            <Center h={'90vh'}>
+            <Center h={'80vh'}>
                 <Box w={{
                     base: '80%',
                     sm: '50%',
@@ -135,7 +135,7 @@ function SignUp() {
 
                         <FormControl mb={3} isInvalid={errors.password}>
                             <FormLabel>Senha</FormLabel>
-                            <Input type='password' {...register('passowrd')} />
+                            <Input type='password' {...register('password')} />
                             {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
                         </FormControl>
 

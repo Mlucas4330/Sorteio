@@ -5,8 +5,7 @@ const currentPrizedraw = async () => {
   const prizedraw = await Prizedraw.findOne({
     where: {
       finished: false
-    },
-    include: Deposit
+    }
   })
 
   return prizedraw

@@ -1,5 +1,8 @@
 import EfiPay from 'sdk-node-apis-efi'
 import options from '../configs/efipayConfig.js'
+import { currentPrizedraw } from './prizedrawService.js'
+import Deposit from '../models/depositModel.js'
+import { currentUser } from '../controllers/userController.js'
 
 const pixCharge = async (amount) => {
   const efipay = new EfiPay(options)
@@ -47,24 +50,23 @@ const getTaxedValue = (amount) => {
   return amount - Number(process.env.TAX) / 100
 }
 
-const webhook = async (req, res) => {
-  const efipay = new EfiPay(options)
+const pixPaymentConfirmation = async (userId) => {
+  const isPayed = true;
 
-  validateMtls = false
+  if (isPayed) {
+    const prizedraw = await currentPrizedraw()
 
-  const body = {
-    webhookUrl: 'http://localhost:3333/webhook'
-  }
-
-  const params = {
-    chave: process.env.PIX
-  }
-
-  try {
-    await efipay.pixConfigWebhook(params, body)
-  } catch (err) {
-    res.send(err)
+    try {
+      await Deposit.create({
+        userId,
+        prizedrawId: prizedraw.id,
+        amount: 10.50
+      })
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 }
 
-export { pixCharge, pixSend, webhook }
+export { pixCharge, pixSend, pixPaymentConfirmation }

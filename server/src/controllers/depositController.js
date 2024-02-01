@@ -1,4 +1,4 @@
-import { pixCharge } from '../services/pixService.js'
+import { pixCharge, pixPaymentConfirmation } from '../services/pixService.js'
 
 const deposit = async (req, res) => {
   const { amount } = req.body
@@ -8,7 +8,7 @@ const deposit = async (req, res) => {
 
     res.json({ code: 201, message: 'QrCode Gerado com sucesso!', data: { qrCode: result.imagemQrcode } })
   } catch (err) {
-    res.json({ code: 500, message: err.mensagem, data: null })
+    res.json({ code: 500, message: err.message, data: null })
   }
 }
 

@@ -16,7 +16,7 @@ function UserModal({ isOpen, onClose }) {
     const [user, setUser] = useState()
 
     const findUser = async () => {
-        const response = await fetch(baseUrl + 'current-user', {
+        const response = await fetch(baseUrl + 'api/current-user', {
             headers: {
                 'Authorization': 'Bearer ' + isAuthenticated
             }
@@ -31,7 +31,7 @@ function UserModal({ isOpen, onClose }) {
         if (isAuthenticated) {
             findUser()
         }
-    })
+    }, [])
 
     return (
         <>
