@@ -1,8 +1,11 @@
-import { pixPaymentConfirmation } from "../services/pixService"
+import { pixPaymentConfirmation } from "../services/pixService.js"
 
 const webhook = async (req, res) => {
   try {
-    await pixPaymentConfirmation(req.user.id)
+    console.log(req.body)
+    // await pixPaymentConfirmation(req.user.id)
+
+    res.send(200)
   } catch (err) {
     console.log(err)
   }

@@ -4,7 +4,12 @@ import Message from '../models/messageModel.js'
 import User from '../models/userModel.js'
 
 const socket = server => {
- 
+  const io = new Server(server, {
+    cors: {
+      origin: '',
+      methods: ['GET', 'POST']
+    }
+  })
 
   io.on('connection', async socket => {
     socket.on('messages', async () => {

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { webhook } from '../controllers/pixController'
+import { webhook } from '../controllers/pixController.js'
 
 const pixRouter = Router()
 

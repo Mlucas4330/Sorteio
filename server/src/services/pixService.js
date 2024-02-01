@@ -2,7 +2,6 @@ import EfiPay from 'sdk-node-apis-efi'
 import options from '../configs/efipayConfig.js'
 import { currentPrizedraw } from './prizedrawService.js'
 import Deposit from '../models/depositModel.js'
-import { currentUser } from '../controllers/userController.js'
 
 const pixCharge = async (amount) => {
   const efipay = new EfiPay(options)
