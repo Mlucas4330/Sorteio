@@ -13,7 +13,7 @@ function Home() {
 
     const handlePrizedraw = async () => {
         try {
-            const { data, code } = await fetchData('amount');
+            const { data, code } = await fetchData('prizedraw');
 
             if (code === 200) {
                 setAmount(useCurrencyFormatter(data.totalAmount));

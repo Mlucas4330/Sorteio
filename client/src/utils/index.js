@@ -17,8 +17,6 @@ const fetchData = async (url, token = null) => {
     options.headers['Authorization'] = 'Bearer ' + token
   }
 
-  console.log(baseUrl);
-
   const response = await fetch(baseUrl + url, options)
 
   const result = await response.json()

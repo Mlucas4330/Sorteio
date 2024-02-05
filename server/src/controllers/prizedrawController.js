@@ -1,4 +1,4 @@
-import { getCurrentPrizedraw } from '../services/prizedrawService.js'
+import { getCurrentPrizedraw, startPrizedraw } from '../services/prizedrawService.js'
 
 const index = async (_req, res) => {
   try {
@@ -17,4 +17,8 @@ const index = async (_req, res) => {
   }
 }
 
-export { index }
+const create = async () => {
+  await startPrizedraw()
+}
+
+export { index, create }

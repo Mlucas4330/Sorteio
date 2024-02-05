@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { index } from '../controllers/prizedrawController.js'
+import { create, index } from '../controllers/prizedrawController.js'
 
 const prizedrawRouter = Router()
 
-prizedrawRouter.get('/amount', index)
+prizedrawRouter.get('/prizedraw', index)
+prizedrawRouter.post('/prizedraw', create)
 
 export default prizedrawRouter
