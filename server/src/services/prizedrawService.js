@@ -1,5 +1,6 @@
 import Deposit from '../models/depositModel.js'
 import Prizedraw from '../models/prizedrawModel.js'
+import { Sequelize } from 'sequelize'
 
 const getCurrentPrizedraw = async () => {
   const prizedraw = await Prizedraw.findOne({

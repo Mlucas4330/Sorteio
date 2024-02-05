@@ -45,7 +45,6 @@ const socket = server => {
 
     socket.on('deposits', async () => {
       const deposits = await getAllDeposits()
-
       io.emit('deposits', deposits)
     })
   })

@@ -98,7 +98,7 @@ const currentUser = async (req, res) => {
       }
     })
     res.send({
-      data: user,
+      data: { user },
       code: 200
     })
   } catch (err) {

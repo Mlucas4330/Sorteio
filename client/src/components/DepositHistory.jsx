@@ -41,20 +41,21 @@ const DepositHistory = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {deposits.map(deposit => (
-                        <Tr key={deposit.id}>
-                            <Td fontWeight={'bold'}>{deposit.user.username}</Td>
-                            <Td fontWeight={'bold'}>
-                                <Highlight
-                                    query={useCurrencyFormatter(deposit.amount)}
-                                    styles={{ borderRadius: 'md', px: '5', color: 'green', bg: 'green.100' }}
-                                >
-                                    {useCurrencyFormatter(deposit.amount)}
-                                </Highlight>
-                            </Td>
-                            <Td color={'blackAlpha.700'}>{useTimeFormatter(deposit.createdAt)}</Td>
-                        </Tr>
-                    ))}
+                    {deposits &&
+                        deposits.map(deposit => (
+                            <Tr key={deposit.id}>
+                                <Td fontWeight={'bold'}>{deposit.user.username}</Td>
+                                <Td fontWeight={'bold'}>
+                                    <Highlight
+                                        query={useCurrencyFormatter(deposit.amount)}
+                                        styles={{ borderRadius: 'md', px: '5', color: 'green', bg: 'green.100' }}
+                                    >
+                                        {useCurrencyFormatter(deposit.amount)}
+                                    </Highlight>
+                                </Td>
+                                <Td color={'blackAlpha.700'}>{useTimeFormatter(deposit.createdAt)}</Td>
+                            </Tr>
+                        ))}
                 </Tbody>
             </Table>
         </Container>

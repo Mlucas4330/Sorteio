@@ -31,7 +31,7 @@ function DepositModal({ isOpen, onClose }) {
     const token = getToken();
 
     const handleDeposit = async () => {
-        if (!isAuthenticated) {
+        if (!token) {
             toast({
                 description: 'Você precisar logar antes de depositar',
                 status: 'error',
