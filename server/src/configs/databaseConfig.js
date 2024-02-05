@@ -13,8 +13,8 @@ const baseConfig = {
 const config = {
   production: {
     ...baseConfig,
-    database: process.env.PROD_POSTGRES_DB,
-    host: process.env.PROD_POSTGRES_HOST,
+    database: process.env.POSTGRES_DB,
+    host: process.env.POSTGRES_HOST,
   },
   development: {
     ...baseConfig,

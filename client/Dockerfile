@@ -1,9 +1,5 @@
 FROM node:16-alpine as build
 
-ARG VITE_NODE_ENV
-
-ENV VITE_NODE_ENV=production
-
 WORKDIR /app
 
 COPY package.json yarn.lock ./

@@ -5,8 +5,8 @@ dotenv.config()
 const config = {
     production: {
         sandbox: true,
-        client_id: process.env.PROD_CLIENT_ID,
-        client_secret: process.env.PROD_CLIENT_SECRET,
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
         certificate: './src/certs/producao-490126-Sorteio.p12'
     },
     development: {
