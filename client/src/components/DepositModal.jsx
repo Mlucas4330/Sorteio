@@ -19,17 +19,16 @@ import {
     Grid,
     useToast,
     Text
-} from '@chakra-ui/react'
-import { useRef, useState } from 'react'
-import { baseUrl } from '../main'
+} from '@chakra-ui/react';
+import { useRef, useState } from 'react';
+import { getToken, sendData } from '../utils';
 
 function DepositModal({ isOpen, onClose }) {
-    const [loading, setLoading] = useState(false)
-    const [qrCode, setQrCode] = useState('')
-    const amountRef = useRef(null)
-    const [amount, setAmount] = useState(1.00)
-    const toast = useToast()
-    const isAuthenticated = localStorage.getItem('token')
+    const [loading, setLoading] = useState(false);
+    const [qrCode, setQrCode] = useState(null);
+    const amountRef = useRef(null);
+    const toast = useToast();
+    const token = getToken();
 
     const handleDeposit = async () => {
         if (!isAuthenticated) {
@@ -38,26 +37,19 @@ function DepositModal({ isOpen, onClose }) {
                 status: 'error',
                 duration: 2000,
                 isClosable: true
-            })
-            return
+            });
+            return;
         }
 
         try {
-            setLoading(true)
-            const response = await fetch(baseUrl + 'api/deposit', {
-                method: 'POST',
-                body: JSON.stringify({
+            setLoading(true);
+            const { data, message, code } = await sendData(
+                'deposit',
+                {
                     amount: amountRef.current.value
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + isAuthenticated
-                }
-            })
-
-            const { data, message, code } = await response.json()
-
-            setAmount('')
+                },
+                token
+            );
 
             if (code !== 201) {
                 toast({
@@ -65,39 +57,37 @@ function DepositModal({ isOpen, onClose }) {
                     status: 'error',
                     duration: 2000,
                     isClosable: true
-                })
-                return
+                });
+                return;
             }
 
-            setQrCode(data.qrCode)
+            setQrCode(data.qrCode);
 
             toast({
                 description: message,
                 status: 'success',
                 duration: 2000,
                 isClosable: true
-            })
+            });
         } catch (err) {
-            console.log(err)
+            console.log(err);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Faça um depósito!</ModalHeader>
+                    <ModalHeader>Faça um pix!</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
                         <InputGroup>
-                            <InputLeftAddon>
-                                R$
-                            </InputLeftAddon>
-                            <NumberInput w={'100%'} min={1.00} defaultValue={1.00} precision={2} step={0.01}>
+                            <InputLeftAddon>R$</InputLeftAddon>
+                            <NumberInput w={'100%'} min={1.0} defaultValue={1.0} precision={2} step={0.01}>
                                 <NumberInputField ref={amountRef} borderRadius={0} />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
@@ -106,28 +96,35 @@ function DepositModal({ isOpen, onClose }) {
                             </NumberInput>
                         </InputGroup>
 
-                        {qrCode &&
+                        {qrCode && (
                             <Grid textAlign={'center'}>
                                 <Grid justifyContent={'center'}>
                                     <Image src={qrCode} alt="qrcode" />
                                 </Grid>
                                 <Text>Escaneie o QrCode acima para finalizar o depósito!</Text>
                             </Grid>
-                        }
-
+                        )}
                     </ModalBody>
                     <ModalFooter>
                         <Flex gap={2}>
-                            <Button colorScheme='red' onClick={onClose}>
-                                Fechar
+                            <Button colorScheme="red" onClick={onClose}>
+                                Cancelar
                             </Button>
-                            <Button isLoading={loading} loadingText='Gerando' spinnerPlacement='end' onClick={handleDeposit} colorScheme='green'>Depositar</Button>
+                            <Button
+                                isLoading={loading}
+                                loadingText="Gerando"
+                                spinnerPlacement="end"
+                                onClick={handleDeposit}
+                                colorScheme="green"
+                            >
+                                Depositar
+                            </Button>
                         </Flex>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
         </>
-    )
+    );
 }
 
-export default DepositModal
+export default DepositModal;

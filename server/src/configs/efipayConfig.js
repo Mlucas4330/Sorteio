@@ -2,11 +2,21 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const options = {
-    sandbox: process.env.NODE_ENV === 'development',
-    client_id: process.env.NODE_ENV === 'development' ? process.env.DEV_CLIENT_ID : process.env.PROD_CLIENT_ID,
-    client_secret: process.env.NODE_ENV === 'development' ? process.env.DEV_CLIENT_SECRET : process.env.PROD_CLIENT_SECRET,
-    certificate: process.env.NODE_ENV === 'development' ? './src/certs/homologacao-490126-Sorteio.p12' : './src/certs/producao-490126-Sorteio.p12',
-};
+const config = {
+    production: {
+        sandbox: true,
+        client_id: process.env.PROD_CLIENT_ID,
+        client_secret: process.env.PROD_CLIENT_SECRET,
+        certificate: './src/certs/producao-490126-Sorteio.p12'
+    },
+    development: {
+        sandbox: false,
+        client_id: process.env.DEV_CLIENT_ID,
+        client_secret: process.env.DEV_CLIENT_SECRET,
+        certificate: './src/certs/homologacao-490126-Sorteio.p12'
+    }
+}
+
+const options = process.env.NODE_ENV === 'development' ? config.development : config.production
 
 export default options

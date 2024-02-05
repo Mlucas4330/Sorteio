@@ -1,14 +1,10 @@
 import EfiPay from 'sdk-node-apis-efi'
 import options from '../configs/efipayConfig.js'
-import { currentPrizedraw } from './prizedrawService.js'
+import { getCurrentPrizedraw } from './prizedrawService.js'
 import Deposit from '../models/depositModel.js'
 
 const pixCharge = async (amount) => {
   const efipay = new EfiPay(options)
-
-  if (!amount) {
-    throw Error('Valor não pode ser vazio')
-  }
 
   const body = {
     calendario: {
@@ -46,25 +42,23 @@ const pixSend = async (amount, winnerPix) => {
 }
 
 const getTaxedValue = (amount) => {
-  return amount - Number(process.env.TAX) / 100
+  return (amount - Number(process.env.TAX) / 100).toFixed(2)
 }
 
-const pixPaymentConfirmation = async (userId) => {
-  const isPayed = true;
+const pixPaymentConfirmation = async (amount, userId) => {
+  const { prizedraw } = await getCurrentPrizedraw()
 
-  if (isPayed) {
-    const prizedraw = await currentPrizedraw()
+  try {
+    const deposit = await Deposit.create({
+      userId,
+      prizedrawId: prizedraw.id,
+      amount
+    })
 
-    try {
-      await Deposit.create({
-        userId,
-        prizedrawId: prizedraw.id,
-        amount: 10.50
-      })
-    }
-    catch (err) {
-      console.log(err)
-    }
+    return deposit
+  }
+  catch (err) {
+    return err
   }
 }
 

@@ -16,10 +16,6 @@ services:
     build: ./server
     restart: always
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_DB=production_sorteio
       - NODE_ENV=production
     ports:
       - 3000:3000

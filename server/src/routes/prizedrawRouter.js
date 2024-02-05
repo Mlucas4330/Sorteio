@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { index }  from '../controllers/prizedrawController.js'
+import { index } from '../controllers/prizedrawController.js'
 
 const prizedrawRouter = Router()
 

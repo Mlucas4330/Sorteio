@@ -1,8 +1,10 @@
 import { Router } from 'express'
-import { signup, signin, currentUser } from '../controllers/userController.js'
-import { verifyJWT } from '../middlewares/jwtMiddleware.js'
+import { updatePix, signup, signin, currentUser } from '../controllers/userController.js'
+import { verifyJWT } from '../middlewares/index.js'
 
 const userRouter = Router()
+
+userRouter.post('/user/update/pix', verifyJWT, updatePix)
 
 userRouter.post('/signup', signup)
 

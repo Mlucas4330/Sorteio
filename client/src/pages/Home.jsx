@@ -1,63 +1,48 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import Chat from '../components/Chat'
-import DepositModal from '../components/DepositModal'
-import Header from '../components/Header'
-import Timer from '../components/Timer'
-import { Highlight, Heading, Button, useDisclosure, Flex } from '@chakra-ui/react'
-import { baseUrl } from '../main'
+import React from 'react';
+import { useEffect, useState } from 'react';
+import Chat from '../components/Chat';
+import Timer from '../components/Timer';
+import { Heading, Highlight, Box } from '@chakra-ui/react';
+import { fetchData } from '../utils';
+import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
+import Nav from '../components/Nav';
+import DepositHistory from '../components/DepositHistory';
 
 function Home() {
-    const [amount, setAmount] = useState(0)
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [amount, setAmount] = useState('');
 
     const handlePrizedraw = async () => {
         try {
-            const response = await fetch(baseUrl + 'api/amount')
+            const { data, code } = await fetchData('amount');
 
-            const { data } = await response.json()
-
-            if(data){
-                setAmount(parseFloat(data.totalAmount).toFixed(2))
+            if (code === 200) {
+                setAmount(useCurrencyFormatter(data.totalAmount));
             }
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };
 
     useEffect(() => {
-        handlePrizedraw()
-    }, [])
+        handlePrizedraw();
+    }, []);
 
     return (
         <>
-            <DepositModal isOpen={isOpen} onClose={onClose} />
-            <Header />
-            <Timer />
-            <Heading mt={3} as='h1' size='4xl' noOfLines={1} textAlign={'center'}>
-                <Highlight query={`R$ ${amount}`} styles={{ p: 1, bg: 'orange.100' }}>
-                    {`R$ ${amount}`}
-                </Highlight>
-            </Heading>
-            <Chat />
-            <Flex justify={{
-                base: 'center',
-                md: 'center',
-                lg: 'start'
-            }}>
-                <Button
-                    ml={{
-                        lg: '10'
-                    }} mt={5} w={{
-                        base: '90%',
-                        sm: '90%',
-                        lg: '10%'
-                    }} colorScheme="green" onClick={onOpen}>
-                    Depositar
-                </Button>
-            </Flex>
+            <Nav />
+
+            <Box mt={10}>
+                <Heading mb={5} size={'4xl'} textAlign={'center'}>
+                    <Highlight query={amount} styles={{ borderRadius: 'md', px: '5', color: 'green', bg: 'green.100' }}>
+                        {amount}
+                    </Highlight>
+                </Heading>
+                <Timer />
+            </Box>
+
+            <DepositHistory />
         </>
-    )
+    );
 }
 
-export default Home
+export default Home;

@@ -1,18 +1,27 @@
 import Deposit from '../models/depositModel.js'
 import Prizedraw from '../models/prizedrawModel.js'
 
-const currentPrizedraw = async () => {
+const getCurrentPrizedraw = async () => {
   const prizedraw = await Prizedraw.findOne({
     where: {
       finished: false
     }
   })
 
-  return prizedraw
+  const totalAmount = await Deposit.findOne({
+    attributes: [
+      [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
+    ],
+    where: {
+      prizedrawId: prizedraw.id
+    }
+  })
+
+  return { prizedraw, totalAmount }
 }
 
 const startPrizedraw = async () => {
   return await Prizedraw.create({})
 }
 
-export { currentPrizedraw, startPrizedraw }
+export { getCurrentPrizedraw, startPrizedraw }

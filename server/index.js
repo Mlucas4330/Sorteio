@@ -1,15 +1,15 @@
 import express, { json } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import db from './src/configs/databaseConfig.js'
+import db from './src/database/index.js'
 import userRouter from './src/routes/userRoutes.js'
 import prizedrawRouter from './src/routes/prizedrawRouter.js'
 import depositRouter from './src/routes/depositRouter.js'
-import associations from './src/models/index.js'
+import associateModels from './src/models/index.js'
 import { createServer } from 'http'
 import socket from './src/sockets/index.js'
 import { schedule } from 'node-cron'
-import { resetPrizedraw } from './src/jobs/prizedrawJob.js'
+import { resetPrizedraw } from './src/jobs/index.js'
 import pixRouter from './src/routes/pixRouter.js'
 
 const main = async () => {
@@ -24,7 +24,7 @@ const main = async () => {
 
     app.use('/api', [userRouter, prizedrawRouter, depositRouter, pixRouter])
 
-    associations()
+    associateModels()
 
     socket(server)
 

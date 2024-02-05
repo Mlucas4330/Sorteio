@@ -3,7 +3,7 @@ import Deposit from './depositModel.js'
 import Prizedraw from './prizedrawModel.js'
 import Message from './messageModel.js'
 
-const associations = () => {
+const associateModels = () => {
   Prizedraw.belongsTo(User)
   Prizedraw.hasMany(Deposit)
   Deposit.belongsTo(User)
@@ -13,4 +13,4 @@ const associations = () => {
   Message.belongsTo(User)
 }
 
-export default associations
+export default associateModels

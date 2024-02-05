@@ -2,21 +2,21 @@ import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
 import Message from '../models/messageModel.js'
 import User from '../models/userModel.js'
+import { getAllMessages } from '../services/messageService.js'
+import { getAllDeposits } from '../services/depositService.js'
 
 const socket = server => {
   const io = new Server(server, {
     cors: {
-      origin: '',
+      origin: '*',
       methods: ['GET', 'POST']
     }
   })
 
   io.on('connection', async socket => {
-    socket.on('messages', async () => {
-      const messages = await Message.findAll({
-        include: User
-      })
 
+    socket.on('messages', async () => {
+      const messages = await getAllMessages()
       io.emit('messages', messages)
     })
 
@@ -41,6 +41,12 @@ const socket = server => {
       } catch (err) {
         console.log(err)
       }
+    })
+
+    socket.on('deposits', async () => {
+      const deposits = await getAllDeposits()
+
+      io.emit('deposits', deposits)
     })
   })
 }

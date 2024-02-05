@@ -5,13 +5,13 @@ const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization
 
     if (!authHeader) {
-      return next(new Error('Não está autenticado'))
+      return next('Não está autenticado')
     }
 
     const token = authHeader.split(' ')[1]
 
     if (!token) {
-      return next(new Error('Não há token'))
+      return next('Não há token')
     }
 
     const payload = jwt.verify(token, process.env.SECRET)

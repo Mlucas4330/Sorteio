@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { deposit } from '../controllers/depositController.js'
-import { verifyJWT } from '../middlewares/jwtMiddleware.js'
+import { create } from '../controllers/depositController.js'
+import { verifyJWT } from '../middlewares/index.js'
 
 const depositRouter = Router()
 
-depositRouter.post('/deposit', verifyJWT, deposit)
+depositRouter.post('/deposit', verifyJWT, create)
 
 export default depositRouter

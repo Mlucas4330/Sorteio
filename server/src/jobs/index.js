@@ -1,12 +1,12 @@
-import { currentPrizedraw, startPrizedraw } from '../services/prizedrawService.js'
-import { pixSend }  from '../services/pixService.js'
+import { getCurrentPrizedraw, startPrizedraw } from '../services/prizedrawService.js'
+import { pixSend } from '../services/pixService.js'
 import Deposit from '../models/depositModel.js'
 import User from '../models/userModel.js'
 import { deleteAllMessages } from '../services/messageService.js'
 
 const resetPrizedraw = async () => {
   try {
-    const prizedraw = await currentPrizedraw()
+    const { prizedraw, totalAmount } = await getCurrentPrizedraw()
 
     const { count, rows } = await User.findAndCountAll({
       include: {
@@ -22,7 +22,7 @@ const resetPrizedraw = async () => {
     prizedraw.userId = winner.id
     prizedraw.finished = true
 
-    pixSend(prizedraw.totalAmount, winner.pix)
+    pixSend(totalAmount, winner.pix)
 
     await prizedraw.save()
 

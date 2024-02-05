@@ -1,12 +1,13 @@
 import EfiPay from "sdk-node-apis-efi"
 import options from "../configs/efipayConfig.js"
 import { pixPaymentConfirmation } from "../services/pixService.js"
+import EventEmitter from 'eventemitter3'
 
-const configWebhook = async () => {
+const configWebhook = async (_req, res) => {
   options.validateMtls = false
 
   const body = {
-    webhookUrl: 'http://localhost:3000/api/webhook',
+    webhookUrl: process.env.WEBHOOK_URL,
   }
 
   const params = {
@@ -16,23 +17,43 @@ const configWebhook = async () => {
   const efipay = new EfiPay(options)
 
   try {
-
     const response = await efipay.pixConfigWebhook(params, body)
-    console.log(response)
+
+    res.send(response)
   } catch (err) {
     console.log(err)
+    res.send(err)
   }
 }
 
-const webhook = async (req, res) => {
+const webhook = async (_req, res) => {
   try {
-    console.log(req.body)
-    // await pixPaymentConfirmation(req.user.id)
+    const params = {
+      chave: process.env.PIX,
+    };
 
-    res.send(200)
+    const efipay = new EfiPay(options);
+
+    const details = await efipay.pixDetailWebhook(params)
+
+    res.send(details)
   } catch (err) {
     console.log(err)
+    res.send(err)
   }
 }
 
-export { configWebhook, webhook }
+const webhookPix = async (req, res) => {
+  try {
+    const eventEmitter = new EventEmitter()
+
+    const deposit = await pixPaymentConfirmation(req.params.pix.valor, req.user.id)
+    eventEmitter.emit('deposit', deposit);
+    res.send(req.params.pix)
+  } catch (err) {
+    console.log(err)
+    res.send(err)
+  }
+}
+
+export { configWebhook, webhook, webhookPix }

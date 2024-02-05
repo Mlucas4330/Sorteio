@@ -1,16 +1,28 @@
-import { Sequelize } from 'sequelize'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-const db = new Sequelize({
+const baseConfig = {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  logging: process.env.POSTGRES_LOG === 'true',
-  host: process.env.POSTGRES_HOST,
   dialect: 'postgres',
-  port: 5432
-})
+  port: 5432,
+  logging: process.env.POSTGRES_LOG === 'true',
+}
 
-export default db
+const config = {
+  production: {
+    ...baseConfig,
+    database: process.env.PROD_POSTGRES_DB,
+    host: process.env.PROD_POSTGRES_HOST,
+  },
+  development: {
+    ...baseConfig,
+    database: process.env.DEV_POSTGRES_DB,
+    host: process.env.DEV_POSTGRES_HOST,
+  }
+}
+
+const options = process.env.NODE_ENV === 'development' ? config.development : config.production
+
+export default options

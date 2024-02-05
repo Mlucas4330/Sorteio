@@ -1,15 +1,31 @@
-import { pixCharge, pixPaymentConfirmation } from '../services/pixService.js'
+import { pixCharge } from '../services/pixService.js'
 
-const deposit = async (req, res) => {
-  const { amount } = req.body
-
+const create = async (req, res) => {
   try {
+    const { amount } = req.body
+
+    if (!amount) {
+      return res.status(400).send({
+        code: 400,
+        message: 'Valor não pode ser vazio',
+        data: null
+      })
+    }
+
     const result = await pixCharge(amount)
 
-    res.json({ code: 201, message: 'QrCode Gerado com sucesso!', data: { qrCode: result.imagemQrcode } })
+    res.status(201).send({
+      code: 201,
+      message: 'QrCode Gerado com sucesso!',
+      data: { qrCode: result.imagemQrcode }
+    })
   } catch (err) {
-    res.json({ code: 500, message: err.message, data: null })
+    res.status(500).send({
+      code: 500,
+      message: err.message,
+      data: null
+    })
   }
 }
 
-export { deposit }
+export { create }

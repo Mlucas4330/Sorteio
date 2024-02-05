@@ -1,20 +1,16 @@
-import React, { StrictMode } from 'react'
-import ReactDOM from 'react-dom/client'
-import { ChakraProvider } from '@chakra-ui/react'
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from 'react-router-dom'
-import SignIn from './pages/SignIn.jsx'
-import SignUp from './pages/SignUp.jsx'
-import Home from './pages/Home.jsx'
-
-export const baseUrl = import.meta.env.VITE_NODE_ENV === 'production' ? '/api/' : import.meta.env.VITE_API_URL
+import React, { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
+import { ChakraProvider } from '@chakra-ui/react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import SignIn from './pages/SignIn.jsx';
+import SignUp from './pages/SignUp.jsx';
+import Home from './pages/Home.jsx';
+import Tutorial from './pages/Tutorial.jsx';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home />,
+        element: <Home />
     },
     {
         path: '/signin',
@@ -23,8 +19,12 @@ const router = createBrowserRouter([
     {
         path: '/signup',
         element: <SignUp />
+    },
+    {
+        path: '/tutorial',
+        element: <Tutorial />
     }
-])
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -32,4 +32,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <RouterProvider router={router} />
         </ChakraProvider>
     </StrictMode>
-)
+);
