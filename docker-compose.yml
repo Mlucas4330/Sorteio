@@ -33,6 +33,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - server
+      - certbot
   certbot:
     image: certbot/certbot
     volumes:
