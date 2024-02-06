@@ -6,8 +6,10 @@ import { getAllMessages } from '../services/messageService.js'
 import { getAllDeposits } from '../services/depositService.js'
 import { getCurrentPrizedraw } from '../services/prizedrawService.js'
 
+let io;
+
 const socket = server => {
-  const io = new Server(server, {
+  io = new Server(server, {
     cors: {
       origin: '*',
       methods: ['GET', 'POST']
@@ -56,4 +58,4 @@ const socket = server => {
   })
 }
 
-export default socket
+export { socket, io }

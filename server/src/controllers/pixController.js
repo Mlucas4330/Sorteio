@@ -1,7 +1,8 @@
 import EfiPay from "sdk-node-apis-efi"
 import options from "../configs/efipayConfig.js"
 import { pixPaymentConfirmation } from "../services/pixService.js"
-import EventEmitter from 'eventemitter3'
+import { io } from "../sockets/index.js"
+import { getCurrentPrizedraw } from "../services/prizedrawService.js"
 
 const configWebhook = async (_req, res) => {
   options.validateMtls = false
@@ -19,10 +20,18 @@ const configWebhook = async (_req, res) => {
   try {
     const response = await efipay.pixConfigWebhook(params, body)
 
-    res.send(response)
+    res.send({
+      message: 'Webhook configurado',
+      data: response,
+      code: 200
+    })
   } catch (err) {
     console.log(err)
-    res.send(err)
+    res.send({
+      data: null,
+      message: err,
+      code: 500
+    })
   }
 }
 
@@ -36,7 +45,11 @@ const webhook = async (_req, res) => {
 
     const details = await efipay.pixDetailWebhook(params)
 
-    res.send(details)
+    res.send({
+      code: 200,
+      message: 'Detalhes do webhook configurado',
+      data: details
+    })
   } catch (err) {
     console.log(err)
     res.send(err)
@@ -45,16 +58,27 @@ const webhook = async (_req, res) => {
 
 const webhookPix = async (req, res) => {
   try {
-    const eventEmitter = new EventEmitter()
+    // const deposit = await pixPaymentConfirmation(req.params.pix)
 
-    console.log(req.params.pix.valor)
+    // io.emit('deposit', deposit)
 
-    const deposit = await pixPaymentConfirmation(req.params.pix.valor, req.user.id)
-    eventEmitter.emit('deposit', deposit);
-    res.send(req.params.pix)
+    io.emit('payed', true);
+
+    const { totalAmount } = await getCurrentPrizedraw()
+    io.emit('total amount', totalAmount)
+
+    res.status(201).send({
+      message: 'Depósito criado com sucesso',
+      data: null,
+      code: 201
+    })
   } catch (err) {
     console.log(err)
-    res.send(err)
+    res.status(500).send({
+      code: 500,
+      data: null,
+      message: err
+    })
   }
 }
 

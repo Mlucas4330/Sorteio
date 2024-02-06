@@ -4,6 +4,7 @@ import db from '../database/index.js'
 const User = db.define('user', {
   username: {
     type: DataTypes.STRING,
+    unique: true,
     allowNull: false,
     validate: {
       min: 5,
@@ -36,7 +37,14 @@ const User = db.define('user', {
     }
   },
   pix: {
-    type: DataTypes.STRING
+    allowNull: false,
+    type: DataTypes.STRING,
+    unique: true,
+    validate: {
+      notEmpty: {
+        msg: 'O campo PIX deve ser preenchido'
+      }
+    }
   }
 })
 

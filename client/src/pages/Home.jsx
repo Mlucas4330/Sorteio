@@ -9,7 +9,7 @@ import DepositHistory from '../components/DepositHistory';
 import io from 'socket.io-client';
 
 function Home() {
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState(null);
     const socket = io(baseUrlSocket);
 
     useEffect(() => {
@@ -21,8 +21,8 @@ function Home() {
         });
     }, []);
 
-    socket.on('deposit', dpt => {
-        setAmount([...deposits, dpt]);
+    socket.on('total amount', ta => {
+        setAmount(ta);
     });
 
     return (

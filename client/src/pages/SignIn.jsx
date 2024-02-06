@@ -6,18 +6,13 @@ import {
     FormLabel,
     useToast,
     Spinner,
-    Center,
-    Box,
     Text,
     Highlight,
     FormErrorMessage,
     InputGroup,
     InputRightElement,
     IconButton,
-    Container,
-    Flex,
-    GridItem,
-    Grid
+    Container
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -109,6 +104,10 @@ function SignIn() {
                         Entrar
                     </Button>
                 </form>
+
+                <Text mt={5} textAlign={'center'}>
+                    <Link to={'/forgot-password'}>Esqueceu sua senha?</Link>
+                </Text>
 
                 <Text mt={5} textAlign={'center'}>
                     Ainda não tem conta?

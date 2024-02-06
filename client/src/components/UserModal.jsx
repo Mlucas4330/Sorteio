@@ -17,6 +17,7 @@ import {
     SkeletonText
 } from '@chakra-ui/react';
 import { fetchData, getToken, sendData } from '../utils';
+import { Link } from 'react-router-dom';
 
 function UserModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -80,6 +81,9 @@ function UserModal({ isOpen, onClose }) {
                                     <FormLabel>Chave Pix</FormLabel>
                                     <Input type="text" value={pix} onChange={e => setPix(e.target.value)} />
                                 </Box>
+                                <Link to={'/change-password'}>
+                                    <Button>Alterar Senha</Button>
+                                </Link>
                             </>
                         ) : (
                             <SkeletonText />

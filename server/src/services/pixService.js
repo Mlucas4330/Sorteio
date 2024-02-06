@@ -47,21 +47,16 @@ const getTaxedValue = (amount) => {
   return (amount - Number(process.env.TAX) / 100).toFixed(2)
 }
 
-const pixPaymentConfirmation = async (amount, userId) => {
+const pixPaymentConfirmation = async (pix) => {
   const { prizedraw } = await getCurrentPrizedraw()
 
-  try {
-    const deposit = await Deposit.create({
-      userId,
-      prizedrawId: prizedraw.id,
-      amount
-    })
+  const deposit = await Deposit.create({
+    userId,
+    prizedrawId: prizedraw.id,
+    amount: pix.valor
+  })
 
-    return deposit
-  }
-  catch (err) {
-    return err
-  }
+  return deposit
 }
 
 export { pixCharge, pixSend, pixPaymentConfirmation }
