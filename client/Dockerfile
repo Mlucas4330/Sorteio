@@ -1,4 +1,4 @@
-FROM node:16-alpine as build
+FROM node:16-alpine
 
 WORKDIR /app
 
@@ -9,13 +9,3 @@ RUN yarn install
 COPY . .
 
 RUN yarn build
-
-FROM nginx:latest
-
-COPY ../nginx/nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
