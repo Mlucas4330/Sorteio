@@ -29,15 +29,15 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
     depends_on:
       - server
   certbot:
-    image: certbot/certbot
+    image: certbot/certbot:latest
     volumes:
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
     command: certonly --webroot --webroot-path=/var/www/certbot --email mlucas4330@gmail.com --agree-tos --no-eff-email --force-renewal -d ninjasena.online -d www.ninjasena.online
 volumes:
   postgres_data:
