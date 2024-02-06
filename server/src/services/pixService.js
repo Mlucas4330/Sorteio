@@ -22,7 +22,9 @@ const pixCharge = async (amount) => {
     id: response.loc.id
   }
 
-  return await efipay.pixGenerateQRCode(params)
+  const qrCode = await efipay.pixGenerateQRCode(params)
+
+  return { pixCopiaECola: response.pixCopiaECola, qrCode: qrCode.imagemQrcode }
 }
 
 const pixSend = async (amount, winnerPix) => {

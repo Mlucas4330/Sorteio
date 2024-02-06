@@ -18,13 +18,22 @@ import {
     Image,
     Grid,
     useToast,
-    Text
+    Text,
+    Divider,
+    Box,
+    AbsoluteCenter,
+    Input,
+    InputRightElement,
+    IconButton,
+    Center
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { getToken, sendData } from '../utils';
+import { CopyIcon } from '@chakra-ui/icons';
 
 function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
+    const [pixCopiaECola, setPixCopiaECola] = useState(null);
     const [qrCode, setQrCode] = useState(null);
     const amountRef = useRef(null);
     const toast = useToast();
@@ -62,6 +71,7 @@ function DepositModal({ isOpen, onClose }) {
             }
 
             setQrCode(data.qrCode);
+            setPixCopiaECola(data.pixCopiaECola);
 
             toast({
                 description: message,
@@ -76,9 +86,28 @@ function DepositModal({ isOpen, onClose }) {
         }
     };
 
+    const handleCopyToClipboard = async () => {
+        await navigator.clipboard.writeText(pixCopiaECola);
+        toast({
+            description: 'Copiado para a área de transferência',
+            status: 'success',
+            duration: 2000,
+            isClosable: true
+        });
+    };
+
     return (
         <>
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal
+                size={{
+                    base: 'sm',
+                    sm: 'md',
+                    md: '3xl',
+                    lg: '4xl'
+                }}
+                isOpen={isOpen}
+                onClose={onClose}
+            >
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Faça um pix!</ModalHeader>
@@ -96,13 +125,28 @@ function DepositModal({ isOpen, onClose }) {
                             </NumberInput>
                         </InputGroup>
 
-                        {qrCode && (
-                            <Grid textAlign={'center'}>
-                                <Grid justifyContent={'center'}>
+                        {qrCode && pixCopiaECola && (
+                            <>
+                                <Center>
                                     <Image src={qrCode} alt="qrcode" />
-                                </Grid>
-                                <Text>Escaneie o QrCode acima para finalizar o depósito!</Text>
-                            </Grid>
+                                </Center>
+
+                                <Text textAlign={'center'}>Escaneie o QrCode acima para finalizar o depósito!</Text>
+
+                                <Box position="relative" padding="10">
+                                    <Divider />
+                                    <AbsoluteCenter bg="white" px="4">
+                                        OU
+                                    </AbsoluteCenter>
+                                </Box>
+
+                                <InputGroup>
+                                    <Input value={pixCopiaECola} type={'text'} />
+                                    <InputRightElement>
+                                        <IconButton icon={<CopyIcon />} onClick={handleCopyToClipboard} />
+                                    </InputRightElement>
+                                </InputGroup>
+                            </>
                         )}
                     </ModalBody>
                     <ModalFooter>
