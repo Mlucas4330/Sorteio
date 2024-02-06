@@ -30,6 +30,7 @@ import {
 import { useRef, useState } from 'react';
 import { getToken, sendData } from '../utils';
 import { CopyIcon } from '@chakra-ui/icons';
+import copy from 'copy-to-clipboard';
 
 function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -86,14 +87,17 @@ function DepositModal({ isOpen, onClose }) {
         }
     };
 
-    const handleCopyToClipboard = async () => {
-        await navigator.clipboard.writeText(pixCopiaECola);
-        toast({
-            description: 'Copiado para a área de transferência',
-            status: 'success',
-            duration: 2000,
-            isClosable: true
-        });
+    const handleCopyToClipboard = () => {
+        const isCopy = copy(pixCopiaECola);
+
+        if (isCopy) {
+            toast({
+                description: 'Copiado para a área de transferência',
+                status: 'success',
+                duration: 2000,
+                isClosable: true
+            });
+        }
     };
 
     return (
