@@ -33,14 +33,11 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - server
-      - certbot
   certbot:
     image: certbot/certbot
     volumes:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
     command: certonly --webroot --webroot-path=/var/www/certbot --email mlucas4330@gmail.com --agree-tos --no-eff-email --force-renewal -d ninjasena.online -d www.ninjasena.online
-    depends_on:
-      - nginx
 volumes:
   postgres_data:
