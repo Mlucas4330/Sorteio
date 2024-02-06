@@ -77,9 +77,11 @@ function SignIn() {
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
 
-            <Button m={7} colorScheme="yellow">
-                <Link to={'/'}>Voltar</Link>
-            </Button>
+            <Link to={'/'}>
+                <Button m={7} colorScheme="yellow">
+                    Voltar
+                </Button>
+            </Link>
 
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleUser)}>

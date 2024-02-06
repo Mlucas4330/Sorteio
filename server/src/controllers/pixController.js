@@ -47,6 +47,8 @@ const webhookPix = async (req, res) => {
   try {
     const eventEmitter = new EventEmitter()
 
+    console.log(req.params.pix.valor)
+
     const deposit = await pixPaymentConfirmation(req.params.pix.valor, req.user.id)
     eventEmitter.emit('deposit', deposit);
     res.send(req.params.pix)

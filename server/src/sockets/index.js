@@ -4,6 +4,7 @@ import Message from '../models/messageModel.js'
 import User from '../models/userModel.js'
 import { getAllMessages } from '../services/messageService.js'
 import { getAllDeposits } from '../services/depositService.js'
+import { getCurrentPrizedraw } from '../services/prizedrawService.js'
 
 const socket = server => {
   const io = new Server(server, {
@@ -46,6 +47,11 @@ const socket = server => {
     socket.on('deposits', async () => {
       const deposits = await getAllDeposits()
       io.emit('deposits', deposits)
+    })
+
+    socket.on('total amount', async () => {
+      const { totalAmount } = await getCurrentPrizedraw()
+      io.emit('total amount', totalAmount)
     })
   })
 }

@@ -17,9 +17,11 @@ const Tutorial = () => {
     return (
         <>
             <Nav />
-            <Button m={7} colorScheme="yellow">
-                <Link to={'/'}>Voltar</Link>
-            </Button>
+            <Link to={'/'}>
+                <Button m={7} colorScheme="yellow">
+                    Voltar
+                </Button>
+            </Link>
             <Container maxW={'xl'}>
                 <Text>
                     Cada dia, exatamente à meia-noite, um novo sorteio tem início e se estende por 24 horas. Neste intervalo, os usuários

@@ -73,7 +73,15 @@ const signup = async (req, res) => {
   try {
     const hashedPass = await bcrypt.hash(password, 10)
 
-    await User.create({ username, email, password: hashedPass, pix })
+    const user = await User.create({ username, email, password: hashedPass, pix })
+
+    if (!user) {
+      res.status(400).send({
+        data: null,
+        code: 201,
+        message: 'Email já cadastrado!'
+      })
+    }
 
     res.status(201).send({
       data: null,
