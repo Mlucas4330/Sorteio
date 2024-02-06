@@ -2,13 +2,7 @@ import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import SignIn from './pages/SignIn.jsx';
-import SignUp from './pages/SignUp.jsx';
-import Home from './pages/Home.jsx';
-import Tutorial from './pages/Tutorial.jsx';
-import ChangePassword from './pages/ChangePassword.jsx';
-import ResetPassword from './pages/ResetPassword.jsx';
-import ForgotPassword from './pages/ForgotPassword.jsx';
+import { Home, SignIn, SignUp, Tutorial, ChangePassword, ForgotPassword, ResetPassword } from './pages';
 
 const router = createBrowserRouter([
     {

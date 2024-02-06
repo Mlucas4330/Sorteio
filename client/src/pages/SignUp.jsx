@@ -68,7 +68,7 @@ function SignUp() {
 
                     <FormControl mb={3} isInvalid={errors.email}>
                         <FormLabel>Email</FormLabel>
-                        <Input autoComplete="on" placeholder="Email" type="email" {...register('email')} />
+                        <Input autoComplete="email" placeholder="Email" type="email" {...register('email')} />
                         {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
                     </FormControl>
 

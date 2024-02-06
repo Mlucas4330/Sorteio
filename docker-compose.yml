@@ -27,8 +27,17 @@ services:
     restart: always
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - /var/www/certbot:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - server
-
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /var/www/certbot:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
+    command: certonly --webroot --webroot-path=/var/www/html --email mlucas4330@gmail.com --agree-tos --no-eff-email --force-renewal -d ninjasena.online -d www.ninjasena.online
 volumes:
   postgres_data:
