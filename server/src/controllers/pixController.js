@@ -60,11 +60,13 @@ const webhookPix = async (req, res) => {
   try {
     io.emit('payed', true);
 
-    const deposit = getDepositByTxidAndUpdate(req.params.pix.txid)
-
     return res.send({
       data: req.params
     })
+
+    const deposit = getDepositByTxidAndUpdate(req.params.pix.txid)
+
+
 
     io.emit('deposit', deposit)
 
