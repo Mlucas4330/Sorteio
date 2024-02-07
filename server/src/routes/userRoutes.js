@@ -1,10 +1,12 @@
 import { Router } from 'express'
-import { updatePix, signup, signin, currentUser, changePassword, forgotPassword, resetPassword } from '../controllers/userController.js'
+import { update, signup, signin, currentUser, changePassword, forgotPassword, resetPassword } from '../controllers/userController.js'
 import { verifyJWT } from '../middlewares/index.js'
+import multer from 'multer'
 
 const userRouter = Router()
+const upload = multer({ storage: multer.memoryStorage() })
 
-userRouter.post('/user/update/pix', verifyJWT, updatePix)
+userRouter.post('/user/update', [verifyJWT, upload.single('image')], update)
 
 userRouter.post('/signup', signup)
 

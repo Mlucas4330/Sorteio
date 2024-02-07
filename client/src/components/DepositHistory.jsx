@@ -24,10 +24,10 @@ const DepositHistory = () => {
 
     return (
         <Container maxW={'3xl'}>
-            <Heading size={'md'} textAlign={'center'} mt={10} color={'gray.400'}>
+            <Heading fontWeight={'500'} size={'md'} textAlign={'center'} mt={10} color={'gray.400'}>
                 Últimos pix
             </Heading>
-            <Table variant={'simple'} borderWidth={1} p={5}>
+            <Table mt={3} variant={'simple'} borderWidth={1} p={5}>
                 <Thead>
                     <Tr>
                         <Th>Usuário</Th>

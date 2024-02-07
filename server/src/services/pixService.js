@@ -1,9 +1,8 @@
 import EfiPay from 'sdk-node-apis-efi'
 import options from '../configs/efipayConfig.js'
-import { getCurrentPrizedraw } from './prizedrawService.js'
-import Deposit from '../models/depositModel.js'
+import { createDeposit } from './depositService.js'
 
-const pixCharge = async (amount) => {
+const pixCharge = async (amount, userId) => {
   const efipay = new EfiPay(options)
 
   const body = {
@@ -16,15 +15,17 @@ const pixCharge = async (amount) => {
     chave: process.env.PIX
   }
 
-  const response = await efipay.pixCreateImmediateCharge([], body)
+  const { pixCopiaECola, txid, loc } = await efipay.pixCreateImmediateCharge([], body)
+
+  await createDeposit(amount, userId, txid)
 
   const params = {
-    id: response.loc.id
+    id: loc.id
   }
 
-  const qrCode = await efipay.pixGenerateQRCode(params)
+  const { imagemQrcode } = await efipay.pixGenerateQRCode(params)
 
-  return { pixCopiaECola: response.pixCopiaECola, qrCode: qrCode.imagemQrcode }
+  return { pixCopiaECola, imagemQrcode }
 }
 
 const pixSend = async (amount, winnerPix) => {
@@ -47,16 +48,4 @@ const getTaxedValue = (amount) => {
   return (amount - Number(process.env.TAX) / 100).toFixed(2)
 }
 
-const pixPaymentConfirmation = async (pix) => {
-  const { prizedraw } = await getCurrentPrizedraw()
-
-  const deposit = await Deposit.create({
-    userId,
-    prizedrawId: prizedraw.id,
-    amount: pix.valor
-  })
-
-  return deposit
-}
-
-export { pixCharge, pixSend, pixPaymentConfirmation }
+export { pixCharge, pixSend }

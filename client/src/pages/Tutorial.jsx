@@ -7,6 +7,7 @@ import {
     Box,
     Button,
     Container,
+    Divider,
     Heading,
     Text
 } from '@chakra-ui/react';
@@ -28,9 +29,11 @@ const Tutorial = () => {
                     têm a oportunidade de adquirir sua participação no sorteio vigente realizando pagamentos por Pix. Além disso, o valor
                     desses pagamentos contribui para o montante total que será sorteado ao final do dia.
                 </Text>
-                <Heading my={10} textAlign={'center'}>
+
+                <Heading size={'lg'} mt={5} mb={3} textAlign={'center'}>
                     Dúvidas frequentes
                 </Heading>
+
                 <Accordion defaultIndex={[0]} allowMultiple>
                     <AccordionItem>
                         <AccordionButton>

@@ -24,7 +24,7 @@ function Timer() {
     }, 1000);
 
     return (
-        <Heading color={'red.500'} size={'md'} textAlign={'center'}>
+        <Heading fontWeight={'500'} color={'red.500'} size={'md'} textAlign={'center'}>
             Tempo restante: {time}
         </Heading>
     );

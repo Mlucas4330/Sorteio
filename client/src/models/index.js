@@ -40,12 +40,15 @@ const UserSignUp = z.object({
 });
 
 const UserSignIn = z.object({
-    email: z
+    username: z
         .string({
-            required_error: 'Email é obrigatório'
+            required_error: 'Usuário é obrigatório'
         })
-        .email({
-            message: 'Email inválido'
+        .min(3, {
+            message: 'Usuário deve conter pelo menos 3 caracteres'
+        })
+        .max(50, {
+            message: 'Usuário deve conter no máximo 50 caracteres'
         })
         .trim(),
     password: z

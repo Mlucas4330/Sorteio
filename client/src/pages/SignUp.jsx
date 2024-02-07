@@ -10,6 +10,7 @@ function SignUp() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const toast = useToast();
+    const [view, setView] = useState(false);
 
     const {
         register,
@@ -74,7 +75,12 @@ function SignUp() {
 
                     <FormControl mb={3} isInvalid={errors.password}>
                         <FormLabel>Senha</FormLabel>
-                        <Input autoComplete="new-password" placeholder="Senha" type="password" {...register('password')} />
+                        <InputGroup>
+                            <Input autoComplete="new-password" placeholder="Senha" type="password" {...register('password')} />
+                            <InputRightElement>
+                                <IconButton onClick={() => setView(prev => !prev)} icon={view ? <ViewOffIcon /> : <ViewIcon />} />
+                            </InputRightElement>
+                        </InputGroup>
                         {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
                     </FormControl>
 

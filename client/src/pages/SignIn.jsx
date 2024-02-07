@@ -80,10 +80,10 @@ function SignIn() {
 
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleUser)}>
-                    <FormControl mb={3} isInvalid={errors.email}>
-                        <FormLabel>Email</FormLabel>
-                        <Input autoComplete="email" placeholder="Email" type="email" {...register('email')} />
-                        {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
+                    <FormControl mb={3} isInvalid={errors.username}>
+                        <FormLabel>Usuário</FormLabel>
+                        <Input autoComplete="username" placeholder="Usuário" {...register('username')} />
+                        {errors.username && <FormErrorMessage>{errors.username.message}</FormErrorMessage>}
                     </FormControl>
                     <FormControl mb={3} isInvalid={errors.password}>
                         <FormLabel>Senha</FormLabel>

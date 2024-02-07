@@ -54,4 +54,4 @@ const destroyToken = () => {
 }
 
 
-export { fetchData, getToken, setToken, destroyToken, sendData, baseUrlSocket }
+export { fetchData, getToken, setToken, destroyToken, sendData, baseUrlSocket, baseUrl }

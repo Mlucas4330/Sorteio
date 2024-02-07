@@ -22,7 +22,7 @@ const getCurrentPrizedraw = async () => {
 }
 
 const startPrizedraw = async () => {
-  return await Prizedraw.create({})
+  await Prizedraw.create()
 }
 
 export { getCurrentPrizedraw, startPrizedraw }

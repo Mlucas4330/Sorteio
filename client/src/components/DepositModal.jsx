@@ -75,7 +75,7 @@ function DepositModal({ isOpen, onClose }) {
                 return;
             }
 
-            setQrCode(data.qrCode);
+            setQrCode(data.imagemQrcode);
             setPixCopiaECola(data.pixCopiaECola);
 
             toast({

@@ -37,7 +37,7 @@ const ForgotPassword = () => {
                 <form onSubmit={handleSubmit(handleEmail)}>
                     <FormControl mb={3} isInvalid={errors.email}>
                         <FormLabel>Email</FormLabel>
-                        <Input {...register('email')} autoComplete="on" type="email" placeholder="email" />
+                        <Input {...register('email')} autoComplete="on" type="email" placeholder="Email" />
                         {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
                     </FormControl>
                     <Button type="submit" w={'100%'} colorScheme="green">

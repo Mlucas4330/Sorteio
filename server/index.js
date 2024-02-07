@@ -28,7 +28,7 @@ const main = async () => {
 
     socket(server)
 
-    await db.sync({ force: false });
+    await db.sync({ alter: true });
 
     schedule('0 0 0 * * *', resetPrizedraw, {
       scheduled: true,

@@ -4,11 +4,17 @@ import bcrypt from 'bcryptjs'
 import { Op } from 'sequelize'
 import nodemailer from 'nodemailer'
 
-const updatePix = async (req, res) => {
+const update = async (req, res) => {
   try {
-    const { pix } = req.body
+    const { pix, image } = req.body
+
     const alreadyExist = await User.findOne({
-      where: { pix }
+      where: {
+        pix,
+        userId: {
+          [Op.not]: req.user.id
+        }
+      }
     })
 
     if (alreadyExist) {
@@ -19,14 +25,14 @@ const updatePix = async (req, res) => {
       })
     }
 
-    const user = await User.update(
-      { pix },
+    const [_, user] = await User.update(
+      { pix, image },
       { where: { id: req.user.id } }
     )
 
     res.send({
-      data: { pix: user.pix },
-      message: 'Pix alterado com sucesso',
+      data: null,
+      message: 'Usuário alterado com sucesso',
       code: 200
     })
   } catch (err) {
@@ -41,9 +47,9 @@ const updatePix = async (req, res) => {
 
 const signin = async (req, res) => {
   try {
-    const { email, password } = req.body
+    const { username, password } = req.body
 
-    const user = await User.findOne({ where: { email } })
+    const user = await User.findOne({ where: { username } })
 
     if (!user) {
       return res.status(404).send({
@@ -146,9 +152,7 @@ const changePassword = async (req, res) => {
   try {
     const { oldpass, newpass } = req.body;
 
-    const user = User.findOne({
-      where: { id: user.req.id }
-    });
+    const user = await User.findByPk(user.req.id);
 
     if (!user) {
       return res.status(404).send({
@@ -168,7 +172,8 @@ const changePassword = async (req, res) => {
       });
     }
 
-    const hashedPass = await bcrypt.hash(newpass, 10)
+    const hashedPass = await bcrypt.hash(newpass, 10);
+
     user.password = hashedPass;
 
     await user.save()
@@ -248,9 +253,7 @@ const resetPassword = async (req, res) => {
   try {
     const { token, newpass } = req.body;
 
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-
-    const userId = decodedToken.userId;
+    const { userId } = jwt.verify(token, process.env.SECRET);
 
     const user = await User.findByPk(userId)
 
@@ -262,7 +265,8 @@ const resetPassword = async (req, res) => {
       })
     }
 
-    const hashedPass = await bcrypt.hash(newpass, 10)
+    const hashedPass = await bcrypt.hash(newpass, 10);
+
     user.password = hashedPass;
 
     await user.save()
@@ -282,4 +286,4 @@ const resetPassword = async (req, res) => {
   }
 }
 
-export { updatePix, signin, signup, currentUser, changePassword, forgotPassword, resetPassword }
+export { update, signin, signup, currentUser, changePassword, forgotPassword, resetPassword }

@@ -1,8 +1,8 @@
 import EfiPay from "sdk-node-apis-efi"
 import options from "../configs/efipayConfig.js"
-import { pixPaymentConfirmation } from "../services/pixService.js"
 import { io } from "../sockets/index.js"
 import { getCurrentPrizedraw } from "../services/prizedrawService.js"
+import { getDepositByTxidAndUpdate } from "../services/depositService.js"
 
 const configWebhook = async (_req, res) => {
   options.validateMtls = false
@@ -58,18 +58,22 @@ const webhook = async (_req, res) => {
 
 const webhookPix = async (req, res) => {
   try {
-    // const deposit = await pixPaymentConfirmation(req.params.pix)
-
-    // io.emit('deposit', deposit)
-
     io.emit('payed', true);
+
+    const deposit = getDepositByTxidAndUpdate(req.params.pix.txid)
+
+    return res.send({
+      data: req.params
+    })
+
+    io.emit('deposit', deposit)
 
     const { totalAmount } = await getCurrentPrizedraw()
     io.emit('total amount', totalAmount)
 
     res.status(201).send({
       message: 'Depósito criado com sucesso',
-      data: null,
+      data: deposit,
       code: 201
     })
   } catch (err) {

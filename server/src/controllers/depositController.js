@@ -12,12 +12,12 @@ const create = async (req, res) => {
       })
     }
 
-    const { qrCode, pixCopiaECola } = await pixCharge(amount)
+    const { imagemQrcode, pixCopiaECola } = await pixCharge(amount, req.user.id)
 
     res.status(201).send({
       code: 201,
       message: 'QrCode Gerado com sucesso!',
-      data: { qrCode, pixCopiaECola }
+      data: { imagemQrcode, pixCopiaECola }
     })
   } catch (err) {
     console.log(err)

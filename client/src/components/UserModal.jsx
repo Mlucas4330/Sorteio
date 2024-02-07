@@ -7,24 +7,29 @@ import {
     ModalBody,
     ModalCloseButton,
     Text,
-    Box,
     FormLabel,
     Input,
     Button,
     ModalFooter,
     ButtonGroup,
     useToast,
-    SkeletonText
+    SkeletonText,
+    Avatar,
+    FormControl,
+    VisuallyHidden
 } from '@chakra-ui/react';
-import { fetchData, getToken, sendData } from '../utils';
+import { baseUrl, fetchData, getToken } from '../utils';
 import { Link } from 'react-router-dom';
+import useBlobToImage from '../hooks/useBlobToImage';
 
 function UserModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
-    const [user, setUser] = useState({});
-    const [pix, setPix] = useState('');
-
+    const [user, setUser] = useState({
+        username: null,
+        pix: null,
+        image: null
+    });
     const token = getToken();
     const toast = useToast();
 
@@ -32,8 +37,11 @@ function UserModal({ isOpen, onClose }) {
         setLoading(true);
         try {
             const { data } = await fetchData('current-user', token);
-            setUser(data.user);
-            setPix(data.user.pix);
+            setUser({
+                username: data.user.username,
+                pix: data.user.pix,
+                image: useBlobToImage(data.user.image)
+            });
         } catch (err) {
             console.log(err);
         } finally {
@@ -45,10 +53,22 @@ function UserModal({ isOpen, onClose }) {
         getUser();
     }, []);
 
-    const handlePix = async () => {
+    const handleUser = async () => {
         setLoadingSubmit(true);
         try {
-            const { code, message } = await sendData('user/update/pix', { pix }, token);
+            const formData = new FormData();
+
+            formData.append('pix', user.pix);
+            formData.append('image', user.image);
+
+            const response = await fetch(baseUrl + 'user/update', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            });
+            const { code, message } = await response.json();
 
             toast({
                 description: message,
@@ -63,6 +83,15 @@ function UserModal({ isOpen, onClose }) {
         }
     };
 
+    const handleFile = e => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setUser({ ...user, image: imageUrl });
+        }
+    };
+
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -73,14 +102,32 @@ function UserModal({ isOpen, onClose }) {
                     <ModalBody>
                         {!loading ? (
                             <>
-                                <Box mb={3}>
-                                    <Text fontWeight={'bold'}>Usuário</Text>
-                                    <Text>{user.username}</Text>
-                                </Box>
-                                <Box mb={3}>
+                                <FormControl mb={3}>
+                                    <FormLabel
+                                        _hover={{
+                                            cursor: 'pointer'
+                                        }}
+                                        display={'flex'}
+                                        alignItems={'center'}
+                                        gap={3}
+                                        flexDirection={'column'}
+                                    >
+                                        <Avatar size="xl" src={user.image} />
+                                        Mudar foto de perfil
+                                    </FormLabel>
+                                    <VisuallyHidden>
+                                        <Input type="file" accept="image/*" onChange={handleFile} />
+                                    </VisuallyHidden>
+                                </FormControl>
+                                <FormControl mb={3}>
+                                    <FormLabel>Usuário</FormLabel>
+                                    <Input readOnly value={user.username} />
+                                </FormControl>
+                                <FormControl mb={3}>
                                     <FormLabel>Chave Pix</FormLabel>
-                                    <Input type="text" value={pix} onChange={e => setPix(e.target.value)} />
-                                </Box>
+                                    <Input type="text" value={user.pix} onChange={e => setUser({ ...user, pix: e.target.value })} />
+                                </FormControl>
+
                                 <Link to={'/change-password'}>
                                     <Button>Alterar Senha</Button>
                                 </Link>
@@ -98,7 +145,7 @@ function UserModal({ isOpen, onClose }) {
                                 isLoading={loadingSubmit}
                                 loadingText="Gerando"
                                 spinnerPlacement="end"
-                                onClick={handlePix}
+                                onClick={handleUser}
                                 colorScheme="green"
                             >
                                 Salvar

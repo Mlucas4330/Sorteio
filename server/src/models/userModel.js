@@ -45,7 +45,8 @@ const User = db.define('user', {
         msg: 'O campo PIX deve ser preenchido'
       }
     }
-  }
+  },
+  image: DataTypes.BLOB
 })
 
 export default User
