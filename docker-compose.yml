@@ -6,11 +6,11 @@ services:
     restart: always
     env_file:
       - /home/ubuntu/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
   server:
