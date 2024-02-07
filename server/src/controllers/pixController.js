@@ -58,26 +58,21 @@ const webhook = async (_req, res) => {
 
 const webhookPix = async (req, res) => {
   try {
-    const { pix } = req.body
+    const { pixes } = req.body
+    const { totalAmount } = await getCurrentPrizedraw()
 
     io.emit('payed', true);
 
-    return res.send({
-      data: pix || req.body
-    })
-
-    const deposit = getDepositByTxidAndUpdate(req.params.pix.txid)
-
-
-
-    io.emit('deposit', deposit)
-
-    const { totalAmount } = await getCurrentPrizedraw()
-    io.emit('total amount', totalAmount)
+    if (pixes) {
+      pixes.map(pix => {
+        io.emit('deposit', getDepositByTxidAndUpdate(pix.txid))
+        io.emit('total amount', totalAmount += pix.valor)
+      })
+    }
 
     res.status(201).send({
       message: 'Depósito criado com sucesso',
-      data: deposit,
+      data: null,
       code: 201
     })
   } catch (err) {
