@@ -17,7 +17,6 @@ const socket = server => {
   })
 
   io.on('connection', async socket => {
-
     socket.on('messages', async () => {
       const messages = await getAllMessages()
       io.emit('messages', messages)
