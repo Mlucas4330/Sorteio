@@ -3,7 +3,6 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import db from './src/database/index.js'
 import userRouter from './src/routes/userRoutes.js'
-import prizedrawRouter from './src/routes/prizedrawRouter.js'
 import depositRouter from './src/routes/depositRouter.js'
 import associateModels from './src/models/index.js'
 import { createServer } from 'http'
@@ -22,7 +21,7 @@ const main = async () => {
     app.use(cors())
     app.use(json())
 
-    app.use('/api', [userRouter, prizedrawRouter, depositRouter, pixRouter])
+    app.use('/api', [userRouter, depositRouter, pixRouter])
 
     associateModels()
 

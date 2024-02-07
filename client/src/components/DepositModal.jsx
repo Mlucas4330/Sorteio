@@ -7,7 +7,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    Flex,
     NumberInput,
     NumberInputField,
     NumberInputStepper,
