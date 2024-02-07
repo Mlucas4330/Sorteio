@@ -13,7 +13,6 @@ function Home() {
     const socket = io(baseUrlSocket);
 
     useEffect(() => {
-        socket.emit('total amount', {});
         socket.on('total amount', ta => {
             if (ta) {
                 setAmount(ta);

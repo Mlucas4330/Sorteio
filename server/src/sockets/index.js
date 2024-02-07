@@ -17,10 +17,13 @@ const socket = server => {
   })
 
   io.on('connection', async socket => {
-    socket.on('messages', async () => {
-      const messages = await getAllMessages()
-      io.emit('messages', messages)
-    })
+    io.emit('messages', await getAllMessages())
+
+    io.emit('deposits', await getAllDeposits())
+
+    const { totalAmount } = await getCurrentPrizedraw()
+    io.emit('total amount', totalAmount)
+
 
     socket.on('chat message', async payload => {
       try {
@@ -43,16 +46,6 @@ const socket = server => {
       } catch (err) {
         console.log(err)
       }
-    })
-
-    socket.on('deposits', async () => {
-      const deposits = await getAllDeposits()
-      io.emit('deposits', deposits)
-    })
-
-    socket.on('total amount', async () => {
-      const { totalAmount } = await getCurrentPrizedraw()
-      io.emit('total amount', totalAmount)
     })
   })
 }

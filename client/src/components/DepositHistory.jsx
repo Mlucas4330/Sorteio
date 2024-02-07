@@ -10,7 +10,6 @@ const DepositHistory = () => {
     const socket = io(baseUrlSocket);
 
     useEffect(() => {
-        socket.emit('deposits', {});
         socket.on('deposits', deposits => {
             if (deposits) {
                 setDeposits(deposits);

@@ -29,7 +29,6 @@ function Chat({ isOpen, onClose }) {
     const socket = io(baseUrlSocket);
 
     useEffect(() => {
-        socket.emit('messages', {});
         socket.on('messages', messages => {
             if (messages) {
                 setMessages(messages);
