@@ -1,10 +1,10 @@
-FROM node:latest as build
+FROM node:latest as builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn install
+RUN yarn install --production
 
 COPY . .
 
@@ -12,7 +12,7 @@ RUN yarn build
 
 FROM nginx:latest
 
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 

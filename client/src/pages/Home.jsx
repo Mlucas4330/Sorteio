@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import Timer from '../components/Timer';
 import { Heading, Highlight, Box } from '@chakra-ui/react';
-import { baseUrlSocket, fetchData } from '../utils';
+import { baseUrlSocket } from '../utils';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
 import Nav from '../components/Nav';
 import DepositHistory from '../components/DepositHistory';

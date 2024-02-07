@@ -1,5 +1,5 @@
 import { Container, Heading, Highlight, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { baseUrlSocket } from '../utils';
 import useTimeFormatter from '../hooks/useTimeFormatter';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
