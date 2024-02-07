@@ -63,12 +63,10 @@ const webhookPix = async (req, res) => {
 
     io.emit('payed', true);
 
-    if (pixes) {
-      pixes.map(pix => {
-        io.emit('deposit', getDepositByTxidAndUpdate(pix.txid))
-        io.emit('total amount', totalAmount += pix.valor)
-      })
-    }
+    pixes.map(pix => {
+      io.emit('deposit', getDepositByTxidAndUpdate(pix.txid))
+      io.emit('total amount', totalAmount += pix.valor)
+    })
 
     res.status(201).send({
       message: 'Depósito criado com sucesso',

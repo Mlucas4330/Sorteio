@@ -7,7 +7,8 @@ const getAllDeposits = async () => {
 
   return await Deposit.findAll({
     where: {
-      prizedrawId: prizedraw.id
+      prizedrawId: prizedraw.id,
+      approved: true
     },
     include: {
       model: User,
@@ -21,7 +22,10 @@ const getAllDeposits = async () => {
 const getDepositByTxidAndUpdate = async (txid) => {
   const [_, deposit] = await Deposit.update(
     { approved: true },
-    { where: { txid } }
+    {
+      where: { txid },
+      returning: true
+    },
   )
 
   return deposit

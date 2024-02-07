@@ -14,7 +14,8 @@ const getCurrentPrizedraw = async () => {
       [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
     ],
     where: {
-      prizedrawId: prizedraw.id
+      prizedrawId: prizedraw.id,
+      approved: true
     }
   })
 

@@ -11,7 +11,7 @@ const update = async (req, res) => {
     const alreadyExist = await User.findOne({
       where: {
         pix,
-        userId: {
+        id: {
           [Op.not]: req.user.id
         }
       }
@@ -27,7 +27,10 @@ const update = async (req, res) => {
 
     const [_, user] = await User.update(
       { pix, image },
-      { where: { id: req.user.id } }
+      {
+        where: { id: req.user.id },
+        returning: true
+      }
     )
 
     res.send({
