@@ -13,13 +13,14 @@ import {
     ButtonGroup,
     useToast,
     SkeletonText,
-    Avatar,
     FormControl,
-    VisuallyHidden
+    VisuallyHidden,
+    Image
 } from '@chakra-ui/react';
 import { baseUrl, fetchData, getToken } from '../utils';
 import { Link } from 'react-router-dom';
 import useBlobToImage from '../hooks/useBlobToImage';
+import defaultImage from '../assets/default-profile.png';
 
 function UserModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -113,7 +114,7 @@ function UserModal({ isOpen, onClose }) {
                                         alignItems={'center'}
                                         flexDirection={'column'}
                                     >
-                                        <Avatar align={'center'} size="xl" src={image} />
+                                        <Image mb={3} src={image || defaultImage} w={'100px'} h={'100px'} borderRadius={'full'} />
                                         Mudar foto de perfil
                                     </FormLabel>
                                     <VisuallyHidden>

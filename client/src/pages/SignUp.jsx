@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
-import { Button, Input, FormControl, FormLabel, useToast, Spinner, Text, Highlight, FormErrorMessage, Container } from '@chakra-ui/react';
+import {
+    Button,
+    Input,
+    FormControl,
+    FormLabel,
+    useToast,
+    Spinner,
+    Text,
+    Highlight,
+    FormErrorMessage,
+    Container,
+    InputGroup,
+    InputRightElement,
+    IconButton
+} from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { sendData } from '../utils';
 import { UserSignUp } from '../models';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 function SignUp() {
     const navigate = useNavigate();
@@ -76,7 +91,12 @@ function SignUp() {
                     <FormControl mb={3} isInvalid={errors.password}>
                         <FormLabel>Senha</FormLabel>
                         <InputGroup>
-                            <Input autoComplete="new-password" placeholder="Senha" type="password" {...register('password')} />
+                            <Input
+                                autoComplete="new-password"
+                                placeholder="Senha"
+                                type={view ? 'text' : 'password'}
+                                {...register('password')}
+                            />
                             <InputRightElement>
                                 <IconButton onClick={() => setView(prev => !prev)} icon={view ? <ViewOffIcon /> : <ViewIcon />} />
                             </InputRightElement>

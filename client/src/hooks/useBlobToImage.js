@@ -1,5 +1,5 @@
 function useBlobToImage(image) {
-    if (!image.data) {
+    if (!image?.data) {
         return null
     }
 

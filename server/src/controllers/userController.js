@@ -25,8 +25,14 @@ const update = async (req, res) => {
       })
     }
 
+    let data = { pix }
+
+    if (req.file?.buffer) {
+      data = { ...data, image: req.file.buffer }
+    }
+
     const [_, user] = await User.update(
-      { pix, image: req.file.buffer },
+      data,
       {
         where: { id: req.user.id },
         returning: true
