@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(ninjaosena.online www.ninjasena.online)
+domains=(ninjasena.online www.ninjasena.online)
 rsa_key_size=4096
 data_path="./certbot"
 email="mlucas4330@gmail.com"
