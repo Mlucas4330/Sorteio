@@ -11,24 +11,28 @@ const resetPrizedraw = async () => {
     const { count, rows } = await User.findAndCountAll({
       include: {
         model: Deposit,
-        where: { prizedrawId: prizedraw.id }
+        where: {
+          prizedrawId: prizedraw.id,
+          approved: true
+        }
       },
       distinct: true
     })
 
-    const i = Math.floor(Math.random() * count)
+    const i = Math.floor((Math.random() * count))
+
     const winner = rows[i]
 
     prizedraw.userId = winner.id
     prizedraw.finished = true
 
-    pixSend(totalAmount, winner.pix)
+    await deleteAllMessages()
 
     await prizedraw.save()
 
-    await startPrizedraw()
+    pixSend(totalAmount, winner.pix)
 
-    await deleteAllMessages()
+    await startPrizedraw()
 
   } catch (err) {
     console.log(err)

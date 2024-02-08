@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-const verifyJWT = (req, res, next) => {
+const verifyJWT = (req, _res, next) => {
   try {
     const authHeader = req.headers.authorization
 
@@ -14,9 +14,9 @@ const verifyJWT = (req, res, next) => {
       return next('Não há token')
     }
 
-    const payload = jwt.verify(token, process.env.SECRET)
+    const { userId } = jwt.verify(token, process.env.SECRET)
 
-    req.user = payload.user
+    req.userId = userId
 
     next()
   } catch (err) {

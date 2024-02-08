@@ -11,6 +11,11 @@ const index = async (_req, res) => {
     })
   } catch (err) {
     console.log(err)
+    res.status(500).send({
+      code: 500,
+      data: null,
+      message: err
+    })
   }
 }
 

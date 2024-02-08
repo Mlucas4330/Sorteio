@@ -1,6 +1,6 @@
 import { getCurrentPrizedraw } from "../services/prizedrawService.js"
 
-const index = async (req, res) => {
+const index = async (_req, res) => {
   try {
     const { totalAmount } = getCurrentPrizedraw()
 
@@ -11,6 +11,11 @@ const index = async (req, res) => {
     })
   } catch (err) {
     console.log(err)
+    res.status(500).send({
+      code: 500,
+      data: null,
+      message: err
+    })
   }
 }
 

@@ -16,10 +16,10 @@ const deleteAllMessages = async () => {
 }
 
 const createMessage = async ({ text, token }) => {
-    const { user } = jwt.verify(token, process.env.SECRET)
+    const { userId } = jwt.verify(token, process.env.SECRET)
 
     const message = await Message.create({
-        userId: user.id,
+        userId,
         text,
         token
     });

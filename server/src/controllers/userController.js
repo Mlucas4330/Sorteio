@@ -12,7 +12,7 @@ const update = async (req, res) => {
       where: {
         pix,
         id: {
-          [Op.not]: req.user.id
+          [Op.not]: req.userId
         }
       }
     })
@@ -34,7 +34,7 @@ const update = async (req, res) => {
     const [_, user] = await User.update(
       data,
       {
-        where: { id: req.user.id },
+        where: { id: req.userId },
         returning: true
       }
     )
@@ -78,7 +78,7 @@ const signin = async (req, res) => {
       })
     }
 
-    const token = jwt.sign({ user }, process.env.SECRET)
+    const token = jwt.sign({ userId: user.id }, process.env.SECRET)
 
     res.send({
       data: { user, token },
@@ -90,7 +90,7 @@ const signin = async (req, res) => {
     return res.status(500).send({
       data: null,
       code: 500,
-      message: 'Erro interno do servidor'
+      message: err
     })
   }
 }
@@ -131,7 +131,7 @@ const signup = async (req, res) => {
     res.send({
       data: null,
       code: 500,
-      message: 'Erro interno de servidor'
+      message: err
     })
   }
 }
@@ -140,9 +140,10 @@ const currentUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.user.id
+        id: req.userId
       }
     })
+
     res.send({
       data: { user },
       code: 200
@@ -195,7 +196,7 @@ const changePassword = async (req, res) => {
   } catch (err) {
     res.send({
       code: 500,
-      message: 'Erro interno de servidor',
+      message: err,
       data: null
     })
   }
@@ -238,7 +239,7 @@ const forgotPassword = async (req, res) => {
         return res.status(500).send({
           code: 500,
           data: null,
-          message: 'Erro interno de servidor'
+          message: err
         });
       }
 
@@ -252,7 +253,7 @@ const forgotPassword = async (req, res) => {
     console.error(err);
     res.send({
       code: 500,
-      message: 'Erro interno de servidor',
+      message: err,
       data: null
     })
   }
@@ -289,7 +290,7 @@ const resetPassword = async (req, res) => {
     console.error(err);
     res.status(500).send({
       data: null,
-      message: 'Erro interno de servidor',
+      message: err,
       code: 500
     });
   }

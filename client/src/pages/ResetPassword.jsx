@@ -8,6 +8,7 @@ import {
     Input,
     InputGroup,
     InputRightElement,
+    Spinner,
     useToast
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,6 +25,7 @@ const ResetPassword = () => {
     const toast = useToast();
     const [viewNew, setViewNew] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -34,19 +36,28 @@ const ResetPassword = () => {
     });
 
     const handleNewPass = async d => {
-        const { data, message, code } = await sendData('reset-password', { ...d, token });
+        setLoading(true);
+        try {
+            const { message, code } = await sendData('reset-password', { ...d, token });
 
-        toast({
-            description: message,
-            status: code === 200 ? 'success' : 'error',
-            duration: 2000,
-            isClosable: true
-        });
+            toast({
+                description: message,
+                status: code === 200 ? 'success' : 'error',
+                duration: 2000,
+                isClosable: true
+            });
 
-        navigate('/');
+            navigate('/');
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
     };
     return (
         <>
+            {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
+
             <Link to={'/'}>
                 <Button m={7} colorScheme="yellow">
                     Voltar

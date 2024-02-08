@@ -14,12 +14,12 @@ import {
     DrawerBody,
     DrawerFooter
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchData, getToken, socket } from '../utils';
 import Message from './Message';
 
 function Chat({ isOpen, onClose }) {
-    const messageRef = useRef(null);
+    const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const toast = useToast();
     const token = getToken();
@@ -51,11 +51,15 @@ function Chat({ isOpen, onClose }) {
             return;
         }
 
-        if (messageRef.current.value !== '') {
-            socket.emit('message', { token, text: messageRef.current.value });
+        if (message !== '') {
+            socket.emit('message', { token, text: message });
             socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]));
-            messageRef.current.value = null;
+            setMessage('');
         }
+    };
+
+    const handleMessage = e => {
+        setMessage(e.target.value);
     };
 
     const handleKeyDown = e => {
@@ -79,7 +83,13 @@ function Chat({ isOpen, onClose }) {
                 </DrawerBody>
                 <DrawerFooter>
                     <InputGroup>
-                        <Input ref={messageRef} onKeyDown={handleKeyDown} type="text" placeholder="Escreva sua mensagem" />
+                        <Input
+                            value={message}
+                            onChange={handleMessage}
+                            onKeyDown={handleKeyDown}
+                            type="text"
+                            placeholder="Escreva sua mensagem"
+                        />
                         <InputRightElement>
                             <IconButton onClick={sendMessage} icon={<ArrowUpIcon />}></IconButton>
                         </InputRightElement>

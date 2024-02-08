@@ -2,9 +2,16 @@ import { Box, Flex, Grid, Image, Text } from '@chakra-ui/react';
 import useTimeFormatter from '../hooks/useTimeFormatter';
 import useBlobToImage from '../hooks/useBlobToImage';
 import defaultImage from '../assets/default-profile.png';
+import useDecodeToken from '../hooks/useDecodeToken';
 
 const Message = ({ data, token }) => {
-    const me = token === data.token;
+    let me = false;
+
+    if (token) {
+        const { userId } = useDecodeToken(token);
+
+        me = userId === data.user.id;
+    }
 
     return (
         <Flex mb={5} align={'center'} gap={5} justify={me ? 'end' : 'start'} flexDirection={me ? 'row-reverse' : 'row'}>

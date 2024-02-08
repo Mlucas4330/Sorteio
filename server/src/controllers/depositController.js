@@ -12,6 +12,11 @@ const index = async (_req, res) => {
     })
   } catch (err) {
     console.log(err)
+    res.status(500).send({
+      code: 500,
+      data: null,
+      message: err
+    })
   }
 }
 
@@ -27,7 +32,7 @@ const create = async (req, res) => {
       })
     }
 
-    const { imagemQrcode, pixCopiaECola } = await pixCharge(amount, req.user.id)
+    const { imagemQrcode, pixCopiaECola } = await pixCharge(amount, req.userId)
 
     res.status(201).send({
       code: 201,
