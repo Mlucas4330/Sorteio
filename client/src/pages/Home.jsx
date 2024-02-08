@@ -27,7 +27,7 @@ function Home() {
     }, []);
 
     socket.on('total amount', data => {
-        setAmount(amount + data);
+        setAmount(Number(amount) + Number(data));
     });
 
     return (

@@ -14,8 +14,7 @@ const getAllDeposits = async () => {
       model: User,
       attributes: ['username']
     },
-    order: [['createdAt', 'DESC']],
-    limit: 5
+    order: [['createdAt', 'DESC']]
   })
 }
 

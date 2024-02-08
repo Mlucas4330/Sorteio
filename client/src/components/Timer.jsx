@@ -1,5 +1,5 @@
 import { Heading } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Timer() {
     const [time, setTime] = useState(null);
@@ -7,21 +7,23 @@ function Timer() {
     const midnight = new Date();
     midnight.setHours(24, 0, 0, 0);
 
-    setInterval(() => {
-        const now = new Date();
+    useEffect(() => {
+        setInterval(() => {
+            const now = new Date();
 
-        const timeDifference = midnight.getTime() - now.getTime();
+            const timeDifference = midnight.getTime() - now.getTime();
 
-        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-        const timeLeft = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
-            seconds < 10 ? '0' + seconds : seconds
-        }`;
+            const timeLeft = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${
+                seconds < 10 ? '0' + seconds : seconds
+            }`;
 
-        setTime(timeLeft);
-    }, 1000);
+            setTime(timeLeft);
+        }, 1000);
+    }, []);
 
     return (
         <Heading fontWeight={'500'} color={'red.500'} size={'md'} textAlign={'center'}>
