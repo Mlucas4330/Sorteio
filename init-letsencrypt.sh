@@ -9,6 +9,14 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
+echo "### Starting postgres ..."
+docker-compose up -d postgres
+echo
+
+echo "### Starting server ..."
+docker-compose up -d server
+echo
+
 domains=(ninjasena.online www.ninjasena.online)
 rsa_key_size=4096
 data_path="./certbot"
