@@ -53,7 +53,7 @@ const DepositHistory = () => {
         }
     };
 
-    return (
+    return deposits.length > 0 ? (
         <Container maxW={'3xl'}>
             <Heading fontWeight={'500'} size={'md'} textAlign={'center'} mt={10} color={'gray.400'}>
                 Últimos pix
@@ -95,7 +95,7 @@ const DepositHistory = () => {
                 </IconButton>
             </Flex>
         </Container>
-    );
+    ) : null;
 };
 
 export default DepositHistory;
