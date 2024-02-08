@@ -20,13 +20,17 @@ const getAllDeposits = async () => {
 }
 
 const getDepositByTxidAndUpdate = async (txid) => {
-  const [_, deposit] = await Deposit.update(
-    { approved: true },
-    {
-      where: { txid },
-      returning: true
-    },
-  )
+  const deposit = await Deposit.findOne({
+    where: { txid },
+    include: {
+      model: User,
+      attributes: ['username']
+    }
+  })
+
+  deposit.approved = true;
+
+  await deposit.save()
 
   return deposit
 }

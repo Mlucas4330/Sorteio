@@ -11,10 +11,14 @@ function Home() {
     const [amount, setAmount] = useState(null);
 
     const getTotalAmount = async () => {
-        const { data, code } = fetchData('total-amount');
+        try {
+            const { data, code } = await fetchData('total-amount');
 
-        if (code === 200) {
-            setAmount(amount + data.totalAmount);
+            if (code === 200) {
+                setAmount(data.totalAmount);
+            }
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -23,7 +27,7 @@ function Home() {
     }, []);
 
     socket.on('total amount', data => {
-        setAmount(data);
+        setAmount(amount + data);
     });
 
     return (
