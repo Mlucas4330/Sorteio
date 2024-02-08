@@ -1,3 +1,5 @@
+import io from 'socket.io-client';
+
 const baseUrl = import.meta.env.VITE_NODE_ENV === 'development'
   ? import.meta.env.VITE_API_URL + 'api/'
   : 'api/';
@@ -53,5 +55,7 @@ const destroyToken = () => {
   return null
 }
 
+const socket = io(baseUrlSocket);
 
-export { fetchData, getToken, setToken, destroyToken, sendData, baseUrlSocket, baseUrl }
+
+export { fetchData, getToken, setToken, destroyToken, sendData, baseUrlSocket, baseUrl, socket }

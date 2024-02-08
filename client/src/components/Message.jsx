@@ -4,6 +4,7 @@ import useBlobToImage from '../hooks/useBlobToImage';
 
 const Message = ({ data, token }) => {
     const me = token === data.token;
+
     return (
         <Flex mb={5} align={'center'} gap={5} justify={me ? 'end' : 'start'} flexDirection={me ? 'row-reverse' : 'row'}>
             <Grid>

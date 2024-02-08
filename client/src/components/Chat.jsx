@@ -1,4 +1,4 @@
-import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons';
+import { ArrowUpIcon } from '@chakra-ui/icons';
 import {
     InputGroup,
     Input,
@@ -15,32 +15,30 @@ import {
     DrawerFooter
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import io from 'socket.io-client';
-import { baseUrlSocket, getToken } from '../utils';
+import { fetchData, getToken, socket } from '../utils';
 import Message from './Message';
 
 function Chat({ isOpen, onClose }) {
-    const [msg, setMsg] = useState('');
+    const messageRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const toast = useToast();
-    const chatRef = useRef(null);
     const token = getToken();
-    const [scroll, setScroll] = useState(false);
-    const socket = io(baseUrlSocket);
+
+    const getMessages = async () => {
+        try {
+            const { data, code } = await fetchData('messages');
+
+            if (code === 200) {
+                setMessages(data.messages);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     useEffect(() => {
-        socket.on('messages', messages => {
-            if (messages) {
-                setMessages(messages);
-                setScroll(true);
-            }
-        });
+        getMessages();
     }, []);
-
-    socket.on('chat message', msg => {
-        setMessages([...messages, msg]);
-        setScroll(true);
-    });
 
     const sendMessage = () => {
         if (!token) {
@@ -53,22 +51,17 @@ function Chat({ isOpen, onClose }) {
             return;
         }
 
-        if (msg !== '') {
-            socket.emit('chat message', { token, msg });
-            setMsg('');
+        if (messageRef.current.value !== '') {
+            socket.emit('message', { token, text: messageRef.current.value });
+            socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]));
+            messageRef.current.value = null;
         }
     };
 
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
-            e.preventDefault();
             sendMessage();
         }
-    };
-
-    const handleScroll = () => {
-        chatRef.current.scrollTop = chatRef.current.scrollHeight;
-        setScroll(false);
     };
 
     return (
@@ -77,21 +70,7 @@ function Chat({ isOpen, onClose }) {
             <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>Chat</DrawerHeader>
-                <DrawerBody ref={chatRef}>
-                    {scroll && (
-                        <IconButton
-                            onClick={handleScroll}
-                            position={'absolute'}
-                            width={'10px'}
-                            borderRadius={'md'}
-                            style={{
-                                top: '80%',
-                                left: '50%',
-                                translate: ('-80%', '-50%')
-                            }}
-                            icon={<ArrowDownIcon />}
-                        />
-                    )}
+                <DrawerBody>
                     {messages.length > 0 ? (
                         messages.map(data => <Message key={data.id} data={data} token={token} />)
                     ) : (
@@ -100,13 +79,7 @@ function Chat({ isOpen, onClose }) {
                 </DrawerBody>
                 <DrawerFooter>
                     <InputGroup>
-                        <Input
-                            onKeyDown={handleKeyDown}
-                            value={msg}
-                            onChange={e => setMsg(e.target.value)}
-                            type="text"
-                            placeholder="Escreva sua mensagem"
-                        />
+                        <Input ref={messageRef} onKeyDown={handleKeyDown} type="text" placeholder="Escreva sua mensagem" />
                         <InputRightElement>
                             <IconButton onClick={sendMessage} icon={<ArrowUpIcon />}></IconButton>
                         </InputRightElement>

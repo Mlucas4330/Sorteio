@@ -1,27 +1,29 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import Timer from '../components/Timer';
 import { Heading, Highlight, Box } from '@chakra-ui/react';
-import { baseUrlSocket } from '../utils';
+import { fetchData, socket } from '../utils';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
 import Nav from '../components/Nav';
 import DepositHistory from '../components/DepositHistory';
-import io from 'socket.io-client';
 
 function Home() {
     const [amount, setAmount] = useState(null);
-    const socket = io(baseUrlSocket);
+
+    const getTotalAmount = async () => {
+        const { data, code } = fetchData('total-amount');
+
+        if (code === 200) {
+            setAmount(amount + data.totalAmount);
+        }
+    };
 
     useEffect(() => {
-        socket.on('total amount', ta => {
-            if (ta) {
-                setAmount(ta);
-            }
-        });
+        getTotalAmount();
     }, []);
 
-    socket.on('total amount', ta => {
-        setAmount(ta);
+    socket.on('total amount', data => {
+        setAmount(data);
     });
 
     return (

@@ -1,24 +1,26 @@
 import { Container, Heading, Highlight, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { baseUrlSocket } from '../utils';
+import { fetchData, socket } from '../utils';
 import useTimeFormatter from '../hooks/useTimeFormatter';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
-import io from 'socket.io-client';
 
 const DepositHistory = () => {
     const [deposits, setDeposits] = useState([]);
-    const socket = io(baseUrlSocket);
+
+    const getDeposits = async () => {
+        const { data, code } = await fetchData('deposits');
+
+        if (code === 200) {
+            setDeposits(data.deposits);
+        }
+    };
 
     useEffect(() => {
-        socket.on('deposits', deposits => {
-            if (deposits) {
-                setDeposits(deposits);
-            }
-        });
+        getDeposits();
     }, []);
 
     socket.on('deposit', dpt => {
-        setDeposits([...deposits, dpt]);
+        setDeposits([...deposits, JSON.parse(dpt)]);
     });
 
     return (

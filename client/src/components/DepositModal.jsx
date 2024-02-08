@@ -28,10 +28,9 @@ import {
     ButtonGroup
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { baseUrlSocket, getToken, sendData } from '../utils';
+import { getToken, sendData, socket } from '../utils';
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
 import copy from 'copy-to-clipboard';
-import io from 'socket.io-client';
 
 function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -41,7 +40,6 @@ function DepositModal({ isOpen, onClose }) {
     const amountRef = useRef(null);
     const toast = useToast();
     const token = getToken();
-    const socket = io(baseUrlSocket);
 
     const handleDeposit = async () => {
         if (!token) {

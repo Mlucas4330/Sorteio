@@ -1,9 +1,9 @@
 function useBlobToImage(image) {
-    if (!image) {
+    if (!image.data) {
         return null
     }
 
-    const bytea = new Uint8Array(image);
+    const bytea = new Uint8Array(image.data);
 
     const blob = new Blob([bytea], { type: 'image/jpeg' });
 

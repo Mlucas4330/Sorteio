@@ -6,7 +6,6 @@ import {
     ModalHeader,
     ModalBody,
     ModalCloseButton,
-    Text,
     FormLabel,
     Input,
     Button,
@@ -30,6 +29,7 @@ function UserModal({ isOpen, onClose }) {
         pix: null,
         image: null
     });
+    const [image, setImage] = useState(null);
     const token = getToken();
     const toast = useToast();
 
@@ -42,6 +42,7 @@ function UserModal({ isOpen, onClose }) {
                 pix: data.user.pix,
                 image: useBlobToImage(data.user.image)
             });
+            setImage(useBlobToImage(data.user.image));
         } catch (err) {
             console.log(err);
         } finally {
@@ -88,7 +89,8 @@ function UserModal({ isOpen, onClose }) {
 
         if (file) {
             const imageUrl = URL.createObjectURL(file);
-            setUser({ ...user, image: imageUrl });
+            setUser({ ...user, image: file });
+            setImage(imageUrl);
         }
     };
 
@@ -109,10 +111,9 @@ function UserModal({ isOpen, onClose }) {
                                         }}
                                         display={'flex'}
                                         alignItems={'center'}
-                                        gap={3}
                                         flexDirection={'column'}
                                     >
-                                        <Avatar size="xl" src={user.image} />
+                                        <Avatar align={'center'} size="xl" src={image} />
                                         Mudar foto de perfil
                                     </FormLabel>
                                     <VisuallyHidden>
