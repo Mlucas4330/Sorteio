@@ -10,11 +10,11 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 echo "### Starting postgres ..."
-docker-compose up -d postgres
+docker-compose up -d --env-file /home/ubuntu/.env postgres
 echo
 
 echo "### Starting server ..."
-docker-compose up -d server
+docker-compose up -d --env-file /home/ubuntu/.env server
 echo
 
 domains=(ninjasena.online www.ninjasena.online)
