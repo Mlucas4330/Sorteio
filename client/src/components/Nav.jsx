@@ -59,6 +59,9 @@ function Nav() {
                         ) : (
                             <Link to="/signin">
                                 <MenuItem icon={<ChevronRightIcon />}>Entrar</MenuItem>
+                                <Link to={'/tutorial'}>
+                                    <MenuItem icon={<QuestionOutlineIcon />}>Como funciona</MenuItem>
+                                </Link>
                             </Link>
                         )}
                     </MenuList>
