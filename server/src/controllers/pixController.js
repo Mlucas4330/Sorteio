@@ -1,7 +1,6 @@
 import EfiPay from "sdk-node-apis-efi"
 import options from "../configs/efipayConfig.js"
 import { io } from "../sockets/index.js"
-import { getCurrentPrizedraw } from "../services/prizedrawService.js"
 import { getDepositByTxidAndUpdate } from "../services/depositService.js"
 
 const configWebhook = async (_req, res) => {
@@ -58,14 +57,13 @@ const webhook = async (_req, res) => {
 
 const webhookPix = async (req, res) => {
   try {
-    const { pixes } = req.body
-    const { totalAmount } = await getCurrentPrizedraw()
+    const { pix } = req.body
 
     io.emit('payed', true);
 
-    pixes.map(pix => {
-      io.emit('deposit', getDepositByTxidAndUpdate(pix.txid))
-      io.emit('total amount', totalAmount += pix.valor)
+    pix.map(pix => {
+      io.emit('deposit', JSON.stringify(getDepositByTxidAndUpdate(pix.txid)))
+      io.emit('total amount', pix.valor)
     })
 
     res.status(201).send({

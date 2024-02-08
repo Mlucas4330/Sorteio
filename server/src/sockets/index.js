@@ -1,12 +1,7 @@
 import { Server } from 'socket.io'
-import jwt from 'jsonwebtoken'
-import Message from '../models/messageModel.js'
-import User from '../models/userModel.js'
-import { getAllMessages } from '../services/messageService.js'
-import { getAllDeposits } from '../services/depositService.js'
-import { getCurrentPrizedraw } from '../services/prizedrawService.js'
+import { createMessage } from '../services/messageService.js'
 
-let io;
+let io
 
 const socket = server => {
   io = new Server(server, {
@@ -16,36 +11,10 @@ const socket = server => {
     }
   })
 
-  io.on('connection', async socket => {
-    io.emit('messages', await getAllMessages())
-
-    io.emit('deposits', await getAllDeposits())
-
-    const { totalAmount } = await getCurrentPrizedraw()
-    io.emit('total amount', totalAmount)
-
-
-    socket.on('chat message', async payload => {
-      try {
-        const decodedUser = jwt.verify(payload.token, process.env.SECRET)
-
-        const message = await Message.create({
-          userId: decodedUser.user.id,
-          text: payload.msg,
-          token: payload.token
-        })
-
-        const messageObj = await Message.findOne({
-          where: {
-            id: message.id
-          },
-          include: User
-        })
-
-        io.emit('chat message', messageObj)
-      } catch (err) {
-        console.log(err)
-      }
+  io.on('connection', socket => {
+    socket.on('message', async payload => {
+      const message = await createMessage(payload)
+      io.emit('message', JSON.stringify(message))
     })
   })
 }

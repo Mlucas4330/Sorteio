@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer'
 
 const update = async (req, res) => {
   try {
-    const { pix, image } = req.body
+    const { pix } = req.body
 
     const alreadyExist = await User.findOne({
       where: {
@@ -26,7 +26,7 @@ const update = async (req, res) => {
     }
 
     const [_, user] = await User.update(
-      { pix, image },
+      { pix, image: req.file.buffer },
       {
         where: { id: req.user.id },
         returning: true

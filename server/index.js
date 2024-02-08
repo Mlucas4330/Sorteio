@@ -10,6 +10,8 @@ import { socket } from './src/sockets/index.js'
 import { schedule } from 'node-cron'
 import { resetPrizedraw } from './src/jobs/index.js'
 import pixRouter from './src/routes/pixRouter.js'
+import messageRouter from './src/routes/messageRouter.js'
+import prizedrawRouter from './src/routes/prizedrawRouter.js'
 
 const main = async () => {
   try {
@@ -21,7 +23,7 @@ const main = async () => {
     app.use(cors())
     app.use(json())
 
-    app.use('/api', [userRouter, depositRouter, pixRouter])
+    app.use('/api', [userRouter, depositRouter, pixRouter, messageRouter, prizedrawRouter])
 
     associateModels()
 

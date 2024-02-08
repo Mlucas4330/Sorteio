@@ -1,4 +1,19 @@
+import { getAllDeposits } from '../services/depositService.js'
 import { pixCharge } from '../services/pixService.js'
+
+const index = async (_req, res) => {
+  try {
+    const deposits = await getAllDeposits()
+
+    res.send({
+      code: 200,
+      data: { deposits },
+      message: 'Depósitos encontrados com sucesso'
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 const create = async (req, res) => {
   try {
@@ -29,4 +44,4 @@ const create = async (req, res) => {
   }
 }
 
-export { create }
+export { create, index }
