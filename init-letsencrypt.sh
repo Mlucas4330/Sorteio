@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Get the current working directory
+current_path=$(pwd)
+echo "Script is being executed from: $current_path"
+
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo 'Error: docker-compose is not installed.' >&2
   exit 1
@@ -17,7 +21,6 @@ if [ -d "$data_path" ]; then
     exit
   fi
 fi
-
 
 if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
   echo "### Downloading recommended TLS parameters ..."
@@ -37,7 +40,6 @@ docker-compose run --rm --entrypoint "\
     -subj '/CN=localhost'" certbot
 echo
 
-
 echo "### Starting nginx ..."
 docker-compose up --force-recreate -d client-nginx
 echo
@@ -49,9 +51,8 @@ docker-compose run --rm --entrypoint "\
   rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
 echo
 
-
 echo "### Requesting Let's Encrypt certificate for $domains ..."
-#Join $domains to -d args
+# Join $domains to -d args
 domain_args=""
 for domain in "${domains[@]}"; do
   domain_args="$domain_args -d $domain"
