@@ -1,21 +1,9 @@
 #!/bin/bash
 
-# Get the current working directory
-current_path=$(pwd)
-echo "Script is being executed from: $current_path"
-
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo 'Error: docker-compose is not installed.' >&2
   exit 1
 fi
-
-echo "### Starting postgres ..."
-docker-compose up -d --env-file /home/ubuntu/.env postgres
-echo
-
-echo "### Starting server ..."
-docker-compose up -d --env-file /home/ubuntu/.env server
-echo
 
 domains=(ninjasena.online www.ninjasena.online)
 rsa_key_size=4096
