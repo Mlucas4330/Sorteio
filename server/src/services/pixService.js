@@ -45,7 +45,7 @@ const pixSend = async (amount, winnerPix) => {
 }
 
 const getTaxedValue = (amount) => {
-  return (amount - Number(process.env.TAX) / 100).toFixed(2)
+  return (Number(amount) - (Number(process.env.TAX) / 100)).toFixed(2);
 }
 
 export { pixCharge, pixSend }
