@@ -1,6 +1,10 @@
 import Deposit from '../models/depositModel.js'
 import Prizedraw from '../models/prizedrawModel.js'
 import { Sequelize } from 'sequelize'
+import nodemailer from 'nodemailer'
+import { Op } from 'sequelize'
+import User from '../models/userModel.js'
+import { io } from '../sockets/index.js'
 
 const getCurrentPrizedraw = async () => {
   const [prizedraw, _] = await Prizedraw.findOrCreate({
@@ -9,7 +13,7 @@ const getCurrentPrizedraw = async () => {
     }
   })
 
-  const totalAmount = await Deposit.findOne({
+  const totalAmountObj = await Deposit.findOne({
     attributes: [
       [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
     ],
@@ -19,11 +23,66 @@ const getCurrentPrizedraw = async () => {
     }
   })
 
-  return { prizedraw, totalAmount }
+  return { prizedraw, totalAmount: totalAmountObj.dataValues?.totalAmount || null }
 }
 
 const startPrizedraw = async () => {
   await Prizedraw.create()
 }
 
-export { getCurrentPrizedraw, startPrizedraw }
+const getTaxedValue = (amount) => {
+  return (Number(amount) - (Number(process.env.TAX) / 100)).toFixed(2);
+}
+
+const sendEmailToWinner = (email, totalAmount) => {
+  const floatvalue = parseFloat(getTaxedValue(totalAmount)) || 0;
+  const totalAmountFormatted = floatvalue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_EMAIL,
+      pass: process.env.GMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.GMAIL_EMAIL,
+    to: email,
+    subject: 'Você é o vencedor!',
+    text: `Parabéns! Você foi o vencedor do sorteio atual e acabou de ganhar ${totalAmountFormatted}. Você receberá o valor em até 24 horas através do PIX cadastrado em sua conta!`,
+  };
+
+  transporter.sendMail(mailOptions, (err) => {
+    if (err) {
+      return err
+    }
+  });
+}
+
+const getLastWinner = async () => {
+  const currentDate = new Date();
+
+  currentDate.setHours(0, 0, 0, 0);
+
+  const yesterday = new Date(currentDate);
+
+  yesterday.setDate(currentDate.getDate() - 1);
+
+  yesterday.setHours(0, 0, 0, 0);
+
+  return await Prizedraw.findOne({
+    where: {
+      createdAt: {
+        [Op.between]: [yesterday, currentDate],
+      },
+    },
+    include: User
+  });
+}
+
+const refreshLastWinner = (username, totalAmount) => {
+  io.emit('last winner', { username, totalAmount })
+}
+
+export { getCurrentPrizedraw, startPrizedraw, sendEmailToWinner, getLastWinner, refreshLastWinner }

@@ -5,7 +5,8 @@ const Prizedraw = db.define('prizedraw', {
   finished: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
-  }
+  },
+  totalAmount: DataTypes.DECIMAL
 })
 
 export default Prizedraw

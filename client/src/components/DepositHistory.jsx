@@ -1,7 +1,7 @@
 import {
     Card,
     CardBody,
-    Container,
+    Box,
     Flex,
     Heading,
     IconButton,
@@ -54,8 +54,8 @@ const DepositHistory = () => {
     };
 
     return deposits.length > 0 ? (
-        <Container maxW={'3xl'}>
-            <Heading fontWeight={'500'} size={'md'} textAlign={'center'} mt={10} color={'gray.400'}>
+        <Box maxW={'3xl'}>
+            <Heading fontWeight={'500'} size={'md'} textAlign={'center'} color={'gray.400'}>
                 Últimos pix
             </Heading>
 
@@ -94,7 +94,7 @@ const DepositHistory = () => {
                     Próximo
                 </IconButton>
             </Flex>
-        </Container>
+        </Box>
     ) : null;
 };
 

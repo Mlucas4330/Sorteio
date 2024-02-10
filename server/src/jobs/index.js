@@ -1,5 +1,5 @@
-import { getCurrentPrizedraw, startPrizedraw } from '../services/prizedrawService.js'
-import { pixSend } from '../services/pixService.js'
+import { getCurrentPrizedraw, refreshLastWinner, sendEmailToWinner, startPrizedraw } from '../services/prizedrawService.js'
+// import { pixSend } from '../services/pixService.js'
 import Deposit from '../models/depositModel.js'
 import User from '../models/userModel.js'
 import { deleteAllMessages } from '../services/messageService.js'
@@ -25,12 +25,17 @@ const resetPrizedraw = async () => {
 
     prizedraw.userId = winner.id
     prizedraw.finished = true
+    prizedraw.totalAmount = totalAmount
 
     await deleteAllMessages()
 
     await prizedraw.save()
 
-    pixSend(totalAmount, winner.pix)
+    sendEmailToWinner(winner.email, totalAmount)
+
+    // pixSend(totalAmount, winner.pix)
+
+    refreshLastWinner(winner.username, totalAmount)
 
     await startPrizedraw()
 

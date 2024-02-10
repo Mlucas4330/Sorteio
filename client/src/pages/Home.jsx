@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Timer from '../components/Timer';
-import { Heading, Highlight, Box } from '@chakra-ui/react';
+import { Heading, Highlight, Box, Flex, Container } from '@chakra-ui/react';
 import { fetchData, socket } from '../utils';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
 import Nav from '../components/Nav';
 import DepositHistory from '../components/DepositHistory';
+import LastWinner from '../components/LastWinner';
 
 function Home() {
     const [amount, setAmount] = useState(null);
@@ -46,7 +47,12 @@ function Home() {
                 <Timer />
             </Box>
 
-            <DepositHistory />
+            <Container mt={10} maxW={'3xl'}>
+                <Flex justify={'space-around'}>
+                    <DepositHistory />
+                    <LastWinner />
+                </Flex>
+            </Container>
         </>
     );
 }
