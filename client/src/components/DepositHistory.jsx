@@ -11,7 +11,7 @@ import {
     TabPanels,
     Tabs,
     Text,
-    VisuallyHidden
+    VisuallyHidden,
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { currencyFormatter, socket, timeFormatter } from '../utils'
@@ -69,7 +69,7 @@ const DepositHistory = () => {
                                 <Card m={3}>
                                     <CardBody>
                                         <Text as={'b'}>{deposit.user.username}</Text>
-                                        <Heading size={'2xl'} color="green">
+                                        <Heading size={'2xl'} color='green'>
                                             {currencyFormatter(deposit.amount)}
                                         </Heading>
                                         <Text color={'gray.500'} fontWeight={'400'}>

@@ -30,7 +30,7 @@ const LastWinner = () => {
             <Card mt={6}>
                 <CardBody>
                     <Text as={'b'}>{lastWinner.username}</Text>
-                    <Heading size={'2xl'} color="green">
+                    <Heading size={'2xl'} color='green'>
                         {currencyFormatter(lastWinner.totalAmount)}
                     </Heading>
                 </CardBody>

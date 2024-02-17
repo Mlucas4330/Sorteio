@@ -21,7 +21,7 @@ const Tutorial = () => {
                 <Accordion defaultIndex={[0]} allowMultiple>
                     <AccordionItem>
                         <AccordionButton>
-                            <Box as={'b'} flex="1" textAlign="left">
+                            <Box as={'b'} flex='1' textAlign='left'>
                                 Quanto mais eu depositar, mais chance eu tenho de ganhar?
                             </Box>
                             <AccordionIcon />
@@ -31,7 +31,7 @@ const Tutorial = () => {
                     </AccordionItem>
                     <AccordionItem>
                         <AccordionButton>
-                            <Box as={'b'} flex="1" textAlign="left">
+                            <Box as={'b'} flex='1' textAlign='left'>
                                 Os depósitos tem taxa?
                             </Box>
                             <AccordionIcon />

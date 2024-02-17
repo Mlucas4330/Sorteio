@@ -1,6 +1,6 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import { Home, SignIn, SignUp, Tutorial, ChangePassword, ForgotPassword, ResetPassword } from './pages'
+import { Home, SignIn, SignUp, Tutorial, ChangePassword, ForgotPassword, ResetPassword } from '../pages'
 
 const router = createBrowserRouter([
     {

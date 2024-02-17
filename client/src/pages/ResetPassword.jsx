@@ -9,7 +9,7 @@ import {
     InputGroup,
     InputRightElement,
     Spinner,
-    useToast
+    useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
@@ -31,9 +31,9 @@ const ResetPassword = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm({
-        resolver: zodResolver(NewPassword)
+        resolver: zodResolver(NewPassword),
     })
 
     const handleNewPass = async d => {
@@ -45,7 +45,7 @@ const ResetPassword = () => {
                 description: message,
                 status: code === 200 ? 'success' : 'error',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
 
             navigate('/')
@@ -67,8 +67,8 @@ const ResetPassword = () => {
                         <FormLabel>Senha nova</FormLabel>
                         <InputGroup>
                             <Input
-                                autoComplete="new-password"
-                                placeholder="Senha nova"
+                                autoComplete='new-password'
+                                placeholder='Senha nova'
                                 type={viewNew ? 'text' : 'password'}
                                 {...register('newpass')}
                             />
@@ -78,7 +78,7 @@ const ResetPassword = () => {
                         </InputGroup>
                         {errors.newpass && <FormErrorMessage>{errors.newpass.message}</FormErrorMessage>}
                     </FormControl>
-                    <Button type="submit" w={'100%'} colorScheme="green">
+                    <Button type='submit' w={'100%'} colorScheme='green'>
                         Alterar senha
                     </Button>
                 </form>

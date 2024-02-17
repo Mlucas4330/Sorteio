@@ -12,7 +12,7 @@ import {
     Container,
     InputGroup,
     InputRightElement,
-    IconButton
+    IconButton,
 } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -31,9 +31,9 @@ function SignUp() {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm({
-        resolver: zodResolver(UserSignUp)
+        resolver: zodResolver(UserSignUp),
     })
 
     const handleUser = async d => {
@@ -47,7 +47,7 @@ function SignUp() {
                     description: message,
                     status: 'error',
                     duration: 2000,
-                    isClosable: true
+                    isClosable: true,
                 })
                 return
             }
@@ -56,7 +56,7 @@ function SignUp() {
                 description: message,
                 status: 'success',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
 
             navigate('/signin')
@@ -70,20 +70,20 @@ function SignUp() {
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
-            
+
             <HomeButton />
 
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleUser)}>
                     <FormControl mb={3} isInvalid={errors.username}>
                         <FormLabel>Usuário</FormLabel>
-                        <Input autoComplete="username" placeholder="Usuário" {...register('username')} />
+                        <Input autoComplete='username' placeholder='Usuário' {...register('username')} />
                         {errors.username && <FormErrorMessage>{errors.username.message}</FormErrorMessage>}
                     </FormControl>
 
                     <FormControl mb={3} isInvalid={errors.email}>
                         <FormLabel>Email</FormLabel>
-                        <Input autoComplete="email" placeholder="Email" type="email" {...register('email')} />
+                        <Input autoComplete='email' placeholder='Email' type='email' {...register('email')} />
                         {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
                     </FormControl>
 
@@ -91,8 +91,8 @@ function SignUp() {
                         <FormLabel>Senha</FormLabel>
                         <InputGroup>
                             <Input
-                                autoComplete="new-password"
-                                placeholder="Senha"
+                                autoComplete='new-password'
+                                placeholder='Senha'
                                 type={view ? 'text' : 'password'}
                                 {...register('password')}
                             />
@@ -105,11 +105,11 @@ function SignUp() {
 
                     <FormControl mb={3} isInvalid={errors.pix}>
                         <FormLabel>Chave PIX</FormLabel>
-                        <Input placeholder="Chave PIX" {...register('pix')} />
+                        <Input placeholder='Chave PIX' {...register('pix')} />
                         {errors.pix && <FormErrorMessage>{errors.pix.message}</FormErrorMessage>}
                     </FormControl>
 
-                    <Button w={'100%'} type="submit" colorScheme="green">
+                    <Button w={'100%'} type='submit' colorScheme='green'>
                         Cadastrar
                     </Button>
                 </form>
@@ -117,7 +117,7 @@ function SignUp() {
                 <Text mt={5} textAlign={'center'}>
                     Já tem conta?
                     <Link to={'/signin'}>
-                        <Highlight query="Clique aqui para entrar" styles={{ px: '1', py: '1', bg: 'orange.100' }}>
+                        <Highlight query='Clique aqui para entrar' styles={{ px: '1', py: '1', bg: 'orange.100' }}>
                             Clique aqui para entrar
                         </Highlight>
                     </Link>

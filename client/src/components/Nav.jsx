@@ -31,7 +31,7 @@ function Nav() {
 
             <Flex p={7} as={'header'} justify={'space-between'}>
                 <ButtonGroup>
-                    <Button leftIcon={<AddIcon />} onClick={onOpenDeposit} colorScheme="green">
+                    <Button leftIcon={<AddIcon />} onClick={onOpenDeposit} colorScheme='green'>
                         Depositar
                     </Button>
                     <Button leftIcon={<ChatIcon />} onClick={onOpenChat}>
@@ -58,7 +58,7 @@ function Nav() {
                             </>
                         ) : (
                             <>
-                                <Link to="/signin">
+                                <Link to='/signin'>
                                     <MenuItem icon={<ChevronRightIcon />}>Entrar</MenuItem>
                                 </Link>
                                 <Link to={'/tutorial'}>

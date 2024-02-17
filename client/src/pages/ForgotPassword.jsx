@@ -13,9 +13,9 @@ const ForgotPassword = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm({
-        resolver: zodResolver(Email)
+        resolver: zodResolver(Email),
     })
 
     const handleEmail = async d => {
@@ -26,7 +26,7 @@ const ForgotPassword = () => {
                 description: message,
                 status: code === 200 ? 'success' : 'error',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
         } catch (err) {
             console.log(err)
@@ -44,10 +44,10 @@ const ForgotPassword = () => {
                 <form onSubmit={handleSubmit(handleEmail)}>
                     <FormControl mb={3} isInvalid={errors.email}>
                         <FormLabel>Email</FormLabel>
-                        <Input {...register('email')} autoComplete="on" type="email" placeholder="Email" />
+                        <Input {...register('email')} autoComplete='on' type='email' placeholder='Email' />
                         {errors.email && <FormErrorMessage>{errors.email.message}</FormErrorMessage>}
                     </FormControl>
-                    <Button type="submit" w={'100%'} colorScheme="green">
+                    <Button type='submit' w={'100%'} colorScheme='green'>
                         Recuperar senha
                     </Button>
                 </form>

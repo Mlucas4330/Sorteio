@@ -12,7 +12,7 @@ import {
     InputGroup,
     InputRightElement,
     IconButton,
-    Container
+    Container,
 } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -32,9 +32,9 @@ function SignIn() {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm({
-        resolver: zodResolver(UserSignIn)
+        resolver: zodResolver(UserSignIn),
     })
 
     const handleUser = async d => {
@@ -48,7 +48,7 @@ function SignIn() {
                     description: message,
                     status: 'error',
                     duration: 2000,
-                    isClosable: true
+                    isClosable: true,
                 })
                 return
             }
@@ -57,7 +57,7 @@ function SignIn() {
                 description: message,
                 status: 'success',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
 
             setToken(data.token)
@@ -80,15 +80,15 @@ function SignIn() {
                 <form onSubmit={handleSubmit(handleUser)}>
                     <FormControl mb={3} isInvalid={errors.username}>
                         <FormLabel>Usuário</FormLabel>
-                        <Input autoComplete="username" placeholder="Usuário" {...register('username')} />
+                        <Input autoComplete='username' placeholder='Usuário' {...register('username')} />
                         {errors.username && <FormErrorMessage>{errors.username.message}</FormErrorMessage>}
                     </FormControl>
                     <FormControl mb={3} isInvalid={errors.password}>
                         <FormLabel>Senha</FormLabel>
                         <InputGroup>
                             <Input
-                                autoComplete="current-password"
-                                placeholder="Senha"
+                                autoComplete='current-password'
+                                placeholder='Senha'
                                 type={view ? 'text' : 'password'}
                                 {...register('password')}
                             />
@@ -98,7 +98,7 @@ function SignIn() {
                         </InputGroup>
                         {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
                     </FormControl>
-                    <Button w={'100%'} type="submit" colorScheme="green">
+                    <Button w={'100%'} type='submit' colorScheme='green'>
                         Entrar
                     </Button>
                 </form>

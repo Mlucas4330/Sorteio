@@ -15,7 +15,7 @@ import {
     SkeletonText,
     FormControl,
     VisuallyHidden,
-    Image
+    Image,
 } from '@chakra-ui/react'
 import { baseUrl, blobToImage, getToken } from '../utils'
 import { Link } from 'react-router-dom'
@@ -29,7 +29,7 @@ function UserModal({ isOpen, onClose }) {
     const [user, setUser] = useState({
         username: null,
         pix: null,
-        image: null
+        image: null,
     })
     const [image, setImage] = useState(null)
     const token = getToken()
@@ -42,7 +42,7 @@ function UserModal({ isOpen, onClose }) {
             setUser({
                 username: data.user.username,
                 pix: data.user.pix,
-                image: blobToImage(data.user.image)
+                image: blobToImage(data.user.image),
             })
             setImage(blobToImage(data.user.image))
         } catch (err) {
@@ -68,8 +68,8 @@ function UserModal({ isOpen, onClose }) {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    Authorization: 'Bearer ' + token
-                }
+                    Authorization: 'Bearer ' + token,
+                },
             })
             const { code, message } = await response.json()
 
@@ -77,7 +77,7 @@ function UserModal({ isOpen, onClose }) {
                 description: message,
                 status: code === 200 ? 'success' : 'error',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
         } catch (err) {
             console.log(err)
@@ -109,7 +109,7 @@ function UserModal({ isOpen, onClose }) {
                                 <FormControl mb={3}>
                                     <FormLabel
                                         _hover={{
-                                            cursor: 'pointer'
+                                            cursor: 'pointer',
                                         }}
                                         display={'flex'}
                                         alignItems={'center'}
@@ -119,7 +119,7 @@ function UserModal({ isOpen, onClose }) {
                                         Mudar foto de perfil
                                     </FormLabel>
                                     <VisuallyHidden>
-                                        <Input type="file" accept="image/*" onChange={handleFile} />
+                                        <Input type='file' accept='image/*' onChange={handleFile} />
                                     </VisuallyHidden>
                                 </FormControl>
                                 <FormControl mb={3}>
@@ -128,7 +128,7 @@ function UserModal({ isOpen, onClose }) {
                                 </FormControl>
                                 <FormControl mb={3}>
                                     <FormLabel>Chave Pix</FormLabel>
-                                    <Input type="text" value={user.pix} onChange={e => setUser({ ...user, pix: e.target.value })} />
+                                    <Input type='text' value={user.pix} onChange={e => setUser({ ...user, pix: e.target.value })} />
                                 </FormControl>
 
                                 <Link to={'/change-password'}>
@@ -141,15 +141,15 @@ function UserModal({ isOpen, onClose }) {
                     </ModalBody>
                     <ModalFooter>
                         <ButtonGroup>
-                            <Button colorScheme="red" onClick={onClose}>
+                            <Button colorScheme='red' onClick={onClose}>
                                 Cancelar
                             </Button>
                             <Button
                                 isLoading={loadingSubmit}
-                                loadingText="Gerando"
-                                spinnerPlacement="end"
+                                loadingText='Gerando'
+                                spinnerPlacement='end'
                                 onClick={handleUser}
-                                colorScheme="green"
+                                colorScheme='green'
                             >
                                 Salvar
                             </Button>

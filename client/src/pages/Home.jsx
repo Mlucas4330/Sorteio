@@ -47,10 +47,10 @@ function Home() {
             <Container my={10} maxW={'3xl'}>
                 <Grid
                     gap={{
-                        md: '20'
+                        md: '20',
                     }}
                     templateColumns={{
-                        md: '1fr 1fr'
+                        md: '1fr 1fr',
                     }}
                 >
                     <GridItem>

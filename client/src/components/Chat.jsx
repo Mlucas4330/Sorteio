@@ -12,7 +12,7 @@ import {
     DrawerCloseButton,
     DrawerHeader,
     DrawerBody,
-    DrawerFooter
+    DrawerFooter,
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { getToken, socket } from '../utils'
@@ -48,7 +48,7 @@ function Chat({ isOpen, onClose }) {
                 description: 'Você precisa logar antes de usar o chat',
                 status: 'error',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
             return
         }
@@ -71,7 +71,7 @@ function Chat({ isOpen, onClose }) {
     }
 
     return (
-        <Drawer isOpen={isOpen} placement="left" onClose={onClose} size={'sm'}>
+        <Drawer isOpen={isOpen} placement='left' onClose={onClose} size={'sm'}>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
@@ -89,8 +89,8 @@ function Chat({ isOpen, onClose }) {
                             value={message}
                             onChange={handleMessage}
                             onKeyDown={handleKeyDown}
-                            type="text"
-                            placeholder="Escreva sua mensagem"
+                            type='text'
+                            placeholder='Escreva sua mensagem'
                         />
                         <InputRightElement>
                             <IconButton onClick={sendMessage} icon={<ArrowUpIcon />}></IconButton>

@@ -25,7 +25,7 @@ import {
     InputRightElement,
     IconButton,
     Center,
-    ButtonGroup
+    ButtonGroup,
 } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { getToken, socket } from '../utils'
@@ -49,7 +49,7 @@ function DepositModal({ isOpen, onClose }) {
                 description: 'Você precisar logar antes de depositar',
                 status: 'error',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
             return
         }
@@ -59,9 +59,9 @@ function DepositModal({ isOpen, onClose }) {
             const { data, message, code } = await useSendData(
                 'deposit',
                 {
-                    amount: amountRef.current.value
+                    amount: amountRef.current.value,
                 },
-                token
+                token,
             )
 
             if (code !== 201) {
@@ -69,7 +69,7 @@ function DepositModal({ isOpen, onClose }) {
                     description: message,
                     status: 'error',
                     duration: 2000,
-                    isClosable: true
+                    isClosable: true,
                 })
                 return
             }
@@ -81,7 +81,7 @@ function DepositModal({ isOpen, onClose }) {
                 description: message,
                 status: 'success',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
         } catch (err) {
             console.log(err)
@@ -98,7 +98,7 @@ function DepositModal({ isOpen, onClose }) {
                 description: 'Copiado para a área de transferência',
                 status: 'success',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
         }
     }
@@ -116,7 +116,7 @@ function DepositModal({ isOpen, onClose }) {
                     base: 'sm',
                     sm: 'md',
                     md: '3xl',
-                    lg: '4xl'
+                    lg: '4xl',
                 }}
                 isOpen={isOpen}
                 onClose={onClose}
@@ -139,7 +139,7 @@ function DepositModal({ isOpen, onClose }) {
                         </InputGroup>
 
                         {isPayed ? (
-                            <Box textAlign={'center'} color="green" mt={5}>
+                            <Box textAlign={'center'} color='green' mt={5}>
                                 <CheckIcon w={10} h={10} />
                                 <Heading>Pago com sucesso!</Heading>
                                 <Text>Você agora está participando do sorteio atual.</Text>
@@ -149,14 +149,14 @@ function DepositModal({ isOpen, onClose }) {
                             pixCopiaECola && (
                                 <>
                                     <Center>
-                                        <Image src={qrCode} alt="qrcode" />
+                                        <Image src={qrCode} alt='qrcode' />
                                     </Center>
 
                                     <Text textAlign={'center'}>Escaneie o QrCode acima para finalizar o depósito!</Text>
 
-                                    <Box position="relative" padding="10">
+                                    <Box position='relative' padding='10'>
                                         <Divider />
-                                        <AbsoluteCenter bg="white" px="4">
+                                        <AbsoluteCenter bg='white' px='4'>
                                             OU
                                         </AbsoluteCenter>
                                     </Box>
@@ -183,15 +183,15 @@ function DepositModal({ isOpen, onClose }) {
                             </Button>
                         ) : (
                             <ButtonGroup>
-                                <Button colorScheme="red" onClick={onClose}>
+                                <Button colorScheme='red' onClick={onClose}>
                                     Cancelar
                                 </Button>
                                 <Button
                                     isLoading={loading}
-                                    loadingText="Gerando"
-                                    spinnerPlacement="end"
+                                    loadingText='Gerando'
+                                    spinnerPlacement='end'
                                     onClick={handleDeposit}
-                                    colorScheme="green"
+                                    colorScheme='green'
                                 >
                                     Depositar
                                 </Button>

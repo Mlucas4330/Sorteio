@@ -9,7 +9,7 @@ import {
     InputGroup,
     InputRightElement,
     Spinner,
-    useToast
+    useToast,
 } from '@chakra-ui/react'
 import { Password } from '../models'
 import { useForm } from 'react-hook-form'
@@ -30,9 +30,9 @@ const ChangePassword = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm({
-        resolver: zodResolver(Password)
+        resolver: zodResolver(Password),
     })
 
     const handleChangePass = async d => {
@@ -46,7 +46,7 @@ const ChangePassword = () => {
                     description: message,
                     status: 'error',
                     duration: 2000,
-                    isClosable: true
+                    isClosable: true,
                 })
                 return
             }
@@ -55,7 +55,7 @@ const ChangePassword = () => {
                 description: message,
                 status: 'success',
                 duration: 2000,
-                isClosable: true
+                isClosable: true,
             })
         } catch (err) {
             console.log(err)
@@ -76,8 +76,8 @@ const ChangePassword = () => {
                         <FormLabel>Senha antiga</FormLabel>
                         <InputGroup>
                             <Input
-                                autoComplete="current-password"
-                                placeholder="Senha antiga"
+                                autoComplete='current-password'
+                                placeholder='Senha antiga'
                                 type={viewOld ? 'text' : 'password'}
                                 {...register('oldpass')}
                             />
@@ -91,8 +91,8 @@ const ChangePassword = () => {
                         <FormLabel>Senha nova</FormLabel>
                         <InputGroup>
                             <Input
-                                autoComplete="new-password"
-                                placeholder="Senha nova"
+                                autoComplete='new-password'
+                                placeholder='Senha nova'
                                 type={viewNew ? 'text' : 'password'}
                                 {...register('newpass')}
                             />
@@ -102,7 +102,7 @@ const ChangePassword = () => {
                         </InputGroup>
                         {errors.newpass && <FormErrorMessage>{errors.newpass.message}</FormErrorMessage>}
                     </FormControl>
-                    <Button w={'100%'} type="submit" colorScheme="green">
+                    <Button w={'100%'} type='submit' colorScheme='green'>
                         Alterar senha
                     </Button>
                 </form>
