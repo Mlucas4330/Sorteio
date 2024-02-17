@@ -18,8 +18,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { sendData, setToken } from '../utils';
+import { setToken } from '../utils';
 import { UserSignIn } from '../models';
+import useSendData from '../hooks/useSendData';
 
 function SignIn() {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ function SignIn() {
         try {
             setLoading(true);
 
-            const { data, message, code } = await sendData('signin', d);
+            const { data, message, code } = await useSendData('signin', d);
 
             if (code !== 200) {
                 toast({

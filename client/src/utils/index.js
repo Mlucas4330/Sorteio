@@ -6,45 +6,7 @@ const baseUrl = import.meta.env.VITE_NODE_ENV === 'development'
 
 const baseUrlSocket = import.meta.env.VITE_NODE_ENV === 'development' ? import.meta.env.VITE_API_URL : '';
 
-
-const fetchData = async (url, token = null) => {
-  let options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
-  if (token) {
-    options.headers['Authorization'] = 'Bearer ' + token
-  }
-
-  const response = await fetch(baseUrl + url, options)
-
-  const result = await response.json()
-
-  return result
-}
-
-const sendData = async (url, body, token) => {
-  let options = {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
-  if (token) {
-    options.headers['Authorization'] = 'Bearer ' + token
-  }
-
-  const response = await fetch(baseUrl + url, options)
-
-  const result = await response.json()
-
-  return result
-}
+const socket = io(baseUrlSocket);
 
 const setToken = token => localStorage.setItem('token', token)
 
@@ -55,7 +17,37 @@ const destroyToken = () => {
   return null
 }
 
-const socket = io(baseUrlSocket);
+const blobToImage = (image) => {
+  if (!image?.data) {
+    return null
+  }
+
+  const bytea = new Uint8Array(image.data);
+
+  const blob = new Blob([bytea], { type: 'image/jpeg' });
+
+  return URL.createObjectURL(blob);
+}
+
+const decodeToken = (token) => {
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace("-", "+").replace("_", "/");
+  return JSON.parse(window.atob(base64));
+}
+
+const currencyFormatter = value => {
+  const floatvalue = parseFloat(value) || 0
+  return floatvalue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+}
+
+const timeFormatter = timestamp => {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+};
 
 
-export { fetchData, getToken, setToken, destroyToken, sendData, baseUrlSocket, baseUrl, socket }
+export { blobToImage, decodeToken, currencyFormatter, timeFormatter, getToken, setToken, destroyToken, baseUrlSocket, baseUrl, socket }

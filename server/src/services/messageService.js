@@ -20,13 +20,16 @@ const createMessage = async ({ text, token }) => {
 
     const message = await Message.create({
         userId,
-        text,
-        token
+        text
     });
 
     const messageObj = await Message.findOne({
+        attributes: ['id', 'message'],
         where: { id: message.id },
-        include: User
+        include: {
+            model: User,
+            attributes: ['id', 'username', 'image']
+        }
     })
 
     return messageObj;

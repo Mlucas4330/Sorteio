@@ -28,9 +28,10 @@ import {
     ButtonGroup
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { getToken, sendData, socket } from '../utils';
+import { getToken, socket } from '../utils';
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
 import copy from 'copy-to-clipboard';
+import useSendData from '../hooks/useSendData';
 
 function DepositModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -54,7 +55,7 @@ function DepositModal({ isOpen, onClose }) {
 
         try {
             setLoading(true);
-            const { data, message, code } = await sendData(
+            const { data, message, code } = await useSendData(
                 'deposit',
                 {
                     amount: amountRef.current.value

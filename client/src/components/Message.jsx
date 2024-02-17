@@ -8,7 +8,7 @@ const Message = ({ data, token }) => {
     let me = false;
 
     if (token) {
-        const { userId } = useDecodeToken(token);
+        const { userId } = decode(token);
 
         me = userId === data.user.id;
     }

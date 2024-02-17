@@ -1,10 +1,10 @@
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Spinner, useToast } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { sendData } from '../utils';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Email } from '../models';
 import { useState } from 'react';
+import useSendData from '../hooks/useSendData';
 
 const ForgotPassword = () => {
     const toast = useToast();
@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     const handleEmail = async d => {
         setLoading(true);
         try {
-            const { message, code } = await sendData('forgot-password', d);
+            const { message, code } = await useSendData('forgot-password', d);
             toast({
                 description: message,
                 status: code === 200 ? 'success' : 'error',

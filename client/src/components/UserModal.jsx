@@ -17,10 +17,10 @@ import {
     VisuallyHidden,
     Image
 } from '@chakra-ui/react';
-import { baseUrl, fetchData, getToken } from '../utils';
+import { baseUrl, blobToImage, fetchData, getToken } from '../utils';
 import { Link } from 'react-router-dom';
-import useBlobToImage from '../hooks/useBlobToImage';
 import defaultImage from '../assets/default-profile.png';
+import useFetchData from '../hooks/useFetchData';
 
 function UserModal({ isOpen, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -37,13 +37,13 @@ function UserModal({ isOpen, onClose }) {
     const getUser = async () => {
         setLoading(true);
         try {
-            const { data } = await fetchData('current-user', token);
+            const { data } = await useFetchData('current-user', token);
             setUser({
                 username: data.user.username,
                 pix: data.user.pix,
-                image: useBlobToImage(data.user.image)
+                image: blobToImage(data.user.image)
             });
-            setImage(useBlobToImage(data.user.image));
+            setImage(blobToImage(data.user.image));
         } catch (err) {
             console.log(err);
         } finally {

@@ -15,8 +15,9 @@ import {
     DrawerFooter
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { fetchData, getToken, socket } from '../utils';
+import { getToken, socket } from '../utils';
 import Message from './Message';
+import useFetchData from '../hooks/useFetchData';
 
 function Chat({ isOpen, onClose }) {
     const [message, setMessage] = useState('');
@@ -26,7 +27,7 @@ function Chat({ isOpen, onClose }) {
 
     const getMessages = async () => {
         try {
-            const { data, code } = await fetchData('messages');
+            const { data, code } = await useFetchData('messages');
 
             if (code === 200) {
                 setMessages(data.messages);

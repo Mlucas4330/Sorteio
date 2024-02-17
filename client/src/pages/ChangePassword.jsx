@@ -16,7 +16,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { getToken, sendData } from '../utils';
+import { getToken } from '../utils';
+import useSendData from '../hooks/useSendData';
 
 const ChangePassword = () => {
     const [viewOld, setViewOld] = useState(false);
@@ -36,7 +37,7 @@ const ChangePassword = () => {
         try {
             setLoading(true);
 
-            const { data, code, message } = sendData('change-password', d, token);
+            const { data, code, message } = useSendData('change-password', d, token);
 
             if (code !== 200) {
                 toast({
@@ -54,7 +55,6 @@ const ChangePassword = () => {
                 duration: 2000,
                 isClosable: true
             });
-
         } catch (err) {
             console.log(err);
         } finally {
@@ -65,7 +65,7 @@ const ChangePassword = () => {
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
-            
+
             <Link to={'/'}>
                 <Button m={7} colorScheme="yellow">
                     Voltar

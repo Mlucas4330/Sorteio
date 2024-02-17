@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { NewPassword } from '../models';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { sendData } from '../utils';
+import useSendData from '../hooks/useSendData';
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
@@ -38,7 +38,7 @@ const ResetPassword = () => {
     const handleNewPass = async d => {
         setLoading(true);
         try {
-            const { message, code } = await sendData('reset-password', { ...d, token });
+            const { message, code } = await useSendData('reset-password', { ...d, token });
 
             toast({
                 description: message,

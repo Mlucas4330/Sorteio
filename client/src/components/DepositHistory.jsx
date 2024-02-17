@@ -14,17 +14,18 @@ import {
     VisuallyHidden
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { fetchData, socket } from '../utils';
+import { socket } from '../utils';
 import useTimeFormatter from '../hooks/useTimeFormatter';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
+import useFetchData from '../hooks/useFetchData';
 
 const DepositHistory = () => {
     const [deposits, setDeposits] = useState([]);
     const [tabIndex, setTabIndex] = useState(0);
 
     const getDeposits = async () => {
-        const { data, code } = await fetchData('deposits');
+        const { data, code } = await useFetchData('deposits');
 
         if (code === 200) {
             setDeposits(data.deposits);

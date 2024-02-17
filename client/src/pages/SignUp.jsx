@@ -17,9 +17,9 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { sendData } from '../utils';
 import { UserSignUp } from '../models';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import useSendData from '../hooks/useSendData';
 
 function SignUp() {
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ function SignUp() {
         try {
             setLoading(true);
 
-            const { message, code } = await sendData('signup', d);
+            const { message, code } = await useSendData('signup', d);
 
             if (code !== 201) {
                 toast({

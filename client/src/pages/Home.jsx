@@ -2,18 +2,19 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Timer from '../components/Timer';
 import { Heading, Highlight, Box, Flex, Container } from '@chakra-ui/react';
-import { fetchData, socket } from '../utils';
+import { socket } from '../utils';
 import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
 import Nav from '../components/Nav';
 import DepositHistory from '../components/DepositHistory';
 import LastWinner from '../components/LastWinner';
+import useFetchData from '../hooks/useFetchData';
 
 function Home() {
     const [amount, setAmount] = useState(null);
 
     const getTotalAmount = async () => {
         try {
-            const { data, code } = await fetchData('total-amount');
+            const { data, code } = await useFetchData('total-amount');
 
             if (code === 200) {
                 setAmount(data.totalAmount);
