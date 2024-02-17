@@ -2,10 +2,10 @@ import { getCurrentPrizedraw, getLastWinner } from "../services/prizedrawService
 
 const index = async (_req, res) => {
   try {
-    const prizedraw = await getCurrentPrizedraw()
+    const { totalAmount } = await getCurrentPrizedraw()
 
     res.send({
-      data: { prizedraw: prizedraw.totalAmount },
+      data: { totalAmount },
       code: 200,
       message: 'Valor total encontrado com sucesso'
     })
@@ -22,6 +22,14 @@ const index = async (_req, res) => {
 const lastWinner = async (_req, res) => {
   try {
     const prizedraw = await getLastWinner();
+
+    if (!prizedraw) {
+      return res.send({
+        data: null,
+        code: 200,
+        message: 'Último vencedor não foi encontrado'
+      })
+    }
 
     res.send({
       data: { totalAmount: prizedraw.totalAmount, username: prizedraw.user.username },

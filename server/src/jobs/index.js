@@ -6,11 +6,12 @@ import { deleteAllMessages } from '../services/messageService.js'
 
 const resetPrizedraw = async () => {
   try {
-    const prizedraw = await getCurrentPrizedraw()
+    const { prizedraw, totalAmount } = await getCurrentPrizedraw()
 
     const { count, rows } = await User.findAndCountAll({
       include: {
         model: Deposit,
+        required: true,
         where: {
           prizedrawId: prizedraw.id,
           approved: true
@@ -19,18 +20,18 @@ const resetPrizedraw = async () => {
       distinct: true
     })
 
-    if (count > 0 && count !== null && count !== undefined) {
+    if (count > 0) {
       const i = Math.floor((Math.random() * count))
 
       const winner = rows[i]
 
       prizedraw.userId = winner.id
 
-      sendEmailToWinner(winner.email, prizedraw.totalAmount)
+      sendEmailToWinner(winner.email, totalAmount)
 
       // pixSend(totalAmount, winner.pix)
 
-      refreshLastWinner(winner.username, prizedraw.totalAmount)
+      refreshLastWinner(winner.username, totalAmount)
     }
 
     prizedraw.finished = true

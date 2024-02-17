@@ -13,7 +13,17 @@ const getCurrentPrizedraw = async () => {
     }
   })
 
-  return prizedraw
+  const deposit = await Deposit.findOne({
+    attributes: [
+      [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
+    ],
+    where: {
+      prizedrawId: prizedraw.id,
+      approved: true
+    }
+  })
+
+  return { prizedraw, totalAmount: deposit.get('totalAmount') }
 }
 
 const startPrizedraw = async () => {
@@ -67,7 +77,10 @@ const getLastWinner = async () => {
         [Op.between]: [yesterday, currentDate],
       },
     },
-    include: User
+    include: {
+      model: User,
+      required: true
+    }
   });
 }
 

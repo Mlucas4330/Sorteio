@@ -3,7 +3,7 @@ import User from "../models/userModel.js"
 import { getCurrentPrizedraw } from "./prizedrawService.js"
 
 const getAllDeposits = async () => {
-  const prizedraw = await getCurrentPrizedraw()
+  const { prizedraw } = await getCurrentPrizedraw()
 
   return await Deposit.findAll({
     where: {
@@ -35,11 +35,7 @@ const getDepositByTxidAndUpdate = async (txid) => {
 }
 
 const createDeposit = async (amount, userId, txid) => {
-  const prizedraw = await getCurrentPrizedraw()
-
-  prizedraw.totalAmount + amount;
-
-  await prizedraw.save();
+  const { prizedraw } = await getCurrentPrizedraw()
 
   await Deposit.create({
     userId,
