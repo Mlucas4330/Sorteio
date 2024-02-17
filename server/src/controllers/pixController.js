@@ -59,11 +59,10 @@ const webhookPix = async (req, res) => {
   try {
     const { pix } = req.body
 
-    io.emit('payed', true);
-
     pix.map(async pix => {
       const deposit = await getDepositByTxidAndUpdate(pix.txid)
       io.emit('deposit', JSON.stringify(deposit))
+      io.emit('payed', JSON.stringify({ userId: deposit.user.id }))
       io.emit('total amount', pix.valor)
     })
 

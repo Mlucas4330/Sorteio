@@ -23,7 +23,7 @@ const getDepositByTxidAndUpdate = async (txid) => {
     where: { txid },
     include: {
       model: User,
-      attributes: ['username']
+      attributes: ['id', 'username']
     }
   })
 
