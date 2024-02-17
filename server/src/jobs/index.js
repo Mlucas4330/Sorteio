@@ -19,23 +19,26 @@ const resetPrizedraw = async () => {
       distinct: true
     })
 
-    const i = Math.floor((Math.random() * count))
+    if (count > 0 && count !== null && count !== undefined) {
+      const i = Math.floor((Math.random() * count))
 
-    const winner = rows[i]
+      const winner = rows[i]
 
-    prizedraw.userId = winner.id
+      prizedraw.userId = winner.id
+      prizedraw.totalAmount = totalAmount
+
+      sendEmailToWinner(winner.email, totalAmount)
+
+      // pixSend(totalAmount, winner.pix)
+
+      refreshLastWinner(winner.username, totalAmount)
+    }
+
     prizedraw.finished = true
-    prizedraw.totalAmount = totalAmount
-
-    await deleteAllMessages()
 
     await prizedraw.save()
 
-    sendEmailToWinner(winner.email, totalAmount)
-
-    // pixSend(totalAmount, winner.pix)
-
-    refreshLastWinner(winner.username, totalAmount)
+    await deleteAllMessages()
 
     await startPrizedraw()
 
