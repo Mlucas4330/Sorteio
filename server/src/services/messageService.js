@@ -24,7 +24,7 @@ const createMessage = async ({ text, token }) => {
     });
 
     const messageObj = await Message.findOne({
-        attributes: ['id', 'message'],
+        attributes: ['id', 'text'],
         where: { id: message.id },
         include: {
             model: User,

@@ -69,7 +69,7 @@ const webhookPix = async (req, res) => {
 
     res.status(201).send({
       message: 'Depósito criado com sucesso',
-      data: null,
+      data: pix,
       code: 201
     })
   } catch (err) {
