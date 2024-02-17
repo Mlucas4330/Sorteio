@@ -108,7 +108,7 @@ function Nav() {
                                     <Link to='/signin'>
                                         <Button icon={<ChevronRightIcon />}>Entrar</Button>
                                     </Link>
-                                    <Link to='/signUp'>
+                                    <Link to='/signup'>
                                         <Button icon={<ChevronRightIcon />}>Criar Conta</Button>
                                     </Link>
                                 </>
