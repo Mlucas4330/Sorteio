@@ -13,17 +13,7 @@ const getCurrentPrizedraw = async () => {
     }
   })
 
-  const totalAmountObj = await Deposit.findOne({
-    attributes: [
-      [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
-    ],
-    where: {
-      prizedrawId: prizedraw.id,
-      approved: true
-    }
-  })
-
-  return { prizedraw, totalAmount: totalAmountObj.dataValues?.totalAmount || null }
+  return prizedraw
 }
 
 const startPrizedraw = async () => {

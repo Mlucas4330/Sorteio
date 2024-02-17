@@ -6,7 +6,7 @@ import { deleteAllMessages } from '../services/messageService.js'
 
 const resetPrizedraw = async () => {
   try {
-    const { prizedraw, totalAmount } = await getCurrentPrizedraw()
+    const prizedraw = await getCurrentPrizedraw()
 
     const { count, rows } = await User.findAndCountAll({
       include: {
@@ -25,13 +25,12 @@ const resetPrizedraw = async () => {
       const winner = rows[i]
 
       prizedraw.userId = winner.id
-      prizedraw.totalAmount = totalAmount
 
-      sendEmailToWinner(winner.email, totalAmount)
+      sendEmailToWinner(winner.email, prizedraw.totalAmount)
 
       // pixSend(totalAmount, winner.pix)
 
-      refreshLastWinner(winner.username, totalAmount)
+      refreshLastWinner(winner.username, prizedraw.totalAmount)
     }
 
     prizedraw.finished = true

@@ -2,10 +2,10 @@ import { getCurrentPrizedraw, getLastWinner } from "../services/prizedrawService
 
 const index = async (_req, res) => {
   try {
-    const { totalAmount } = await getCurrentPrizedraw()
+    const prizedraw = await getCurrentPrizedraw()
 
     res.send({
-      data: { totalAmount },
+      data: { prizedraw: prizedraw.totalAmount },
       code: 200,
       message: 'Valor total encontrado com sucesso'
     })
