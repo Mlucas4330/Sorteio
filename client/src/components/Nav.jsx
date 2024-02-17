@@ -24,7 +24,7 @@ function Nav() {
     const { onOpen, isOpen, onClose } = useDisclosure()
     const { onOpen: onOpenDeposit, isOpen: isOpenDeposit, onClose: onCloseDeposit } = useDisclosure()
     const { onOpen: onOpenChat, isOpen: isOpenChat, onClose: onCloseChat } = useDisclosure()
-    const isMobile = useBreakpointValue({ base: true, sm: false })
+    const isMobile = useBreakpointValue({ base: true, sm: true, md: false })
     const navigate = useNavigate()
 
     useEffect(() => {
