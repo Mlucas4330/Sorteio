@@ -1,4 +1,4 @@
-import React from 'react'
+/* eslint-disable react/react-in-jsx-scope */
 import { createBrowserRouter } from 'react-router-dom'
 import { Home, SignIn, SignUp, Tutorial, ChangePassword, ForgotPassword, ResetPassword } from './pages'
 
