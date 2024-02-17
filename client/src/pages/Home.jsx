@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Timer from '../components/Timer'
-import { Heading, Highlight, Box, Container, Grid, GridItem } from '@chakra-ui/react'
+import { Heading, Highlight, Box, Container, Flex } from '@chakra-ui/react'
 import { currencyFormatter, socket } from '../utils'
 import Nav from '../components/Nav'
 import DepositHistory from '../components/DepositHistory'
@@ -35,7 +35,12 @@ function Home() {
         <>
             <Nav />
 
-            <Box mt={10}>
+            <Box
+                mt={{
+                    base: 10,
+                    md: 20,
+                }}
+            >
                 <Heading mb={5} size={'4xl'} textAlign={'center'}>
                     <Highlight query={currencyFormatter(amount)} styles={{ borderRadius: 'md', px: '5', color: 'green', bg: 'green.100' }}>
                         {currencyFormatter(amount)}
@@ -45,21 +50,20 @@ function Home() {
             </Box>
 
             <Container my={10} maxW={'3xl'}>
-                <Grid
-                    gap={{
-                        md: '20',
+                <Flex
+                    justify={'space-around'}
+                    align={{
+                        base: 'center',
+                        md: 'baseline',
                     }}
-                    templateColumns={{
-                        md: '1fr 1fr',
+                    direction={{
+                        base: 'column',
+                        md: 'row',
                     }}
                 >
-                    <GridItem>
-                        <DepositHistory />
-                    </GridItem>
-                    <GridItem>
-                        <LastWinner />
-                    </GridItem>
-                </Grid>
+                    <DepositHistory />
+                    <LastWinner />
+                </Flex>
             </Container>
         </>
     )
