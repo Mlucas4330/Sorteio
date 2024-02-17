@@ -14,9 +14,7 @@ import {
     VisuallyHidden
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { socket } from '../utils';
-import useTimeFormatter from '../hooks/useTimeFormatter';
-import useCurrencyFormatter from '../hooks/useCurrencyFormatter';
+import { currencyFormatter, socket, timeFormatter } from '../utils';
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import useFetchData from '../hooks/useFetchData';
 
@@ -72,10 +70,10 @@ const DepositHistory = () => {
                                     <CardBody>
                                         <Text as={'b'}>{deposit.user.username}</Text>
                                         <Heading size={'2xl'} color="green">
-                                            {useCurrencyFormatter(deposit.amount)}
+                                            {currencyFormatter(deposit.amount)}
                                         </Heading>
                                         <Text color={'gray.500'} fontWeight={'400'}>
-                                            {useTimeFormatter(deposit.createdAt)}
+                                            {timeFormatter(deposit.createdAt)}
                                         </Text>
                                     </CardBody>
                                 </Card>
