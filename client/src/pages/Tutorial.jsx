@@ -1,28 +1,12 @@
-import {
-    Accordion,
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
-    Box,
-    Button,
-    Container,
-    Divider,
-    Heading,
-    Text
-} from '@chakra-ui/react';
-import Nav from '../components/Nav';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Container, Heading, Text } from '@chakra-ui/react'
+import HomeButton from '../fragments/HomeButton'
 
 const Tutorial = () => {
     return (
         <>
-            <Nav />
-            <Link to={'/'}>
-                <Button m={7} colorScheme="yellow">
-                    Voltar
-                </Button>
-            </Link>
+            <HomeButton />
+
             <Container maxW={'xl'}>
                 <Text>
                     Cada dia, exatamente à meia-noite, um novo sorteio tem início e se estende por 24 horas. Neste intervalo, os usuários
@@ -58,7 +42,7 @@ const Tutorial = () => {
                 </Accordion>
             </Container>
         </>
-    );
-};
+    )
+}
 
-export default Tutorial;
+export default Tutorial

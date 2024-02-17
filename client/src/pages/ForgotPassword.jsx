@@ -1,14 +1,14 @@
-import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Spinner, useToast } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Email } from '../models';
-import { useState } from 'react';
-import useSendData from '../hooks/useSendData';
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Spinner, useToast } from '@chakra-ui/react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Email } from '../models'
+import React, { useState } from 'react'
+import useSendData from '../hooks/useSendData'
+import HomeButton from '../fragments/HomeButton'
 
 const ForgotPassword = () => {
-    const toast = useToast();
-    const [loading, setLoading] = useState(false);
+    const toast = useToast()
+    const [loading, setLoading] = useState(false)
 
     const {
         register,
@@ -16,32 +16,30 @@ const ForgotPassword = () => {
         formState: { errors }
     } = useForm({
         resolver: zodResolver(Email)
-    });
+    })
 
     const handleEmail = async d => {
-        setLoading(true);
+        setLoading(true)
         try {
-            const { message, code } = await useSendData('forgot-password', d);
+            const { message, code } = await useSendData('forgot-password', d)
             toast({
                 description: message,
                 status: code === 200 ? 'success' : 'error',
                 duration: 2000,
                 isClosable: true
-            });
+            })
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
-            <Link to={'/'}>
-                <Button m={7} colorScheme="yellow">
-                    Voltar
-                </Button>
-            </Link>
+
+            <HomeButton />
+
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleEmail)}>
                     <FormControl mb={3} isInvalid={errors.email}>
@@ -55,7 +53,7 @@ const ForgotPassword = () => {
                 </form>
             </Container>
         </>
-    );
-};
+    )
+}
 
-export default ForgotPassword;
+export default ForgotPassword

@@ -1,26 +1,26 @@
-import { Box, Card, CardBody, Heading, Text } from '@chakra-ui/react';
-import { currencyFormatter, socket } from '../utils';
-import { useEffect, useState } from 'react';
-import useFetchData from '../hooks/useFetchData';
+import { Box, Card, CardBody, Heading, Text } from '@chakra-ui/react'
+import { currencyFormatter, socket } from '../utils'
+import React, { useEffect, useState } from 'react'
+import useFetchData from '../hooks/useFetchData'
 
 const LastWinner = () => {
-    const [lastWinner, setLastWinner] = useState(null);
+    const [lastWinner, setLastWinner] = useState(null)
 
     const getLastWinner = async () => {
-        const { data, code } = await useFetchData('last-winner');
+        const { data, code } = await useFetchData('last-winner')
 
         if (code === 200) {
-            setLastWinner(data);
+            setLastWinner(data)
         }
-    };
+    }
 
     useEffect(() => {
-        getLastWinner();
-    }, []);
+        getLastWinner()
+    }, [])
 
     socket.on('last winner', lw => {
-        setLastWinner(lw);
-    });
+        setLastWinner(lw)
+    })
 
     return lastWinner ? (
         <Box>
@@ -36,7 +36,7 @@ const LastWinner = () => {
                 </CardBody>
             </Card>
         </Box>
-    ) : null;
-};
+    ) : null
+}
 
-export default LastWinner;
+export default LastWinner

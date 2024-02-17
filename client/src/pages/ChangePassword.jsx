@@ -8,22 +8,24 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    Spinner
-} from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import { Password } from '../models';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { getToken } from '../utils';
-import useSendData from '../hooks/useSendData';
+    Spinner,
+    useToast
+} from '@chakra-ui/react'
+import { Password } from '../models'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import React, { useState } from 'react'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { getToken } from '../utils'
+import useSendData from '../hooks/useSendData'
+import HomeButton from '../fragments/HomeButton'
 
 const ChangePassword = () => {
-    const [viewOld, setViewOld] = useState(false);
-    const [viewNew, setViewNew] = useState(false);
-    const token = getToken();
-    const [loading, setLoading] = useState(false);
+    const [viewOld, setViewOld] = useState(false)
+    const [viewNew, setViewNew] = useState(false)
+    const token = getToken()
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
 
     const {
         register,
@@ -31,13 +33,13 @@ const ChangePassword = () => {
         formState: { errors }
     } = useForm({
         resolver: zodResolver(Password)
-    });
+    })
 
     const handleChangePass = async d => {
         try {
-            setLoading(true);
+            setLoading(true)
 
-            const { data, code, message } = useSendData('change-password', d, token);
+            const { code, message } = useSendData('change-password', d, token)
 
             if (code !== 200) {
                 toast({
@@ -45,8 +47,8 @@ const ChangePassword = () => {
                     status: 'error',
                     duration: 2000,
                     isClosable: true
-                });
-                return;
+                })
+                return
             }
 
             toast({
@@ -54,23 +56,19 @@ const ChangePassword = () => {
                 status: 'success',
                 duration: 2000,
                 isClosable: true
-            });
+            })
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
 
-            <Link to={'/'}>
-                <Button m={7} colorScheme="yellow">
-                    Voltar
-                </Button>
-            </Link>
+            <HomeButton />
 
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleChangePass)}>
@@ -110,7 +108,7 @@ const ChangePassword = () => {
                 </form>
             </Container>
         </>
-    );
-};
+    )
+}
 
-export default ChangePassword;
+export default ChangePassword

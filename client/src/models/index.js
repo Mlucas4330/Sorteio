@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 const UserSignUp = z.object({
     username: z
@@ -37,7 +37,7 @@ const UserSignUp = z.object({
             required_error: 'Chave PIX é obrigatória'
         })
         .trim()
-});
+})
 
 const UserSignIn = z.object({
     username: z
@@ -62,7 +62,7 @@ const UserSignIn = z.object({
             message: 'Senha deve conter no máximo 80 caracteres'
         })
         .trim()
-});
+})
 
 const Password = z.object({
     oldpass: z
@@ -81,7 +81,7 @@ const Password = z.object({
             message: 'Nova senha deve conter no máximo 80 caracteres'
         })
         .trim()
-});
+})
 
 const NewPassword = z.object({
     newpass: z
@@ -95,7 +95,7 @@ const NewPassword = z.object({
             message: 'Nova senha deve conter no máximo 80 caracteres'
         })
         .trim()
-});
+})
 
 
 const Email = z.object({
@@ -107,6 +107,6 @@ const Email = z.object({
             message: 'Email inválido'
         })
         .trim()
-});
+})
 
-export { UserSignUp, UserSignIn, Password, NewPassword, Email };
+export { UserSignUp, UserSignIn, Password, NewPassword, Email }

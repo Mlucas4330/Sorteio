@@ -1,14 +1,16 @@
-import { Box, Flex, Grid, Image, Text } from '@chakra-ui/react';
-import defaultImage from '../assets/default-profile.png';
-import { blobToImage, decodeToken, timeFormatter } from '../utils';
+/* eslint-disable react/prop-types */
+import React from 'react'
+import { Box, Flex, Grid, Image, Text } from '@chakra-ui/react'
+import defaultImage from '../assets/default-profile.png'
+import { blobToImage, decodeToken, timeFormatter } from '../utils'
 
 const Message = ({ data, token }) => {
-    let me = false;
+    let me = false
 
     if (token) {
-        const { userId } = decodeToken(token);
+        const { userId } = decodeToken(token)
 
-        me = userId === data.user.id;
+        me = userId === data.user.id
     }
 
     return (
@@ -28,7 +30,7 @@ const Message = ({ data, token }) => {
                 </Text>
             </Box>
         </Flex>
-    );
-};
+    )
+}
 
-export default Message;
+export default Message

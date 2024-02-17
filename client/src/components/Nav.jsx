@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
-import { AddIcon, ArrowBackIcon, ChatIcon, ChevronRightIcon, HamburgerIcon, QuestionOutlineIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Flex, Button, Menu, MenuButton, MenuItem, MenuList, useDisclosure, Box, ButtonGroup } from '@chakra-ui/react';
-import UserModal from './UserModal';
-import { Link, useNavigate } from 'react-router-dom';
-import { destroyToken, getToken } from '../utils';
-import DepositModal from './DepositModal';
-import Chat from './Chat';
+import React, { useEffect, useState } from 'react'
+import { AddIcon, ArrowBackIcon, ChatIcon, ChevronRightIcon, HamburgerIcon, QuestionOutlineIcon, SettingsIcon } from '@chakra-ui/icons'
+import { Flex, Button, Menu, MenuButton, MenuItem, MenuList, useDisclosure, ButtonGroup } from '@chakra-ui/react'
+import UserModal from './UserModal'
+import { Link, useNavigate } from 'react-router-dom'
+import { destroyToken, getToken } from '../utils'
+import DepositModal from './DepositModal'
+import Chat from './Chat'
 
 function Nav() {
-    const [token, setToken] = useState();
-    const { onOpen, isOpen, onClose } = useDisclosure();
-    const { onOpen: onOpenDeposit, isOpen: isOpenDeposit, onClose: onCloseDeposit } = useDisclosure();
-    const { onOpen: onOpenChat, isOpen: isOpenChat, onClose: onCloseChat } = useDisclosure();
-    const navigate = useNavigate();
+    const [token, setToken] = useState()
+    const { onOpen, isOpen, onClose } = useDisclosure()
+    const { onOpen: onOpenDeposit, isOpen: isOpenDeposit, onClose: onCloseDeposit } = useDisclosure()
+    const { onOpen: onOpenChat, isOpen: isOpenChat, onClose: onCloseChat } = useDisclosure()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        setToken(getToken());
-    }, []);
+        setToken(getToken())
+    }, [])
 
     const signout = () => {
-        navigate(0);
-        setToken(destroyToken());
-    };
+        navigate(0)
+        setToken(destroyToken())
+    }
 
     return (
         <>
@@ -70,7 +70,7 @@ function Nav() {
                 </Menu>
             </Flex>
         </>
-    );
+    )
 }
 
-export default Nav;
+export default Nav

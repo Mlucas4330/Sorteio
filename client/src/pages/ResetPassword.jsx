@@ -10,22 +10,23 @@ import {
     InputRightElement,
     Spinner,
     useToast
-} from '@chakra-ui/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { NewPassword } from '../models';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import useSendData from '../hooks/useSendData';
+} from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { NewPassword } from '../models'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import useSendData from '../hooks/useSendData'
+import HomeButton from '../fragments/HomeButton'
 
 const ResetPassword = () => {
-    const [searchParams] = useSearchParams();
-    const token = searchParams.get('token');
-    const toast = useToast();
-    const [viewNew, setViewNew] = useState(false);
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+    const [searchParams] = useSearchParams()
+    const token = searchParams.get('token')
+    const toast = useToast()
+    const [viewNew, setViewNew] = useState(false)
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const {
         register,
@@ -33,36 +34,33 @@ const ResetPassword = () => {
         formState: { errors }
     } = useForm({
         resolver: zodResolver(NewPassword)
-    });
+    })
 
     const handleNewPass = async d => {
-        setLoading(true);
+        setLoading(true)
         try {
-            const { message, code } = await useSendData('reset-password', { ...d, token });
+            const { message, code } = await useSendData('reset-password', { ...d, token })
 
             toast({
                 description: message,
                 status: code === 200 ? 'success' : 'error',
                 duration: 2000,
                 isClosable: true
-            });
+            })
 
-            navigate('/');
+            navigate('/')
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
 
-            <Link to={'/'}>
-                <Button m={7} colorScheme="yellow">
-                    Voltar
-                </Button>
-            </Link>
+            <HomeButton />
+
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleNewPass)}>
                     <FormControl mb={3} isInvalid={errors.newpass}>
@@ -86,7 +84,7 @@ const ResetPassword = () => {
                 </form>
             </Container>
         </>
-    );
-};
+    )
+}
 
-export default ResetPassword;
+export default ResetPassword

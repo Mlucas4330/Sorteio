@@ -12,45 +12,45 @@ import {
     Tabs,
     Text,
     VisuallyHidden
-} from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { currencyFormatter, socket, timeFormatter } from '../utils';
-import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
-import useFetchData from '../hooks/useFetchData';
+} from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { currencyFormatter, socket, timeFormatter } from '../utils'
+import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import useFetchData from '../hooks/useFetchData'
 
 const DepositHistory = () => {
-    const [deposits, setDeposits] = useState([]);
-    const [tabIndex, setTabIndex] = useState(0);
+    const [deposits, setDeposits] = useState([])
+    const [tabIndex, setTabIndex] = useState(0)
 
     const getDeposits = async () => {
-        const { data, code } = await useFetchData('deposits');
+        const { data, code } = await useFetchData('deposits')
 
         if (code === 200) {
-            setDeposits(data.deposits);
+            setDeposits(data.deposits)
         }
-    };
+    }
 
     useEffect(() => {
-        getDeposits();
-    }, []);
+        getDeposits()
+    }, [])
 
     socket.on('deposit', dpt => {
-        setDeposits([...deposits, JSON.parse(dpt)]);
-    });
+        setDeposits([...deposits, JSON.parse(dpt)])
+    })
 
     const handleClick = direction => {
         if (direction === 'next') {
             if (deposits.length - 1 > tabIndex) {
-                setTabIndex(tabIndex + 1);
+                setTabIndex(tabIndex + 1)
             }
         }
 
         if (direction === 'prev') {
             if (tabIndex > 0) {
-                setTabIndex(tabIndex - 1);
+                setTabIndex(tabIndex - 1)
             }
         }
-    };
+    }
 
     return deposits.length > 0 ? (
         <Box maxW={'3xl'}>
@@ -94,7 +94,7 @@ const DepositHistory = () => {
                 </IconButton>
             </Flex>
         </Box>
-    ) : null;
-};
+    ) : null
+}
 
-export default DepositHistory;
+export default DepositHistory

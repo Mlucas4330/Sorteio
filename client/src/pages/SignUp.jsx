@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
     Button,
     Input,
@@ -13,19 +13,20 @@ import {
     InputGroup,
     InputRightElement,
     IconButton
-} from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UserSignUp } from '../models';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import useSendData from '../hooks/useSendData';
+} from '@chakra-ui/react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { UserSignUp } from '../models'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import useSendData from '../hooks/useSendData'
+import HomeButton from '../fragments/HomeButton'
 
 function SignUp() {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const toast = useToast();
-    const [view, setView] = useState(false);
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
+    const [view, setView] = useState(false)
 
     const {
         register,
@@ -33,13 +34,13 @@ function SignUp() {
         formState: { errors }
     } = useForm({
         resolver: zodResolver(UserSignUp)
-    });
+    })
 
     const handleUser = async d => {
         try {
-            setLoading(true);
+            setLoading(true)
 
-            const { message, code } = await useSendData('signup', d);
+            const { message, code } = await useSendData('signup', d)
 
             if (code !== 201) {
                 toast({
@@ -47,8 +48,8 @@ function SignUp() {
                     status: 'error',
                     duration: 2000,
                     isClosable: true
-                });
-                return;
+                })
+                return
             }
 
             toast({
@@ -56,24 +57,22 @@ function SignUp() {
                 status: 'success',
                 duration: 2000,
                 isClosable: true
-            });
+            })
 
-            navigate('/signin');
+            navigate('/signin')
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
-            <Link to={'/'}>
-                <Button m={7} colorScheme="yellow">
-                    Voltar
-                </Button>
-            </Link>
+            
+            <HomeButton />
+
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleUser)}>
                     <FormControl mb={3} isInvalid={errors.username}>
@@ -125,7 +124,7 @@ function SignUp() {
                 </Text>
             </Container>
         </>
-    );
+    )
 }
 
-export default SignUp;
+export default SignUp

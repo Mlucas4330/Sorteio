@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -16,52 +16,53 @@ import {
     FormControl,
     VisuallyHidden,
     Image
-} from '@chakra-ui/react';
-import { baseUrl, blobToImage, fetchData, getToken } from '../utils';
-import { Link } from 'react-router-dom';
-import defaultImage from '../assets/default-profile.png';
-import useFetchData from '../hooks/useFetchData';
+} from '@chakra-ui/react'
+import { baseUrl, blobToImage, getToken } from '../utils'
+import { Link } from 'react-router-dom'
+import defaultImage from '../assets/default-profile.png'
+import useFetchData from '../hooks/useFetchData'
 
+// eslint-disable-next-line react/prop-types
 function UserModal({ isOpen, onClose }) {
-    const [loading, setLoading] = useState(false);
-    const [loadingSubmit, setLoadingSubmit] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [user, setUser] = useState({
         username: null,
         pix: null,
         image: null
-    });
-    const [image, setImage] = useState(null);
-    const token = getToken();
-    const toast = useToast();
+    })
+    const [image, setImage] = useState(null)
+    const token = getToken()
+    const toast = useToast()
 
     const getUser = async () => {
-        setLoading(true);
+        setLoading(true)
         try {
-            const { data } = await useFetchData('current-user', token);
+            const { data } = await useFetchData('current-user', token)
             setUser({
                 username: data.user.username,
                 pix: data.user.pix,
                 image: blobToImage(data.user.image)
-            });
-            setImage(blobToImage(data.user.image));
+            })
+            setImage(blobToImage(data.user.image))
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     useEffect(() => {
-        getUser();
-    }, []);
+        getUser()
+    }, [])
 
     const handleUser = async () => {
-        setLoadingSubmit(true);
+        setLoadingSubmit(true)
         try {
-            const formData = new FormData();
+            const formData = new FormData()
 
-            formData.append('pix', user.pix);
-            formData.append('image', user.image);
+            formData.append('pix', user.pix)
+            formData.append('image', user.image)
 
             const response = await fetch(baseUrl + 'user/update', {
                 method: 'POST',
@@ -69,31 +70,31 @@ function UserModal({ isOpen, onClose }) {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }
-            });
-            const { code, message } = await response.json();
+            })
+            const { code, message } = await response.json()
 
             toast({
                 description: message,
                 status: code === 200 ? 'success' : 'error',
                 duration: 2000,
                 isClosable: true
-            });
+            })
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoadingSubmit(false);
+            setLoadingSubmit(false)
         }
-    };
+    }
 
     const handleFile = e => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]
 
         if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setUser({ ...user, image: file });
-            setImage(imageUrl);
+            const imageUrl = URL.createObjectURL(file)
+            setUser({ ...user, image: file })
+            setImage(imageUrl)
         }
-    };
+    }
 
     return (
         <>
@@ -157,7 +158,7 @@ function UserModal({ isOpen, onClose }) {
                 </ModalContent>
             </Modal>
         </>
-    );
+    )
 }
 
-export default UserModal;
+export default UserModal

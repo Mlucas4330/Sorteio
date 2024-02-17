@@ -1,4 +1,4 @@
-import { ArrowUpIcon } from '@chakra-ui/icons';
+import { ArrowUpIcon } from '@chakra-ui/icons'
 import {
     InputGroup,
     Input,
@@ -13,33 +13,34 @@ import {
     DrawerHeader,
     DrawerBody,
     DrawerFooter
-} from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { getToken, socket } from '../utils';
-import Message from './Message';
-import useFetchData from '../hooks/useFetchData';
+} from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { getToken, socket } from '../utils'
+import Message from './Message'
+import useFetchData from '../hooks/useFetchData'
 
+// eslint-disable-next-line react/prop-types
 function Chat({ isOpen, onClose }) {
-    const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([]);
-    const toast = useToast();
-    const token = getToken();
+    const [message, setMessage] = useState('')
+    const [messages, setMessages] = useState([])
+    const toast = useToast()
+    const token = getToken()
 
     const getMessages = async () => {
         try {
-            const { data, code } = await useFetchData('messages');
+            const { data, code } = await useFetchData('messages')
 
             if (code === 200) {
-                setMessages(data.messages);
+                setMessages(data.messages)
             }
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
-    };
+    }
 
     useEffect(() => {
-        getMessages();
-    }, []);
+        getMessages()
+    }, [])
 
     const sendMessage = () => {
         if (!token) {
@@ -48,26 +49,26 @@ function Chat({ isOpen, onClose }) {
                 status: 'error',
                 duration: 2000,
                 isClosable: true
-            });
-            return;
+            })
+            return
         }
 
         if (message !== '') {
-            socket.emit('message', { token, text: message });
-            socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]));
-            setMessage('');
+            socket.emit('message', { token, text: message })
+            socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]))
+            setMessage('')
         }
-    };
+    }
 
     const handleMessage = e => {
-        setMessage(e.target.value);
-    };
+        setMessage(e.target.value)
+    }
 
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
-            sendMessage();
+            sendMessage()
         }
-    };
+    }
 
     return (
         <Drawer isOpen={isOpen} placement="left" onClose={onClose} size={'sm'}>
@@ -98,7 +99,7 @@ function Chat({ isOpen, onClose }) {
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
-    );
+    )
 }
 
-export default Chat;
+export default Chat

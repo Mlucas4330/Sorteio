@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
     Button,
     Input,
@@ -13,20 +13,21 @@ import {
     InputRightElement,
     IconButton,
     Container
-} from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { setToken } from '../utils';
-import { UserSignIn } from '../models';
-import useSendData from '../hooks/useSendData';
+} from '@chakra-ui/react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { setToken } from '../utils'
+import { UserSignIn } from '../models'
+import useSendData from '../hooks/useSendData'
+import HomeButton from '../fragments/HomeButton'
 
 function SignIn() {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [view, setView] = useState(false);
-    const toast = useToast();
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const [view, setView] = useState(false)
+    const toast = useToast()
 
     const {
         register,
@@ -34,13 +35,13 @@ function SignIn() {
         formState: { errors }
     } = useForm({
         resolver: zodResolver(UserSignIn)
-    });
+    })
 
     const handleUser = async d => {
         try {
-            setLoading(true);
+            setLoading(true)
 
-            const { data, message, code } = await useSendData('signin', d);
+            const { data, message, code } = await useSendData('signin', d)
 
             if (code !== 200) {
                 toast({
@@ -48,8 +49,8 @@ function SignIn() {
                     status: 'error',
                     duration: 2000,
                     isClosable: true
-                });
-                return;
+                })
+                return
             }
 
             toast({
@@ -57,27 +58,23 @@ function SignIn() {
                 status: 'success',
                 duration: 2000,
                 isClosable: true
-            });
+            })
 
-            setToken(data.token);
+            setToken(data.token)
 
-            navigate('/');
+            navigate('/')
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     return (
         <>
             {loading && <Spinner size={'xl'} position={'fixed'} top={10} right={10} />}
 
-            <Link to={'/'}>
-                <Button m={7} colorScheme="yellow">
-                    Voltar
-                </Button>
-            </Link>
+            <HomeButton />
 
             <Container maxW={'container.sm'}>
                 <form onSubmit={handleSubmit(handleUser)}>
@@ -120,7 +117,7 @@ function SignIn() {
                 </Text>
             </Container>
         </>
-    );
+    )
 }
 
-export default SignIn;
+export default SignIn

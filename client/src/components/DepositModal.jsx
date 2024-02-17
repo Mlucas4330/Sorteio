@@ -26,21 +26,22 @@ import {
     IconButton,
     Center,
     ButtonGroup
-} from '@chakra-ui/react';
-import { useRef, useState } from 'react';
-import { getToken, socket } from '../utils';
-import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
-import copy from 'copy-to-clipboard';
-import useSendData from '../hooks/useSendData';
+} from '@chakra-ui/react'
+import React, { useRef, useState } from 'react'
+import { getToken, socket } from '../utils'
+import { CopyIcon, CheckIcon } from '@chakra-ui/icons'
+import copy from 'copy-to-clipboard'
+import useSendData from '../hooks/useSendData'
 
+// eslint-disable-next-line react/prop-types
 function DepositModal({ isOpen, onClose }) {
-    const [loading, setLoading] = useState(false);
-    const [pixCopiaECola, setPixCopiaECola] = useState(null);
-    const [qrCode, setQrCode] = useState(null);
-    const [isPayed, setIsPayed] = useState(false);
-    const amountRef = useRef(null);
-    const toast = useToast();
-    const token = getToken();
+    const [loading, setLoading] = useState(false)
+    const [pixCopiaECola, setPixCopiaECola] = useState(null)
+    const [qrCode, setQrCode] = useState(null)
+    const [isPayed, setIsPayed] = useState(false)
+    const amountRef = useRef(null)
+    const toast = useToast()
+    const token = getToken()
 
     const handleDeposit = async () => {
         if (!token) {
@@ -49,19 +50,19 @@ function DepositModal({ isOpen, onClose }) {
                 status: 'error',
                 duration: 2000,
                 isClosable: true
-            });
-            return;
+            })
+            return
         }
 
         try {
-            setLoading(true);
+            setLoading(true)
             const { data, message, code } = await useSendData(
                 'deposit',
                 {
                     amount: amountRef.current.value
                 },
                 token
-            );
+            )
 
             if (code !== 201) {
                 toast({
@@ -69,28 +70,28 @@ function DepositModal({ isOpen, onClose }) {
                     status: 'error',
                     duration: 2000,
                     isClosable: true
-                });
-                return;
+                })
+                return
             }
 
-            setQrCode(data.imagemQrcode);
-            setPixCopiaECola(data.pixCopiaECola);
+            setQrCode(data.imagemQrcode)
+            setPixCopiaECola(data.pixCopiaECola)
 
             toast({
                 description: message,
                 status: 'success',
                 duration: 2000,
                 isClosable: true
-            });
+            })
         } catch (err) {
-            console.log(err);
+            console.log(err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     const handleCopyToClipboard = () => {
-        const isCopy = copy(pixCopiaECola);
+        const isCopy = copy(pixCopiaECola)
 
         if (isCopy) {
             toast({
@@ -98,15 +99,15 @@ function DepositModal({ isOpen, onClose }) {
                 status: 'success',
                 duration: 2000,
                 isClosable: true
-            });
+            })
         }
-    };
+    }
 
     socket.on('payed', payed => {
-        setIsPayed(payed);
-        setQrCode(null);
-        setPixCopiaECola(null);
-    });
+        setIsPayed(payed)
+        setQrCode(null)
+        setPixCopiaECola(null)
+    })
 
     return (
         <>
@@ -174,8 +175,8 @@ function DepositModal({ isOpen, onClose }) {
                         {isPayed ? (
                             <Button
                                 onClick={() => {
-                                    setIsPayed(false);
-                                    onClose();
+                                    setIsPayed(false)
+                                    onClose()
                                 }}
                             >
                                 Fechar
@@ -200,7 +201,7 @@ function DepositModal({ isOpen, onClose }) {
                 </ModalContent>
             </Modal>
         </>
-    );
+    )
 }
 
-export default DepositModal;
+export default DepositModal
