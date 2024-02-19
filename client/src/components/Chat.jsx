@@ -38,10 +38,14 @@ function Chat({ isOpen, onClose }) {
         }
     }
 
+    const getMessage = msg => {
+        setMessages(prevMessages => [...prevMessages, JSON.parse(msg)])
+    }
+
     useEffect(() => {
         getMessages()
 
-        socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]))
+        socket.on('message', getMessage)
     }, [])
 
     const sendMessage = () => {

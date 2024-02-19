@@ -14,12 +14,14 @@ const LastWinner = () => {
         }
     }
 
+    const refreshLastWinner = wnr => {
+        setLastWinner(wnr)
+    }
+
     useEffect(() => {
         getLastWinner()
 
-        socket.on('last winner', lw => {
-            setLastWinner(lw)
-        })
+        socket.on('last winner', refreshLastWinner)
     }, [])
 
     return lastWinner ? (

@@ -103,19 +103,21 @@ function DepositModal({ isOpen, onClose }) {
         }
     }
 
-    useEffect(() => {
-        socket.on('payer payment', payload => {
-            if (token) {
-                const payerId = JSON.parse(payload)
-                const { userId } = decodeToken(token)
+    const getPayerPayment = pyr => {
+        if (token) {
+            const payerId = JSON.parse(pyr)
+            const { userId } = decodeToken(token)
 
-                if (payerId === userId) {
-                    setIsPayed(true)
-                    setQrCode(null)
-                    setPixCopiaECola(null)
-                }
+            if (payerId === userId) {
+                setIsPayed(true)
+                setQrCode(null)
+                setPixCopiaECola(null)
             }
-        })
+        }
+    }
+
+    useEffect(() => {
+        socket.on('payer payment', getPayerPayment)
     }, [])
 
     return (

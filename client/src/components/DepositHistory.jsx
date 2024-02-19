@@ -30,12 +30,14 @@ const DepositHistory = () => {
         }
     }
 
+    const getDeposit = dpt => {
+        setDeposits(prevDeposits => [...prevDeposits, JSON.parse(dpt)])
+    }
+
     useEffect(() => {
         getDeposits()
 
-        socket.on('deposit', dpt => {
-            setDeposits([...deposits, JSON.parse(dpt)])
-        })
+        socket.on('deposit', getDeposit)
     }, [])
 
     const handleClick = direction => {
