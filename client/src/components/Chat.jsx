@@ -40,6 +40,8 @@ function Chat({ isOpen, onClose }) {
 
     useEffect(() => {
         getMessages()
+
+        socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]))
     }, [])
 
     const sendMessage = () => {
@@ -55,7 +57,6 @@ function Chat({ isOpen, onClose }) {
 
         if (message !== '') {
             socket.emit('message', { token, text: message })
-            socket.on('message', msg => setMessages([...messages, JSON.parse(msg)]))
             setMessage('')
         }
     }

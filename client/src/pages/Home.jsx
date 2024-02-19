@@ -25,11 +25,11 @@ function Home() {
 
     useEffect(() => {
         getTotalAmount()
-    }, [])
 
-    socket.on('total amount', data => {
-        setAmount(Number(amount) + Number(data))
-    })
+        socket.on('total amount', data => {
+            setAmount(Number(amount) + Number(data))
+        })
+    }, [])
 
     return (
         <>

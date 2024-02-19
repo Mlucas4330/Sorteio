@@ -16,11 +16,11 @@ const LastWinner = () => {
 
     useEffect(() => {
         getLastWinner()
-    }, [])
 
-    socket.on('last winner', lw => {
-        setLastWinner(lw)
-    })
+        socket.on('last winner', lw => {
+            setLastWinner(lw)
+        })
+    }, [])
 
     return lastWinner ? (
         <Box>

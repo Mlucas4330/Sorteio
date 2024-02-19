@@ -27,7 +27,7 @@ import {
     Center,
     ButtonGroup,
 } from '@chakra-ui/react'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { decodeToken, getToken, socket } from '../utils'
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons'
 import copy from 'copy-to-clipboard'
@@ -103,18 +103,20 @@ function DepositModal({ isOpen, onClose }) {
         }
     }
 
-    socket.on('payer payment', payload => {
-        if (token) {
-            const payerId = JSON.parse(payload)
-            const { userId } = decodeToken(token)
+    useEffect(() => {
+        socket.on('payer payment', payload => {
+            if (token) {
+                const payerId = JSON.parse(payload)
+                const { userId } = decodeToken(token)
 
-            if (payerId === userId) {
-                setIsPayed(true)
-                setQrCode(null)
-                setPixCopiaECola(null)
+                if (payerId === userId) {
+                    setIsPayed(true)
+                    setQrCode(null)
+                    setPixCopiaECola(null)
+                }
             }
-        }
-    })
+        })
+    }, [])
 
     return (
         <>
