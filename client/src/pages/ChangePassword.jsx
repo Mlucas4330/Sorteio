@@ -39,21 +39,11 @@ const ChangePassword = () => {
         try {
             setLoading(true)
 
-            const { code, message } = useSendData('change-password', d, token)
-
-            if (code !== 200) {
-                toast({
-                    description: message,
-                    status: 'error',
-                    duration: 2000,
-                    isClosable: true,
-                })
-                return
-            }
+            const { code, message } = await useSendData('change-password', d, token)
 
             toast({
                 description: message,
-                status: 'success',
+                status: code !== 200 ? 'error' : 'success',
                 duration: 2000,
                 isClosable: true,
             })

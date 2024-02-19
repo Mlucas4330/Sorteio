@@ -162,7 +162,7 @@ const changePassword = async (req, res) => {
   try {
     const { oldpass, newpass } = req.body;
 
-    const user = await User.findByPk(user.req.id);
+    const user = await User.findByPk(req.userId);
 
     if (!user) {
       return res.status(404).send({
