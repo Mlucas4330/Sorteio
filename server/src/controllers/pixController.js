@@ -59,6 +59,14 @@ const webhookPix = async (req, res) => {
   try {
     const { pix } = req.body
 
+    if (!pix) {
+      res.send({
+        message: 'Nenhum Pix foi encontrado',
+        data: null,
+        code: 404
+      })
+    }
+
     pix.map(async pix => {
       const deposit = await getDepositByTxidAndUpdate(pix.txid)
       io.emit('deposit', JSON.stringify(deposit))
@@ -68,7 +76,7 @@ const webhookPix = async (req, res) => {
 
     res.status(201).send({
       message: 'Depósito criado com sucesso',
-      data: pix,
+      data: null,
       code: 201
     })
   } catch (err) {
