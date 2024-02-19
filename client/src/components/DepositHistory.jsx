@@ -83,8 +83,8 @@ const DepositHistory = () => {
 
                     <VisuallyHidden>
                         <TabList>
-                            {deposits.map(deposit => (
-                                <Tab key={deposit.id}></Tab>
+                            {deposits.map((deposit, i) => (
+                                <Tab key={i}></Tab>
                             ))}
                         </TabList>
                     </VisuallyHidden>

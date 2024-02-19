@@ -100,9 +100,14 @@ function Nav() {
                         </Link>
                         <ButtonGroup>
                             {token ? (
-                                <Button colorScheme='red' onClick={signout} leftIcon={<ArrowBackIcon />}>
-                                    Sair
-                                </Button>
+                                <ButtonGroup>
+                                    <Button onClick={onOpen} leftIcon={<SettingsIcon />}>
+                                        Configurações
+                                    </Button>
+                                    <Button colorScheme='red' onClick={signout} leftIcon={<ArrowBackIcon />}>
+                                        Sair
+                                    </Button>
+                                </ButtonGroup>
                             ) : (
                                 <>
                                     <Link to='/signin'>

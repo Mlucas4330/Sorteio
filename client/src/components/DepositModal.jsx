@@ -103,12 +103,12 @@ function DepositModal({ isOpen, onClose }) {
         }
     }
 
-    socket.on('payed', payload => {
+    socket.on('payer payment', payload => {
         if (token) {
-            const { payedUserId } = JSON.parse(payload)
+            const payerId = JSON.parse(payload)
             const { userId } = decodeToken(token)
 
-            if (payedUserId === userId) {
+            if (payerId === userId) {
                 setIsPayed(true)
                 setQrCode(null)
                 setPixCopiaECola(null)

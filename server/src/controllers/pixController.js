@@ -70,7 +70,7 @@ const webhookPix = async (req, res) => {
     pix.map(async pix => {
       const deposit = await getDepositByTxidAndUpdate(pix.txid)
       io.emit('deposit', JSON.stringify(deposit))
-      io.emit('payed', JSON.stringify({ userId: deposit.user.id }))
+      io.emit('payer payment', deposit.user.id)
       io.emit('total amount', pix.valor)
     })
 
