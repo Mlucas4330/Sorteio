@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import {
     Modal,
     ModalOverlay,
@@ -7,12 +8,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
-    InputLeftAddon,
     InputGroup,
     Image,
     Heading,
@@ -26,9 +21,11 @@ import {
     IconButton,
     Center,
     ButtonGroup,
+    Flex,
+    Highlight,
 } from '@chakra-ui/react'
-import React, { useEffect, useRef, useState } from 'react'
-import { decodeToken, getToken, socket } from '../utils'
+import React, { useEffect, useState } from 'react'
+import { currencyFormatter, decodeToken, getToken, socket } from '../utils'
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons'
 import copy from 'copy-to-clipboard'
 import useSendData from '../hooks/useSendData'
@@ -39,7 +36,7 @@ function DepositModal({ isOpen, onClose }) {
     const [pixCopiaECola, setPixCopiaECola] = useState(null)
     const [qrCode, setQrCode] = useState(null)
     const [isPayed, setIsPayed] = useState(false)
-    const amountRef = useRef(null)
+    const [amount, setAmount] = useState(1.0)
     const toast = useToast()
     const token = getToken()
 
@@ -54,12 +51,22 @@ function DepositModal({ isOpen, onClose }) {
             return
         }
 
+        if (!amount) {
+            toast({
+                description: 'Preencha um valor',
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            })
+            return
+        }
+
         try {
             setLoading(true)
             const { data, message, code } = await useSendData(
                 'deposit',
                 {
-                    amount: amountRef.current.value,
+                    amount: amount.toFixed(2).toString(),
                 },
                 token,
             )
@@ -120,6 +127,35 @@ function DepositModal({ isOpen, onClose }) {
         socket.on('payer payment', getPayerPayment)
     }, [])
 
+    const handleMinusPlus = operation => {
+        switch (operation) {
+            case 'minus01':
+                setAmount(prevAmount => (prevAmount > 0.01 ? prevAmount - 0.01 : null))
+                break
+            case 'minus05':
+                setAmount(prevAmount => (prevAmount > 0.5 ? prevAmount - 0.5 : null))
+                break
+            case 'minus10':
+                setAmount(prevAmount => (prevAmount > 10 ? prevAmount - 10 : null))
+                break
+            case 'minus100':
+                setAmount(prevAmount => (prevAmount > 100 ? prevAmount - 100 : null))
+                break
+            case 'plus01':
+                setAmount(prevAmount => prevAmount + 0.01)
+                break
+            case 'plus05':
+                setAmount(prevAmount => prevAmount + 0.5)
+                break
+            case 'plus10':
+                setAmount(prevAmount => prevAmount + 10)
+                break
+            case 'plus100':
+                setAmount(prevAmount => prevAmount + 100)
+                break
+        }
+    }
+
     return (
         <>
             <Modal
@@ -138,48 +174,75 @@ function DepositModal({ isOpen, onClose }) {
                     <ModalCloseButton />
 
                     <ModalBody>
-                        <InputGroup>
-                            <InputLeftAddon>R$</InputLeftAddon>
-                            <NumberInput w={'100%'} min={1.0} defaultValue={1.0} precision={2} step={0.01}>
-                                <NumberInputField ref={amountRef} borderRadius={0} />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
-                        </InputGroup>
-
                         {isPayed ? (
                             <Box textAlign={'center'} color='green' mt={5}>
                                 <CheckIcon w={10} h={10} />
                                 <Heading>Pago com sucesso!</Heading>
                                 <Text>Você agora está participando do sorteio atual.</Text>
                             </Box>
+                        ) : qrCode && pixCopiaECola ? (
+                            <>
+                                <Center>
+                                    <Image src={qrCode} alt='qrcode' />
+                                </Center>
+
+                                <Text textAlign={'center'}>Escaneie o QrCode acima para finalizar o depósito!</Text>
+
+                                <Box position='relative' padding='10'>
+                                    <Divider />
+                                    <AbsoluteCenter bg='white' px='4'>
+                                        OU
+                                    </AbsoluteCenter>
+                                </Box>
+
+                                <InputGroup>
+                                    <Input value={pixCopiaECola} type={'text'} />
+                                    <InputRightElement>
+                                        <IconButton icon={<CopyIcon />} onClick={handleCopyToClipboard} />
+                                    </InputRightElement>
+                                </InputGroup>
+                            </>
                         ) : (
-                            qrCode &&
-                            pixCopiaECola && (
-                                <>
-                                    <Center>
-                                        <Image src={qrCode} alt='qrcode' />
-                                    </Center>
+                            <Flex justify={'center'} align={'center'} gap={7}>
+                                <ButtonGroup>
+                                    <Button colorScheme='red' onClick={() => handleMinusPlus('minus100')}>
+                                        - 100
+                                    </Button>
+                                    <Button colorScheme='red' onClick={() => handleMinusPlus('minus10')}>
+                                        - 10
+                                    </Button>
+                                    <Button colorScheme='red' onClick={() => handleMinusPlus('minus05')}>
+                                        - 0.5
+                                    </Button>
+                                    <Button colorScheme='red' onClick={() => handleMinusPlus('minus01')}>
+                                        - 0.1
+                                    </Button>
+                                </ButtonGroup>
 
-                                    <Text textAlign={'center'}>Escaneie o QrCode acima para finalizar o depósito!</Text>
+                                <Heading size={'xl'} textAlign={'center'}>
+                                    <Highlight
+                                        query={currencyFormatter(amount)}
+                                        styles={{ borderRadius: 'md', px: '5', color: 'green', bg: 'green.100' }}
+                                    >
+                                        {currencyFormatter(amount)}
+                                    </Highlight>
+                                </Heading>
 
-                                    <Box position='relative' padding='10'>
-                                        <Divider />
-                                        <AbsoluteCenter bg='white' px='4'>
-                                            OU
-                                        </AbsoluteCenter>
-                                    </Box>
-
-                                    <InputGroup>
-                                        <Input value={pixCopiaECola} type={'text'} />
-                                        <InputRightElement>
-                                            <IconButton icon={<CopyIcon />} onClick={handleCopyToClipboard} />
-                                        </InputRightElement>
-                                    </InputGroup>
-                                </>
-                            )
+                                <ButtonGroup>
+                                    <Button colorScheme='green' onClick={() => handleMinusPlus('plus01')}>
+                                        + 0.1
+                                    </Button>
+                                    <Button colorScheme='green' onClick={() => handleMinusPlus('plus05')}>
+                                        + 0.5
+                                    </Button>
+                                    <Button colorScheme='green' onClick={() => handleMinusPlus('plus10')}>
+                                        + 10
+                                    </Button>
+                                    <Button colorScheme='green' onClick={() => handleMinusPlus('plus100')}>
+                                        + 100
+                                    </Button>
+                                </ButtonGroup>
+                            </Flex>
                         )}
                     </ModalBody>
                     <ModalFooter>
@@ -187,6 +250,7 @@ function DepositModal({ isOpen, onClose }) {
                             <Button
                                 onClick={() => {
                                     setIsPayed(false)
+                                    setAmount(1.0)
                                     onClose()
                                 }}
                             >

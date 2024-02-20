@@ -230,7 +230,7 @@ const forgotPassword = async (req, res) => {
       from: process.env.GMAIL_EMAIL,
       to: email,
       subject: 'Alterar Senha',
-      text: `Clique no link para alterar sua senha: ${process.env.CLIENT_URL}/reset-password?token=${resetToken}`,
+      text: `Clique no link para alterar sua senha: https://www.ninjasena.online/reset-password?token=${resetToken}`,
     };
 
     transporter.sendMail(mailOptions, (err) => {

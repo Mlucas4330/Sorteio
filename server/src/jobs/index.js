@@ -26,6 +26,7 @@ const resetPrizedraw = async () => {
       const winner = rows[i]
 
       prizedraw.userId = winner.id
+      prizedraw.totalAmount = totalAmount
 
       sendEmailToWinner(winner.email, totalAmount)
 
