@@ -46,7 +46,11 @@ function Chat({ isOpen, onClose }) {
         getMessages()
 
         socket.on('message', getMessage)
-    }, [])
+
+        return () => {
+            socket.off('message')
+        }
+    }, [socket])
 
     const sendMessage = () => {
         if (!token) {

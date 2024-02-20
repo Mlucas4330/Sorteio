@@ -125,7 +125,11 @@ function DepositModal({ isOpen, onClose }) {
 
     useEffect(() => {
         socket.on('payer payment', getPayerPayment)
-    }, [])
+
+        return () => {
+            socket.off('payer payment')
+        }
+    }, [socket])
 
     const handleMinusPlus = operation => {
         switch (operation) {
@@ -196,7 +200,7 @@ function DepositModal({ isOpen, onClose }) {
                                 </Box>
 
                                 <InputGroup>
-                                    <Input value={pixCopiaECola} type={'text'} />
+                                    <Input defaultValue={pixCopiaECola} type={'text'} />
                                     <InputRightElement>
                                         <IconButton icon={<CopyIcon />} onClick={handleCopyToClipboard} />
                                     </InputRightElement>

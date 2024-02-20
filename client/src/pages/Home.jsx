@@ -31,7 +31,11 @@ function Home() {
         getTotalAmount()
 
         socket.on('total amount', refreshTotalAmount)
-    }, [])
+
+        return () => {
+            socket.off('total amount')
+        }
+    }, [socket])
 
     return (
         <>

@@ -22,7 +22,11 @@ const LastWinner = () => {
         getLastWinner()
 
         socket.on('last winner', refreshLastWinner)
-    }, [])
+
+        return () => {
+            socket.off('last winner')
+        }
+    }, [socket])
 
     return lastWinner ? (
         <Box>
