@@ -203,7 +203,15 @@ function DepositModal({ isOpen, onClose }) {
                                 </InputGroup>
                             </>
                         ) : (
-                            <Flex justify={'center'} align={'center'} gap={7}>
+                            <Flex
+                                direction={{
+                                    base: 'column',
+                                    lg: 'row',
+                                }}
+                                justify={'center'}
+                                align={'center'}
+                                gap={7}
+                            >
                                 <ButtonGroup>
                                     <Button colorScheme='red' onClick={() => handleMinusPlus('minus100')}>
                                         - 100
